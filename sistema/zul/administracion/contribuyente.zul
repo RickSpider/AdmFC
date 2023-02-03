@@ -1,118 +1,119 @@
 <?page title="Contribuyentes" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Contribuyente" border="normal"
+	<window title="Contribuyente" border="normal"
 		viewModel="@id('vm') @init('com.admFC.sistema.administracion.ContribuyenteVM')"
 		vflex="1" id="Body" apply="org.zkoss.bind.BindComposer">
 
 		<hlayout vflex="1">
-			
-				<vlayout hflex="1" vflex="1">
 
-					<hbox pack="end" hflex="1" >
+			<vlayout hflex="1" vflex="1">
 
-						<button label="Agregar"
-							iconSclass=" z-icon-plus" onClick="@command('modalContribuyenteAgregar')" disabled="@load(!vm.opCrearContribuyente)" />
+				<hbox pack="end" hflex="1">
 
-					</hbox>
+					<button label="Agregar" iconSclass=" z-icon-plus"
+						onClick="@command('modalContribuyenteAgregar')"
+						disabled="@load(!vm.opCrearContribuyente)" />
 
-					<listbox emptyMessage="lista vacía..." mold="paging"
-						vflex="1" model="@load(vm.lContribuyentes)" checkmark="true">
+				</hbox>
 
-						<listhead>
+				<listbox emptyMessage="lista vacía..." mold="paging"
+					vflex="1" model="@load(vm.lContribuyentes)" checkmark="true">
 
-							<listheader hflex="min" align="center" />
-							<listheader label="ID" align="right" hflex="min" />
-							<listheader label="Contribuyente" align="left" />
-							<listheader label="RUC" align="left" />
-							<listheader label="Ambiente" align="left" />
+					<listhead>
 
-							<listheader align="center" 
-								width="150px"/>
+						<listheader hflex="min" align="center" />
+						<listheader label="ID" align="right"
+							hflex="min" />
+						<listheader label="Contribuyente" align="left" />
+						<listheader label="RUC" align="left" />
+						<listheader label="Ambiente" align="left" />
 
-
-						</listhead>
+						<listheader align="center" width="150px" />
 
 
-						<auxhead>
-
-							<auxheader />
-							<auxheader />
-							<auxheader>
-								<textbox
-									value="@bind(vm.filtroColumns[0])" instant="true"
-									onChange="@command('filtrarContribuyente')" hflex="1" />
-							</auxheader>
-
-							<auxheader>
-								<textbox
-									value="@bind(vm.filtroColumns[1])" instant="true"
-									onChange="@command('filtrarContribuyente')" hflex="1" />
-							</auxheader>
-							
-							<auxheader>
-								<textbox
-									value="@bind(vm.filtroColumns[2])" instant="true"
-									onChange="@command('filtrarContribuyente')" hflex="1" />
-							</auxheader>
-							
-							
-							
-							
-							
-						</auxhead>
-
-						<template name="model">
-
-							<listitem>
-								<listcell />
-								<listcell label="@load(each[0])" />
-								<listcell label="@load(each[1])" />
-								<listcell label="@load(each[2])" />
-								<listcell label="@load(each[3])" />
-								
-
-								<listcell>
-									<hlayout>
-										<button iconSclass="z-icon-user"
-											onClick="@command('modalContribuyenteUsuario', contribuyenteid=each[0])" style="background-color:green"
-											tooltiptext="Agregar Usuario" disabled="@load(!vm.opAgregarContribuyenteUsuario)"/>
-										<button iconSclass="z-icon-edit"
-											onClick="@command('modalContribuyente', contribuyenteid=each[0])"
-											tooltiptext="Editar" disabled="@load(!vm.opEditarContribuyente)"/>
-										<button
-											iconSclass="z-icon-trash-o" style="background-color:red"
-											onClick="@command('borrarContribuyenteConfirmacion', contribuyente=each[0])"
-											tooltiptext="Borrar" disabled="@load(!vm.opBorrarContribuyente)"/>
+					</listhead>
 
 
-									</hlayout>
+					<auxhead>
+
+						<auxheader />
+						<auxheader />
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[1])"
+								instant="true" onChange="@command('filtrarContribuyente')"
+								hflex="1" />
+						</auxheader>
+
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[2])"
+								instant="true" onChange="@command('filtrarContribuyente')"
+								hflex="1" />
+						</auxheader>
+
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[3])"
+								instant="true" onChange="@command('filtrarContribuyente')"
+								hflex="1" />
+						</auxheader>
 
 
-								</listcell>
+					</auxhead>
+
+					<template name="model">
+
+						<listitem>
+							<listcell />
+							<listcell label="@load(each[0])" />
+							<listcell label="@load(each[1])" />
+							<listcell label="@load(each[2])" />
+							<listcell label="@load(each[3])" />
 
 
-							</listitem>
-
-
-						</template>
-
-						<listfoot>
-							<listfooter span="4" align="left">
+							<listcell>
 								<hlayout>
-									<label
-										value="@load(vm.lContribuyentes.size())" />
-									<label value="items" />
+									<button iconSclass="z-icon-user"
+										onClick="@command('modalContribuyenteUsuario', contribuyenteid=each[0])"
+										style="background-color:green" tooltiptext="Agregar Usuario"
+										disabled="@load(!vm.opAgregarContribuyenteUsuario)" />
+									<button iconSclass="z-icon-edit"
+										onClick="@command('modalContribuyente', contribuyenteid=each[0])"
+										tooltiptext="Editar"
+										disabled="@load(!vm.opEditarContribuyente)" />
+									<button iconSclass="z-icon-trash-o"
+										style="background-color:red"
+										onClick="@command('borrarContribuyenteConfirmacion', contribuyente=each[0])"
+										tooltiptext="Borrar"
+										disabled="@load(!vm.opBorrarContribuyente)" />
+
+
 								</hlayout>
-							</listfooter>
-						</listfoot>
 
 
-					</listbox>
+							</listcell>
 
-				</vlayout>
 
-		
-			
+						</listitem>
+
+
+					</template>
+
+					<listfoot>
+						<listfooter span="4" align="left">
+							<hlayout>
+								<label
+									value="@load(vm.lContribuyentes.size())" />
+								<label value="items" />
+							</hlayout>
+						</listfooter>
+					</listfoot>
+
+
+				</listbox>
+
+			</vlayout>
+
+
+
 		</hlayout>
 
 	</window>

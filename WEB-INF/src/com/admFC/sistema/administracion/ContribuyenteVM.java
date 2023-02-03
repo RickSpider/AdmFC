@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 public class ContribuyenteVM extends TemplateViewModelLocal{
 
 	private List<Object[]> lContribuyentes;
+	private List<Object[]> lContribuyentesOri;
 	private Contribuyente contribuyenteSelected;
 	private Auditoria auditoria;
 	
@@ -80,6 +81,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal{
 				
 		
 		this.lContribuyentes = this.reg.sqlNativo(sql);
+		this.lContribuyentesOri = this.lContribuyentes;
 		
 	}
 	
@@ -87,8 +89,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal{
 
 	private void inicializarFiltros() {
 
-		this.filtroColumns = new String[3]; // se debe de iniciar el filtro deacuerdo a la cantidad declarada en el
-											// modelo sin id
+		this.filtroColumns = new String[4]; 
 
 		for (int i = 0; i < this.filtroColumns.length; i++) {
 
@@ -96,6 +97,14 @@ public class ContribuyenteVM extends TemplateViewModelLocal{
 
 		}
 
+	}
+	
+	@Command
+	@NotifyChange("lContribuyentes")
+	public void filtrarContribuyente() {
+		
+		this.lContribuyentes = this.filtrarListaObject(this.filtroColumns, this.lContribuyentesOri);
+		
 	}
 	
 	//Seccion modal
