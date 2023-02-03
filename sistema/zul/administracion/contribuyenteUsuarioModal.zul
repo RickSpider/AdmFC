@@ -1,0 +1,99 @@
+<?page title="agenciaMOdal" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Contribuyente Crear/Ver/Editar" border="normal"
+		position="center,center" closable="true" mode="modal"
+		action="show: slideDown;hide: slideUp">
+
+		<tablelayout columns="2">
+
+			<tablechildren>
+
+				<label value="Usuario:" />
+
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.usuarioSelected.account)"
+					width="150px" />
+
+			</tablechildren>
+
+			<tablechildren>
+
+				<label value="Nombre Completo:" />
+
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.usuarioSelected.fullName)"
+					width="150px" placeholder="Nombre y Apellido" />
+					</tablechildren>
+
+				<tablechildren>
+
+					<label value="Email:" />
+
+				</tablechildren>
+				<tablechildren>
+
+					<textbox value="@bind(vm.usuarioSelected.email)"
+						width="150px" placeholder="example@domain" />
+
+				</tablechildren>
+
+		</tablelayout>
+
+		<hbox hflex="1" pack="center" align="end">
+
+			<button label="Agregar Usuario" onClick="@command('agregarUsuario')" />
+
+		</hbox>
+
+		<space height="10px" />		
+
+		<listbox emptyMessage="lista vacía..." mold="paging" 
+			model="@load(vm.lContribuyentesUsuarios)" 
+			height="200px" width="500px">
+
+			<listhead>
+				
+				<listheader label="ID" align="right" hflex="min" />
+				<listheader label="Usuario" align="left" />
+				<listheader label="Email" align="left" />
+				<listheader label="Activo" align="center" />
+				
+
+			</listhead>
+
+			<template name="model">
+
+				<listitem>
+					
+					<listcell label="@load(each.usuario.usuarioid)"/>
+					<listcell label="@load(each.usuario.account)" />
+					<listcell label="@load(each.usuario.email)" />
+					<listcell >
+					
+						<checkbox checked="@bind(each.usuario.activo)" mold="switch"/>
+					
+					</listcell>
+				</listitem>
+			</template>
+
+
+		</listbox>
+
+
+		<space height="10px" />
+
+		<hlayout>
+
+			<button label="Aceptar" onClick="@command('guardarUsuarios')" />
+
+		</hlayout>
+
+
+
+
+	</window>
+</zk>

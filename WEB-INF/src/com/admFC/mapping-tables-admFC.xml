@@ -1,0 +1,16 @@
+<mapping class="com.admFC.modelo.Contribuyente" />
+<mapping class="com.admFC.modelo.ActividadEconomica" />
+<mapping class="com.admFC.modelo.Distrito" />
+<mapping class="com.admFC.modelo.Localidad" />
+<mapping class="com.admFC.modelo.ContribuyenteContacto" />
+<mapping class="com.admFC.modelo.ComprobanteElectronico" />
+<mapping class="com.admFC.modelo.Lote" />
+<mapping class="com.admFC.modelo.Evento" />
+<mapping class="com.admFC.modelo.Ruc" />
+<mapping class="com.admFC.modelo.TipoComprobanteElectronico" />
+<mapping class="com.admFC.modelo.TipoContribuyente" />
+<mapping class="com.admFC.modelo.TipoImpuesto" />
+<mapping class="com.admFC.modelo.TipoTransaccion" />
+<mapping class="com.admFC.modelo.UnidadMedida" />
+<mapping class="com.admFC.modelo.ContribuyenteUsuario" />
+

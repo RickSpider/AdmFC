@@ -1,0 +1,93 @@
+<?page title="agenciaMOdal" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Contribuyente Crear/Ver/Editar" border="normal"
+		position="center,center" closable="true" mode="modal"
+		action="show: slideDown;hide: slideUp">
+				
+		<tablelayout columns="4">
+		
+			<tablechildren>
+			
+				<label value= "ID:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.contribuyenteSelected.contribuyenteid)"
+					width="75px" readonly="true"/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Ambiente:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@load(vm.contribuyenteSelected.ambiente) @save(vm.contribuyenteSelected.ambiente, before='guardar')"
+					width="150px" 
+					constraint="no empty: Es campo obligatorio."/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Contribuyente:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@load(vm.contribuyenteSelected.nombre) @save(vm.contribuyenteSelected.nombre, before='guardar')"
+					width="150px" 
+					constraint="no empty: Es campo obligatorio."/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Ruc:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@load(vm.contribuyenteSelected.ruc) @save(vm.contribuyenteSelected.ruc, before='guardar')"
+					width="150px" 
+					constraint="no empty: Es campo obligatorio."/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "DV:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@load(vm.contribuyenteSelected.dv) @save(vm.contribuyenteSelected.dv, before='guardar')"
+					width="50px" 
+					constraint="no empty: Es campo obligatorio."/>
+			
+			</tablechildren>
+			
+			
+			
+		
+		
+		</tablelayout>
+
+		
+
+			<space height="10px" />
+
+			<hlayout>
+
+				<button label="Aceptar" onClick="@command('guardar')"/>
+
+			</hlayout>
+
+		
+
+
+	</window>
+</zk>
