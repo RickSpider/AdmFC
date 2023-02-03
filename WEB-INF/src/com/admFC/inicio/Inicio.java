@@ -9,6 +9,9 @@ public class Inicio {
 
 	public void afterLogin() {
 		
+		System.out.println("=========== Iiciando Sistema AdmFC ================");
+		System.out.println("============ AdmFC ==============");
+		
 		
 	}
 	
