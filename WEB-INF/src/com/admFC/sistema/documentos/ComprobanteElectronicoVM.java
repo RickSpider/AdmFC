@@ -26,6 +26,7 @@ import com.google.gson.GsonBuilder;
 public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 
 	private List<Object[]> lComprobantesElectronicos;
+	private List<Object[]> lComprobantesElectronicosOri;
 	private ComprobanteElectronico comprobanteElectronicoSelected;
 	private Auditoria auditoria;
 	private List<Contribuyente> lContribuyentes;
@@ -82,6 +83,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 		;
 
 		this.lComprobantesElectronicos = this.reg.sqlNativo(sql);
+		this.lComprobantesElectronicosOri = this.lComprobantesElectronicos;
 
 	}
 	
@@ -91,8 +93,8 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 
 	private void inicializarFiltros() {
 
-		this.filtroColumns = new String[9]; // se debe de iniciar el filtro deacuerdo a la cantidad declarada en el
-		// modelo sin id
+		this.filtroColumns = new String[11]; 
+		
 
 		for (int i = 0; i < this.filtroColumns.length; i++) {
 
@@ -100,6 +102,14 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 
 		}
 
+	}
+	
+	@Command
+	@NotifyChange("lComprobantesElectronicos")
+	public void filtrarComprobanteElectronico() {
+		
+		this.lComprobantesElectronicos = filtrarListaObject(this.filtroColumns, this.lComprobantesElectronicosOri);
+		
 	}
 
 	// Seccion modal

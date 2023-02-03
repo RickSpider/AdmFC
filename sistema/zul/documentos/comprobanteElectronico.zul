@@ -11,31 +11,33 @@
 				<hbox hflex="1">
 
 					<tablelayout columns="6">
-					
+
 						<tablechildren>
-						
+
 							<label value="Contribuyente:" />
-						
+
 						</tablechildren>
-						
+
 						<tablechildren>
-						
-							<combobox id="countriesCombobox" model="@load(vm.lContribuyentes)"
-			                    autodrop="true" selectedItem="@bind(vm.contribuyenteSelected)" onChange="@command('onChangeContribuyente')">
-			                    <template name="model">
-			                        <comboitem label="@load(each.nombre)" />
-			                    </template>
-			                </combobox>
-						
+
+							<combobox id="countriesCombobox"
+								model="@load(vm.lContribuyentes)" autodrop="true"
+								selectedItem="@bind(vm.contribuyenteSelected)"
+								onChange="@command('onChangeContribuyente')">
+								<template name="model">
+									<comboitem
+										label="@load(each.nombre)" />
+								</template>
+							</combobox>
+
 						</tablechildren>
 
 						<tablechildren>
 							<label value="Desde:" />
 						</tablechildren>
 						<tablechildren>
-							<datebox value="@bind(vm.desde)" 
-								format="dd/MM/yyyy"
-								onChange="@command('onChangeFiltroFechas')"
+							<datebox value="@bind(vm.desde)"
+								format="dd/MM/yyyy" onChange="@command('onChangeFiltroFechas')"
 								width="150px" />
 						</tablechildren>
 
@@ -43,13 +45,13 @@
 							<label value="Hasta:" />
 						</tablechildren>
 						<tablechildren>
-							<datebox value="@bind(vm.hasta)"  format="dd/MM/yyyy"
-							onChange="@command('onChangeFiltroFechas')"
+							<datebox value="@bind(vm.hasta)"
+								format="dd/MM/yyyy" onChange="@command('onChangeFiltroFechas')"
 								width="150px" />
 						</tablechildren>
-						
-						
-						
+
+
+
 
 					</tablelayout>
 
@@ -73,19 +75,26 @@
 						<listheader hflex="min" align="center" />
 						<listheader label="ID" align="right"
 							hflex="min" />
-						
-						<listheader label="Creado" align="left" />
+
+						<listheader label="Creado" align="left"
+							hflex="min" />
 						<listheader label="Contribuyente" align="left" />
 						<listheader label="CDC" align="left" />
 
-						<listheader label="Numero" align="left" />
-						<listheader label="Estado" align="left" />
+						<listheader label="Numero" align="left"
+							hflex="min" />
+						<listheader label="Estado" align="left"
+							hflex="min" />
 
-						<listheader label="Enviado" align="left" />
-						<listheader label="EnvioPorlote" align="left" />
+						<listheader label="Enviado" align="left"
+							hflex="min" />
+						<listheader label="EnvioPorlote" align="left"
+							hflex="min" />
 
-						<listheader label="EnviadoLote" align="left" />
-						<listheader label="Lote Nº" align="left" />
+						<listheader label="EnviadoLote" align="left"
+							hflex="min" />
+						<listheader label="Lote Nº" align="left"
+							hflex="min" />
 
 						<listheader label="Tipo Comprobante"
 							align="left" />
@@ -101,12 +110,6 @@
 
 						<auxheader />
 						<auxheader />
-						<auxheader>
-							<textbox value="@bind(vm.filtroColumns[0])"
-								instant="true"
-								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
-						</auxheader>
-
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[1])"
 								instant="true"
@@ -125,12 +128,12 @@
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
 
-
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[4])"
 								instant="true"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
+
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[5])"
@@ -155,11 +158,18 @@
 								instant="true"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
+
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[9])"
 								instant="true"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[10])"
+								instant="true"
+								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
+						</auxheader>
+
 
 					</auxhead>
 
@@ -168,16 +178,26 @@
 						<listitem>
 							<listcell />
 							<listcell label="@load(each[0])" />
-							<listcell label="@load(each[1])" />
-							<listcell label="@load(each[2])" />
-							<listcell label="@load(each[3])" />
-							<listcell label="@load(each[4])" />
-							<listcell label="@load(each[5])" />
-							<listcell label="@load(each[6])" />
-							<listcell label="@load(each[7])" />
-							<listcell label="@load(each[8])" />
-							<listcell label="@load(each[9])" />
-							<listcell label="@load(each[10])" />
+							<listcell label="@load(each[1])"
+								tooltiptext="@load(each[1])" />
+							<listcell label="@load(each[2])"
+								tooltiptext="@load(each[2])" />
+							<listcell label="@load(each[3])"
+								tooltiptext="@load(each[3])" />
+							<listcell label="@load(each[4])"
+								tooltiptext="@load(each[4])" />
+							<listcell label="@load(each[5])"
+								tooltiptext="@load(each[5])" />
+							<listcell label="@load(each[6])"
+								tooltiptext="@load(each[6])" />
+							<listcell label="@load(each[7])"
+								tooltiptext="@load(each[7])" />
+							<listcell label="@load(each[8])"
+								tooltiptext="@load(each[8])" />
+							<listcell label="@load(each[9])"
+								tooltiptext="@load(each[9])" />
+							<listcell label="@load(each[10])"
+								tooltiptext="@load(each[10])" />
 
 
 							<listcell>
