@@ -73,31 +73,32 @@
 					<listhead>
 
 						<listheader hflex="min" align="center" />
-						<listheader label="ID" align="right"
+						<listheader label="ID" align="center"
 							hflex="min" />
 
-						<listheader label="Creado" align="left"
+						<listheader label="Creado" align="center"
 							hflex="min" />
-						<listheader label="Contribuyente" align="left" />
-						<listheader label="CDC" align="left" />
+						<listheader label="Contribuyente" align="center" 
+						hflex="min"/>
+						<listheader label="CDC" align="center" />
 
-						<listheader label="Numero" align="left"
+						<listheader label="Numero" align="center"
 							hflex="min" />
-						<listheader label="Estado" align="left"
-							hflex="min" />
-
-						<listheader label="Enviado" align="left"
-							hflex="min" />
-						<listheader label="EnvioPorlote" align="left"
+						<listheader label="Estado" align="center"
 							hflex="min" />
 
-						<listheader label="EnviadoLote" align="left"
+						<listheader label="Enviado" align="center"
 							hflex="min" />
-						<listheader label="Lote Nº" align="left"
+						<listheader label="EnvioPorlote" align="center"
+							hflex="min" />
+
+						<listheader label="EnviadoLote" align="center"
+							hflex="min" />
+						<listheader label="Lote Nº" align="center"
 							hflex="min" />
 
 						<listheader label="Tipo Comprobante"
-							align="left" />
+							align="center" />
 
 
 						<listheader align="center" width="100px" />
@@ -179,9 +180,9 @@
 							<listcell />
 							<listcell label="@load(each[0])" />
 							<listcell label="@load(each[1])"
-								tooltiptext="@load(each[1])" />
+								tooltiptext="@load(each[1])"  />
 							<listcell label="@load(each[2])"
-								tooltiptext="@load(each[2])" />
+								tooltiptext="@load(each[2])" style="text-align: Left"/>
 							<listcell label="@load(each[3])"
 								tooltiptext="@load(each[3])" />
 							<listcell label="@load(each[4])"
@@ -197,7 +198,7 @@
 							<listcell label="@load(each[9])"
 								tooltiptext="@load(each[9])" />
 							<listcell label="@load(each[10])"
-								tooltiptext="@load(each[10])" />
+								tooltiptext="@load(each[10])" style="text-align: Left" />
 
 
 							<listcell>
