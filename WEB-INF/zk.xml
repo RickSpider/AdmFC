@@ -7,7 +7,7 @@
 		<device-type>ajax</device-type>
 		<automatic-timeout>true</automatic-timeout>
 		<timeout-uri>/timeout.zul</timeout-uri>
-		<session-timeout>14400000</session-timeout>
+		<session-timeout>3600</session-timeout>
 	</session-config>
 
 	<listener>
