@@ -1,0 +1,221 @@
+<?page title="Eventos" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Evento" border="normal"
+		viewModel="@id('vm') @init('com.admFC.sistema.documentos.EventoVM')"
+		vflex="1" id="Body" apply="org.zkoss.bind.BindComposer">
+
+		<hlayout vflex="1">
+
+			<vlayout hflex="1" vflex="1">
+
+				<hbox hflex="1">
+
+					<tablelayout columns="6">
+
+						<tablechildren>
+
+							<label value="Contribuyente:" />
+
+						</tablechildren>
+
+						<tablechildren>
+
+							<combobox id="countriesCombobox"
+								model="@load(vm.lContribuyentes)" autodrop="true"
+								selectedItem="@bind(vm.contribuyenteSelected)"
+								onChange="@command('onChangeContribuyente')">
+								<template name="model">
+									<comboitem
+										label="@load(each.nombre)" />
+								</template>
+							</combobox>
+
+						</tablechildren>
+
+						<tablechildren>
+							<label value="Desde:" />
+						</tablechildren>
+						<tablechildren>
+							<datebox value="@bind(vm.desde)"
+								format="dd/MM/yyyy" onChange="@command('onChangeFiltroFechas')"
+								width="150px" />
+						</tablechildren>
+
+						<tablechildren>
+							<label value="Hasta:" />
+						</tablechildren>
+						<tablechildren>
+							<datebox value="@bind(vm.hasta)"
+								format="dd/MM/yyyy" onChange="@command('onChangeFiltroFechas')"
+								width="150px" />
+						</tablechildren>
+
+
+
+
+					</tablelayout>
+
+					<hbox pack="end" hflex="1">
+
+						<button label="Agregar"
+							iconSclass=" z-icon-plus"
+							onClick="@command('modalEventoAgregar')"
+							disabled="@load(!vm.opCrearEvento)" />
+
+					</hbox>
+
+				</hbox>
+
+				<listbox emptyMessage="lista vacía..." mold="paging"
+					vflex="1" model="@load(vm.lEventos)"
+					checkmark="true">
+
+					<listhead>
+
+						<listheader hflex="min" align="center" />
+						<listheader label="ID" align="center"
+							hflex="min" />
+						<listheader label="Contribuyente" align="center"
+							hflex="min" />
+						<listheader label="Fecha" align="center"
+							hflex="min" />
+						<listheader label="CDC" align="center" />
+
+						<listheader label="Motivo" align="center"
+							hflex="min" />
+							
+						<listheader label="Enviado" align="center"
+							hflex="min" />
+						
+						<listheader label="Estado" align="center"
+							hflex="min" />
+
+						<listheader label="Mensaje" align="center"
+							hflex="min" />
+
+						<listheader align="center" width="100px" />
+
+
+					</listhead>
+
+
+					<auxhead>
+
+						<auxheader />
+						<auxheader />
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[1])"
+								instant="true"
+								onChange="@command('filtrarEvento')" hflex="1" />
+						</auxheader>
+
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[2])"
+								instant="true"
+								onChange="@command('filtrarEvento')" hflex="1" />
+						</auxheader>
+
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[3])"
+								instant="true"
+								onChange="@command('filtrarEvento')" hflex="1" />
+						</auxheader>
+
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[4])"
+								instant="true"
+								onChange="@command('filtrarEvento')" hflex="1" />
+						</auxheader>
+
+
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[5])"
+								instant="true"
+								onChange="@command('filtrarEvento')" hflex="1" />
+						</auxheader>
+
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[6])"
+								instant="true"
+								onChange="@command('filtrarEvento')" hflex="1" />
+						</auxheader>
+
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[7])"
+								instant="true"
+								onChange="@command('filtrarEvento')" hflex="1" />
+						</auxheader>
+
+						<auxheader />
+
+				
+
+					</auxhead>
+
+					<template name="model">
+
+						<listitem>
+							<listcell />
+							<listcell label="@load(each[0])" />
+							<listcell label="@load(each[1])"
+								tooltiptext="@load(each[1])" />
+							<listcell label="@load(each[2])"
+								tooltiptext="@load(each[2])" />
+							<listcell label="@load(each[3])"
+								tooltiptext="@load(each[3])" />
+							<listcell label="@load(each[4])"
+								tooltiptext="@load(each[4])" />
+							<listcell label="@load(each[5])"
+								tooltiptext="@load(each[5])" />
+							<listcell label="@load(each[6])"
+								tooltiptext="@load(each[6])" />
+							<listcell label="@load(each[7])"
+								tooltiptext="@load(each[7])" />
+				
+
+							<listcell>
+								<hlayout>
+
+									<button iconSclass="z-icon-edit"
+										onClick="@command('modalEvento', eventoid=each[0])"
+										tooltiptext="Editar"
+										disabled="@load(!vm.opEditarEvento)" />
+									<button iconSclass="z-icon-trash-o"
+										style="background-color:red"
+										onClick="@command('borrarEventoConfirmacion', evento=each[0])"
+										tooltiptext="Borrar"
+										disabled="@load(!vm.opBorrarEvento)" />
+
+
+								</hlayout>
+
+
+							</listcell>
+
+
+						</listitem>
+
+
+					</template>
+
+					<listfoot>
+						<listfooter span="4" align="left">
+							<hlayout>
+								<label
+									value="@load(vm.lEventos.size())" />
+								<label value="items" />
+							</hlayout>
+						</listfooter>
+					</listfoot>
+
+
+				</listbox>
+
+			</vlayout>
+
+
+
+		</hlayout>
+
+	</window>
+</zk>

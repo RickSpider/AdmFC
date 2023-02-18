@@ -32,5 +32,12 @@ public class ParamsLocal extends Params {
 	public static final String OP_INACTIVAR_CONTRIBUYENTEUSUARIO = "InactivarContribuyenteUsuario";
 	
 
+	public static final String OP_CREAR_EVENTO = "CrearEvento";
+	public static final String OP_EDITAR_EVENTO = "EditarEvento";
+	public static final String OP_BORRAR_EVENTO = "BorrarEvento";
+	
+	public static final String OP_CREAR_LOTE = "CrearLote";
+	public static final String OP_EDITAR_LOTE = "EditarLote";
+	public static final String OP_BORRAR_LOTE = "BorrarLote";
 	
 }
