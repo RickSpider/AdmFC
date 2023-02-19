@@ -56,8 +56,18 @@
 					</tablelayout>
 
 					<hbox pack="end" hflex="1">
+				
+					
+					<button label="Enviar Comprobantes"
+							iconSclass=" z-icon-plus"
+							onClick="@command('enviarLote')"
+							 />
+					<button label="Consultar"
+							iconSclass=" z-icon-plus"
+							onClick="@command('consultarEstados')"
+							 />
 
-						<button label="Agregar"
+					<button label="Agregar"
 							iconSclass=" z-icon-plus"
 							onClick="@command('modalComprobanteElectronicoAgregar')"
 							disabled="@load(!vm.opCrearComprobanteElectronico)" />

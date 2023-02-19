@@ -1,5 +1,6 @@
 package com.admFC.sistema.documentos;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,6 +20,8 @@ import com.admFC.modelo.ComprobanteElectronico;
 import com.admFC.modelo.Contribuyente;
 import com.admFC.util.ParamsLocal;
 import com.admFC.util.TemplateViewModelLocal;
+import com.admFC.util.conexionRest.HttpConexion;
+import com.admFC.util.conexionRest.ResultRest;
 import com.doxacore.modelo.Auditoria;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -200,6 +203,48 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 	public void onChangeContribuyente() {
 		
 		this.cargarComprobanteElectronicos();
+		
+	}
+	
+	@Command
+	public void enviarLote() throws IOException {
+	
+		
+		if (this.contribuyenteSelected == null) {
+			this.mensajeError("Selecciona un contribuyente para iniciar el envio de comprobantes.");
+			return;
+		}
+		
+		Contribuyente c = new Contribuyente();
+		c.setContribuyenteid(this.contribuyenteSelected.getContribuyenteid());
+		c.setPass(this.contribuyenteSelected.getPass());
+	
+		HttpConexion conn = new HttpConexion();
+		String link = this.getSistemaPropiedad("SERVIDOR_FC").getValor()+this.getSistemaPropiedad("ENVIO_LOTE").getValor();
+		ResultRest rr = conn.consumirREST(link, HttpConexion.POST, new Gson().toJson(c));
+				
+		Notification.show("Respuesta de servido:\n Code:"+rr.getCode()+"\n Mensaje: "+rr.getMensaje());
+		
+	}
+	
+	@Command
+	public void consultarEstados() throws IOException {
+		
+		
+		if (this.contribuyenteSelected == null) {
+			this.mensajeError("Selecciona un contribuyente para iniciar el envio de comprobantes.");
+			return;
+		}
+		
+		Contribuyente c = new Contribuyente();
+		c.setContribuyenteid(this.contribuyenteSelected.getContribuyenteid());
+		c.setPass(this.contribuyenteSelected.getPass());
+	
+		HttpConexion conn = new HttpConexion();
+		String link = this.getSistemaPropiedad("SERVIDOR_FC").getValor()+this.getSistemaPropiedad("CONSULTA_LOTE").getValor();
+		ResultRest rr = conn.consumirREST(link, HttpConexion.POST, new Gson().toJson(c));
+				
+		Notification.show("Respuesta de servido:\n Code:"+rr.getCode()+"\n Mensaje: "+rr.getMensaje());
 		
 	}
 
