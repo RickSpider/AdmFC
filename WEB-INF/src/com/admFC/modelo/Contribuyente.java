@@ -7,6 +7,7 @@ package com.admFC.modelo;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -105,8 +106,10 @@ public class Contribuyente extends Modelo implements Serializable {
     private String cscid;
     private String csc;
        
-    @OneToMany(mappedBy="contribuyente", fetch = FetchType.EAGER)
-    private transient List<ContribuyenteContacto> contactos;
+
+    @OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL )
+    @JoinColumn(name="contribuyenteid", nullable = false)
+    private List<ContribuyenteContacto> contactos = new ArrayList<ContribuyenteContacto>();
     
     @Column(columnDefinition = "boolean default true", name="habilitado")
     private boolean habilitado;

@@ -75,6 +75,63 @@
 		
 		
 		</tablelayout>
+		
+		<tablelayout columns="3">
+		
+			<tablechildren>
+			
+				<textbox value="@bind(vm.nombre)" placeholder="Nombre" />
+			
+			</tablechildren>
+			<tablechildren>
+			
+				<textbox value="@bind(vm.email)" placeholder="Correo"/>
+			
+			</tablechildren>
+			<tablechildren>
+			
+				<button iconSclass="z-icon-plus"
+					onClick="@command('agregarContacto')"
+					tooltiptext="Agregar Contacto" />
+			
+			</tablechildren>
+		
+		</tablelayout>
+		<listbox emptyMessage="lista vacía..." mold="paging"
+					model="@load(vm.contribuyenteSelected.contactos)"
+					checkmark="true" 
+					width="500px" height="200px">
+				
+				<listhead>
+
+						<listheader hflex="min" align="center" />
+						<listheader label="NOMBRE" align="center" />
+						<listheader label="CORREO" align="center" />
+						<listheader width = "75px" align="center"/>
+						
+				</listhead>
+				
+					<template name="model">
+
+						<listitem>
+							<listcell />
+							<listcell label="@load(each.nombre)" />
+							<listcell label="@load(each.mail)" />
+							<listcell>
+							
+									<button iconSclass="z-icon-trash-o"
+										style="background-color:red"
+										onClick="@command('removerContacto', contacto=each)"
+										tooltiptext="Borrar"
+										 />
+									
+							
+							</listcell>
+						</listitem>
+					</template>
+
+		
+		</listbox>
 
 		
 

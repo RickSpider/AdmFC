@@ -34,9 +34,10 @@ public class ContribuyenteContacto  extends Modelo implements Serializable{
     private String nombre;
     private String mail;
     
-    @ManyToOne
+    
+  /*  @ManyToOne
     @JoinColumn(name="contribuyenteid", nullable=false)
-    private Contribuyente contribuyente;
+    private Contribuyente contribuyente;*/
 
     public String getNombre() {
         return nombre;
@@ -62,14 +63,6 @@ public class ContribuyenteContacto  extends Modelo implements Serializable{
         this.contribuyentecontactoid = contribuyentecontactoid;
     }
 
-    public Contribuyente getContribuyente() {
-        return contribuyente;
-    }
-
-    public void setContribuyente(Contribuyente contribuyente) {
-        this.contribuyente = contribuyente;
-    }
-
 	@Override
 	public Object[] getArrayObjectDatos() {
 		// TODO Auto-generated method stub
@@ -81,7 +74,8 @@ public class ContribuyenteContacto  extends Modelo implements Serializable{
 		// TODO Auto-generated method stub
 		return null;
 	}
-    
+
+	
     
     
 }

@@ -1,5 +1,6 @@
 package com.admFC.sistema.administracion;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.zkoss.bind.annotation.AfterCompose;
@@ -13,9 +14,12 @@ import org.zkoss.zk.ui.util.Notification;
 import org.zkoss.zul.Window;
 
 import com.admFC.modelo.Contribuyente;
+import com.admFC.modelo.ContribuyenteContacto;
 import com.admFC.modelo.ContribuyenteUsuario;
 import com.admFC.util.ParamsLocal;
 import com.admFC.util.TemplateViewModelLocal;
+import com.admFC.util.conexionRest.HttpConexion;
+import com.admFC.util.conexionRest.ResultRest;
 import com.doxacore.modelo.Auditoria;
 import com.doxacore.modelo.Rol;
 import com.doxacore.modelo.RolOperacion;
@@ -128,6 +132,9 @@ public class ContribuyenteVM extends TemplateViewModelLocal{
 		
 		this.auditoria = new Auditoria();
 		
+		this.nombre = "";
+		this.email ="";
+		
 		if (contribuyenteid != -1) {
 			
 			if (!this.opEditarContribuyente)
@@ -136,7 +143,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal{
 			this.editar= true;
 			this.contribuyenteSelected = this.reg.getObjectById(Contribuyente.class.getName(), contribuyenteid);
 			
-			this.auditoria.setJson(new Gson().toJson(this.contribuyenteSelected));
+		//	this.auditoria.setJson(new Gson().toJson(this.contribuyenteSelected));
 			
 		}else {
 			
@@ -260,7 +267,47 @@ public class ContribuyenteVM extends TemplateViewModelLocal{
 		Notification.show("Lista de Usuarios Actualizada.");
 	}
 
-
+	
+	//Seccion Contacto
+	
+	private String nombre;
+	private String email;
+	
+	@Command
+	@NotifyChange({"nombre", "email","contribuyenteSelected"})
+	public void agregarContacto() {
+		
+		if (this.nombre == null || this.nombre.length()==0) {
+			
+			return;
+			
+		}
+		
+		if (this.email == null || this.email.length()==0) {
+			
+			return;
+			
+		}
+		
+		ContribuyenteContacto cc = new ContribuyenteContacto();
+		
+		cc.setNombre(this.nombre);
+		cc.setMail(this.email);
+		
+		this.contribuyenteSelected.getContactos().add(cc);
+		
+		
+		
+	}
+	
+	@Command
+	@NotifyChange({"contribuyenteSelected"})
+	public void removerContacto(@BindingParam("contacto") ContribuyenteContacto contacto){
+		
+		this.contribuyenteSelected.getContactos().remove(contacto);
+		
+	}
+	
 	public Contribuyente getContribuyenteSelected() {
 		return contribuyenteSelected;
 	}
@@ -347,6 +394,22 @@ public class ContribuyenteVM extends TemplateViewModelLocal{
 
 	public void setlContribuyentesUsuarios(List<ContribuyenteUsuario> lContribuyentesUsuarios) {
 		this.lContribuyentesUsuarios = lContribuyentesUsuarios;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	
