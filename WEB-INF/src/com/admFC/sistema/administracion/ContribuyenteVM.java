@@ -143,7 +143,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal{
 			this.editar= true;
 			this.contribuyenteSelected = this.reg.getObjectById(Contribuyente.class.getName(), contribuyenteid);
 			
-		//	this.auditoria.setJson(new Gson().toJson(this.contribuyenteSelected));
+			this.auditoria.setJson(new Gson().toJson(this.contribuyenteSelected));
 			
 		}else {
 			
@@ -296,6 +296,8 @@ public class ContribuyenteVM extends TemplateViewModelLocal{
 		
 		this.contribuyenteSelected.getContactos().add(cc);
 		
+		this.nombre = "";
+		this.email ="";
 		
 		
 	}

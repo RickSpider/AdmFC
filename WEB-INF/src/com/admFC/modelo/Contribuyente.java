@@ -8,6 +8,7 @@ package com.admFC.modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -106,8 +107,8 @@ public class Contribuyente extends Modelo implements Serializable {
     private String cscid;
     private String csc;
        
-
-    @OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL )
+    //OneToMany Unidireccional
+    @OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL, orphanRemoval = true )
     @JoinColumn(name="contribuyenteid", nullable = false)
     private List<ContribuyenteContacto> contactos = new ArrayList<ContribuyenteContacto>();
     
@@ -314,13 +315,7 @@ public class Contribuyente extends Modelo implements Serializable {
         this.soloLote = soloLote;
     }
 
-    public List<ContribuyenteContacto> getContactos() {
-        return contactos;
-    }
-
-    public void setContactos(List<ContribuyenteContacto> contactos) {
-        this.contactos = contactos;
-    }
+  
 
     public boolean isHabilitado() {
         return habilitado;
@@ -341,6 +336,16 @@ public class Contribuyente extends Modelo implements Serializable {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public List<ContribuyenteContacto> getContactos() {
+		return contactos;
+	}
+
+	public void setContactos(List<ContribuyenteContacto> contactos) {
+		this.contactos = contactos;
+	}
+
+	
     
     
 }
