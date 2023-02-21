@@ -59,11 +59,11 @@
 				
 					
 					<button label="Enviar Comprobantes"
-							iconSclass=" z-icon-plus"
+							iconSclass="z-icon-cloud-upload "
 							onClick="@command('enviarLote')"
 							 />
 					<button label="Consultar"
-							iconSclass=" z-icon-plus"
+							iconSclass="z-icon-cloud-download "
 							onClick="@command('consultarEstados')"
 							 />
 
