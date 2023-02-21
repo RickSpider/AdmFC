@@ -36,8 +36,8 @@ public class Ruc extends Modelo implements Serializable {
     @Column(nullable=false)
     private String ruc;
     private String dv;
-    @Column(columnDefinition="varchar(500)")
-    private String RazonSocial;
+    @Column(name = "razon_social", columnDefinition="varchar(500)")
+    private String razonSocial;
 
     public Long getRucid() {
         return rucid;
@@ -64,11 +64,11 @@ public class Ruc extends Modelo implements Serializable {
     }
 
     public String getRazonSocial() {
-        return RazonSocial;
+        return razonSocial;
     }
 
-    public void setRazonSocial(String RazonSocial) {
-        this.RazonSocial = RazonSocial;
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
     }
 
 	@Override
