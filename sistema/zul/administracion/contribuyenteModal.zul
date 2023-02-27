@@ -44,6 +44,20 @@
 			
 			</tablechildren>
 			
+			
+			<tablechildren>
+			
+				<label value= "Nombre Fantacia:" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+
+				<textbox value="@bind(vm.contribuyenteSelected.nombreFantacia)"
+					width="150px" />
+			
+			</tablechildren>
+			
 			<tablechildren>
 			
 				<label value= "Ruc:" />
@@ -69,6 +83,132 @@
 					constraint="no empty: Es campo obligatorio."/>
 			
 			</tablechildren>
+			
+			
+			<tablechildren>
+			
+				<label value= "Direccion:" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+
+				<textbox value="@load(vm.contribuyenteSelected.direccion) @save(vm.contribuyenteSelected.direccion, before='guardar')"
+					width="150px" 
+					constraint="no empty: Es campo obligatorio."/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Nro.:" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+
+				<textbox value="@load(vm.contribuyenteSelected.numCasa) @save(vm.contribuyenteSelected.numCasa, before='guardar')"
+					width="150px" 
+					constraint="no empty: Es campo obligatorio."/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Telefono:" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+
+				<textbox value="@load(vm.contribuyenteSelected.telefono) @save(vm.contribuyenteSelected.telefono, before='guardar')"
+					width="150px" 
+					constraint="no empty: Es campo obligatorio."/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Email:" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+
+				<textbox value="@load(vm.contribuyenteSelected.email) @save(vm.contribuyenteSelected.email, before='guardar')"
+					width="150px" 
+					constraint="no empty: Es campo obligatorio."/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "PathKey:" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+
+				<textbox value="@load(vm.contribuyenteSelected.pathkey) @save(vm.contribuyenteSelected.pathkey, before='guardar')"
+					width="150px" 
+					constraint="no empty: Es campo obligatorio."/>
+			
+			</tablechildren>
+			
+			
+			<tablechildren>
+			
+				<label value= "PassKey:" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+
+				<textbox value="@load(vm.contribuyenteSelected.passkey) @save(vm.contribuyenteSelected.passkey, before='guardar')"
+					width="150px" 
+					constraint="no empty: Es campo obligatorio."/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "CSC:" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+
+				<textbox value="@load(vm.contribuyenteSelected.csc) @save(vm.contribuyenteSelected.csc, before='guardar')"
+					width="150px" 
+					constraint="no empty: Es campo obligatorio."/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "CSCID" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+
+				<textbox value="@load(vm.contribuyenteSelected.cscid) @save(vm.contribuyenteSelected.cscid, before='guardar')"
+					width="150px" 
+					constraint="no empty: Es campo obligatorio."/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Enviado:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<checkbox checked="@bind(vm.contribuyenteSelected.habilitado)" mold="switch" />
+			
+			</tablechildren>
+			
 			
 			
 			
