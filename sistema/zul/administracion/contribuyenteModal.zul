@@ -200,7 +200,18 @@
 			
 			<tablechildren>
 			
-				<label value= "Enviado:" />
+				<label value= "Solo Lote:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<checkbox checked="@bind(vm.contribuyenteSelected.soloLote)" mold="switch" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Habilitado:" />
 			
 			</tablechildren>
 			<tablechildren>
@@ -208,6 +219,8 @@
 				<checkbox checked="@bind(vm.contribuyenteSelected.habilitado)" mold="switch" />
 			
 			</tablechildren>
+			
+			
 			
 			
 			
