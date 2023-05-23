@@ -129,6 +129,24 @@ public class Contribuyente extends Modelo implements Serializable {
     public String getAmbiente() {
         return ambiente;
     }
+    
+ //Seccion mail server
+    
+    @Column(name="enviaralerta", columnDefinition = "boolean default false")
+    private boolean enviarAlerta;
+    
+    @Column(name="mailserverhost")
+    private String mailServerHost;
+    
+    @Column(name="mailserverport")
+    private Integer mailServerPort;
+    
+    @Column(name="mailserveruser")
+    private String mailServerUser;
+    
+    @Column(name="mailserverpass")
+    private String mailServerpass;
+
 
     public String getPass() {
         return pass;
@@ -343,6 +361,46 @@ public class Contribuyente extends Modelo implements Serializable {
 
 	public void setContactos(List<ContribuyenteContacto> contactos) {
 		this.contactos = contactos;
+	}
+
+	public boolean isEnviarAlerta() {
+		return enviarAlerta;
+	}
+
+	public void setEnviarAlerta(boolean enviarAlerta) {
+		this.enviarAlerta = enviarAlerta;
+	}
+
+	public String getMailServerHost() {
+		return mailServerHost;
+	}
+
+	public void setMailServerHost(String mailServerHost) {
+		this.mailServerHost = mailServerHost;
+	}
+
+	public Integer getMailServerPort() {
+		return mailServerPort;
+	}
+
+	public void setMailServerPort(Integer mailServerPort) {
+		this.mailServerPort = mailServerPort;
+	}
+
+	public String getMailServerUser() {
+		return mailServerUser;
+	}
+
+	public void setMailServerUser(String mailServerUser) {
+		this.mailServerUser = mailServerUser;
+	}
+
+	public String getMailServerpass() {
+		return mailServerpass;
+	}
+
+	public void setMailServerpass(String mailServerpass) {
+		this.mailServerpass = mailServerpass;
 	}
 
 	

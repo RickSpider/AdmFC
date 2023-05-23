@@ -82,6 +82,8 @@ public class ComprobanteElectronico extends Modelo implements Serializable {
     @JoinColumn(name = "eventoid")
     private Evento evento;
     
+    @Column(name = "enlaceqr", columnDefinition = "text")   
+    private String enlaceQR;
 
     public Long getId() {
         return id;
@@ -205,6 +207,14 @@ public class ComprobanteElectronico extends Modelo implements Serializable {
 	public String getStringDatos() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public String getEnlaceQR() {
+		return enlaceQR;
+	}
+
+	public void setEnlaceQR(String enlaceQR) {
+		this.enlaceQR = enlaceQR;
 	}
     
     
