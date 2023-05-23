@@ -133,8 +133,11 @@
 								tooltiptext="@load(each[1])" />
 							<listcell label="@load(each[2])"
 								tooltiptext="@load(each[2])" />
-							<listcell label="@load(each[3])"
-								tooltiptext="@load(each[3])" />
+							<listcell >
+							
+								<textbox value="@load(each[3])" tooltiptext="@load(each[3])" readonly="true"/>
+								
+							</listcell>
 							<listcell label="@load(each[4])"
 								tooltiptext="@load(each[4])" />
 					
@@ -145,7 +148,7 @@
 
 									<button iconSclass="z-icon-edit"
 										onClick="@command('modalLote', loteid=each[0])"
-										tooltiptext="Editar"
+										tooltiptext="Ver/Editar"
 										disabled="@load(!vm.opEditarLote)" />
 									<button iconSclass="z-icon-trash-o"
 										style="background-color:red"

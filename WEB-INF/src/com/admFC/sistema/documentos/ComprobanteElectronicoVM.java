@@ -76,7 +76,9 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 
 	}
 
-	private void cargarComprobanteElectronicos() {
+	@Command
+	@NotifyChange("lComprobantesElectronicos")
+	public void cargarComprobanteElectronicos() {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -188,6 +190,13 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 
 		this.reg.saveObject(this.auditoria, "SYSTEM");
 
+	}
+	
+	@Command
+	public void openQrSifen(@BindingParam("linkQr") String linkQr) {
+		
+		Executions.getCurrent().sendRedirect(linkQr, "_blank");
+		
 	}
 
 	@Command

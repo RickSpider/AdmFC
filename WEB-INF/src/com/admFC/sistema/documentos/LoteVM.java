@@ -135,7 +135,7 @@ public class LoteVM extends TemplateViewModelLocal {
 	public void modalLote(@BindingParam("loteid") long loteid) {
 
 		this.auditoria = new Auditoria();
-		this.auditoria.setModulo("Comprobante");
+		this.auditoria.setModulo("Lote");
 
 		if (loteid != -1) {
 
@@ -180,7 +180,7 @@ public class LoteVM extends TemplateViewModelLocal {
 			Notification.show("Lote Actualizado.");
 			this.editar = false;
 			this.auditoria.setSentencia("UPDATE");
-
+		
 		} else {
 
 			this.auditoria.setSentencia("INSERT");

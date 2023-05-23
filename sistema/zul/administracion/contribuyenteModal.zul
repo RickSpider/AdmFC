@@ -4,7 +4,7 @@
 		position="center,center" closable="true" mode="modal"
 		action="show: slideDown;hide: slideUp">
 				
-		<tablelayout columns="4">
+		<tablelayout columns="6">
 		
 			<tablechildren>
 			
@@ -85,17 +85,17 @@
 			</tablechildren>
 			
 			
-			<tablechildren>
+			<tablechildren >
 			
 				<label value= "Direccion:" />
 			
 			</tablechildren>
 			
-			<tablechildren>
+			<tablechildren colspan="3" >
 
 				<textbox value="@load(vm.contribuyenteSelected.direccion) @save(vm.contribuyenteSelected.direccion, before='guardar')"
-					width="150px" 
-					constraint="no empty: Es campo obligatorio."/>
+
+					constraint="no empty: Es campo obligatorio." hflex="1"/>
 			
 			</tablechildren>
 			
@@ -107,9 +107,8 @@
 			
 			<tablechildren>
 
-				<textbox value="@load(vm.contribuyenteSelected.numCasa) @save(vm.contribuyenteSelected.numCasa, before='guardar')"
-					width="150px" 
-					constraint="no empty: Es campo obligatorio."/>
+				<textbox value="@bind(vm.contribuyenteSelected.numCasa)"
+					width="150px" />
 			
 			</tablechildren>
 			
@@ -141,6 +140,13 @@
 			
 			</tablechildren>
 			
+			<tablechildren colspan="4"/>
+			<tablechildren colspan="6">
+			
+				<space height="10px" />
+			
+			</tablechildren>
+			
 			<tablechildren>
 			
 				<label value= "PathKey:" />
@@ -154,6 +160,7 @@
 					constraint="no empty: Es campo obligatorio."/>
 			
 			</tablechildren>
+			
 			
 			
 			<tablechildren>
@@ -198,14 +205,92 @@
 			
 			</tablechildren>
 			
+			
+			
 			<tablechildren>
 			
 				<label value= "Solo Lote:" />
 			
 			</tablechildren>
+			
+			
 			<tablechildren>
 
 				<checkbox checked="@bind(vm.contribuyenteSelected.soloLote)" mold="switch" />
+			
+			</tablechildren>
+			
+			<tablechildren colspan="2" />
+
+			<tablechildren colspan="6">
+			
+				<space height="10px" />
+			
+			</tablechildren>
+			
+			
+
+
+			<tablechildren>
+			
+				<label value= "Server Host:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.contribuyenteSelected.mailServerHost)" width="150px" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Server Port:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.contribuyenteSelected.mailServerPort)" width="150px" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Server User:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.contribuyenteSelected.mailServerUser)" width="150px" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Server Pass:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.contribuyenteSelected.mailServerpass)" width="150px" />
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Enviar Alerta:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<checkbox checked="@bind(vm.contribuyenteSelected.enviarAlerta)" mold="switch" />
+			
+			</tablechildren>
+			
+			<tablechildren colspan="2" />
+			
+			<tablechildren colspan="6">
+			
+				<space height="10px" />
 			
 			</tablechildren>
 			
@@ -219,13 +304,6 @@
 				<checkbox checked="@bind(vm.contribuyenteSelected.habilitado)" mold="switch" />
 			
 			</tablechildren>
-			
-			
-			
-			
-			
-			
-		
 		
 		</tablelayout>
 		
@@ -241,6 +319,7 @@
 				<textbox value="@bind(vm.email)" placeholder="Correo"/>
 			
 			</tablechildren>
+			
 			<tablechildren>
 			
 				<button iconSclass="z-icon-plus"
@@ -253,7 +332,7 @@
 		<listbox emptyMessage="lista vacía..." mold="paging"
 					model="@load(vm.contribuyenteSelected.contactos)"
 					checkmark="true" 
-					width="500px" height="200px">
+					width="750px" height="200px">
 				
 				<listhead>
 

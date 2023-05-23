@@ -58,11 +58,19 @@
 					<hbox pack="end" hflex="1">
 				
 					
+					<button label="Refrescar"
+							style="background-color:orange"
+							iconSclass=" z-icon-refresh "
+							onClick="@command('cargarComprobanteElectronicos')"
+							 />
+					
 					<button label="Enviar Comprobantes"
+							style="background-color:yellowgreen"
 							iconSclass="z-icon-cloud-upload "
 							onClick="@command('enviarLote')"
 							 />
 					<button label="Consultar"
+							style="background-color:yellowgreen"
 							iconSclass="z-icon-cloud-download "
 							onClick="@command('consultarEstados')"
 							 />
@@ -108,10 +116,10 @@
 							hflex="min" />
 
 						<listheader label="Tipo Comprobante"
-							align="center" />
+							align="center" hflex="min"/>
 
 
-						<listheader align="center" width="100px" />
+						<listheader align="center" hflex="min" />
 
 
 					</listhead>
@@ -193,10 +201,17 @@
 								tooltiptext="@load(each[1])"  />
 							<listcell label="@load(each[2])"
 								tooltiptext="@load(each[2])" style="text-align: Left"/>
-							<listcell label="@load(each[3])"
-								tooltiptext="@load(each[3])" />
-							<listcell label="@load(each[4])"
-								tooltiptext="@load(each[4])" />
+							<listcell >
+								
+								<textbox value="@load(each[3])" tooltiptext="@load(each[3])" readonly ="true" hflex="1" />
+								
+							</listcell>
+								
+							<listcell > 
+								
+								<textbox value="@load(each[4])" tooltiptext="@load(each[4])" readonly ="true" hflex="1"/>
+								
+								</listcell>
 							<listcell label="@load(each[5])"
 								tooltiptext="@load(each[5])" />
 							<listcell label="@load(each[6])"
@@ -205,18 +220,27 @@
 								tooltiptext="@load(each[7])" />
 							<listcell label="@load(each[8])"
 								tooltiptext="@load(each[8])" />
-							<listcell label="@load(each[9])"
-								tooltiptext="@load(each[9])" />
+							<listcell >
+							
+								<textbox value="@load(each[9])" tooltiptext="@load(each[9])" readonly ="true" hflex="1"/>
+							
+							</listcell>
+								
 							<listcell label="@load(each[10])"
 								tooltiptext="@load(each[10])" style="text-align: Left" />
 
 
 							<listcell>
 								<hlayout>
-
+								
+									<button iconSclass="z-icon-qrcode "
+										style="background-color:green"
+										onClick="@command('openQrSifen', linkQr=each[11])"
+										tooltiptext="Sifen Comprobante Electronico"
+										/>
 									<button iconSclass="z-icon-edit"
 										onClick="@command('modalComprobanteElectronico', comprobanteElectronicoid=each[0])"
-										tooltiptext="Editar"
+										tooltiptext="Ver/Editar"
 										disabled="@load(!vm.opEditarComprobanteElectronico)" />
 									<button iconSclass="z-icon-trash-o"
 										style="background-color:red"
