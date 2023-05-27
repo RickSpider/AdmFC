@@ -127,7 +127,7 @@
 
 			<hlayout>
 
-				<button label="Aceptar" onClick="@command('guardar')" visible="false"/>
+				<button label="Aceptar" onClick="@command('guardar')" />
 
 			</hlayout>
 
