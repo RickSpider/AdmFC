@@ -1,6 +1,6 @@
 Select 
 ce.id, 
-ce.creado, 
+TO_CHAR(ce.creado, 'yyyy-mm-dd HH24:MI:SS'), 
 c.nombre,
 ce.cdc, 
 ce.numero,

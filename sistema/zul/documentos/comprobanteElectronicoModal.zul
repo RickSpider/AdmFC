@@ -6,11 +6,24 @@
 		
 		<space height="10px" />
 		
-		<hbox>
+		<vbox>
+		
+			<hbox>
 			<label value ="Nota:" style="font-weight:bold" />
 			Los cambios hechos quedan exclusivamente bajo responsabilidad del operador.
+			</hbox>
+			<tablelayout columns="2">
 		
-		</hbox>
+				<tablechildren>
+					<label value ="CamposBloqueados:" style="font-weight:bold" />
+				</tablechildren>
+				<tablechildren>
+						<checkbox checked="@bind(vm.camposBloqueados)" mold="switch" />
+				</tablechildren>
+			
+			</tablelayout>
+		
+		</vbox>
 			
 		
 		
@@ -40,7 +53,7 @@
 
 				<textbox value="@load(vm.comprobanteElectronicoSelected.cdc) @save(vm.comprobanteElectronicoSelected.cdc, before='guardar')"
 					width="200px" 
-					constraint="no empty: Es campo obligatorio."/>
+					constraint="no empty: Es campo obligatorio." readonly="@load(vm.camposBloqueados)"/>
 			
 			</tablechildren>
 			
@@ -52,7 +65,7 @@
 			<tablechildren>
 
 				<textbox value="@bind(vm.comprobanteElectronicoSelected.numero)"
-					width="150px"  readonly="true"/>
+					width="150px"  readonly="@load(vm.camposBloqueados)"/>
 			
 			</tablechildren>
 			
@@ -65,7 +78,7 @@
 			</tablechildren>
 			<tablechildren>
 
-				<textbox value="@bind(vm.comprobanteElectronicoSelected.tipoComprobanteElectronico.tipoComprobanteElectronico)"
+				<textbox value="@load(vm.comprobanteElectronicoSelected.tipoComprobanteElectronico.tipoComprobanteElectronico)"
 					width="200px" readonly="true"/>
 			
 			</tablechildren>
@@ -80,7 +93,7 @@
 			<tablechildren>
 
 				<textbox value="@bind(vm.comprobanteElectronicoSelected.estado)"
-					width="75px" readonly="true"/>
+					width="75px" readonly="@load(vm.camposBloqueados)"/>
 			
 			</tablechildren>
 			

@@ -97,8 +97,8 @@
 						<listheader label="Creado" align="center"
 							hflex="min" />
 						<listheader label="Contribuyente" align="center" 
-						hflex="min"/>
-						<listheader label="CDC" align="center" />
+						hflex="min" visible = "false"/>
+						<listheader label="CDC" align="center" width="350px"/>
 
 						<listheader label="Numero" align="center"
 							hflex="min" />

@@ -6,11 +6,24 @@
 		
 		<space height="10px" />
 		
-		<hbox>
+		<vbox>
+		
+			<hbox>
 			<label value ="Nota:" style="font-weight:bold" />
 			Los cambios hechos quedan exclusivamente bajo responsabilidad del operador.
+			</hbox>
+			<tablelayout columns="2">
 		
-		</hbox>
+				<tablechildren>
+					<label value ="CamposBloqueados:" style="font-weight:bold" />
+				</tablechildren>
+				<tablechildren>
+						<checkbox checked="@bind(vm.camposBloqueados)" mold="switch" />
+				</tablechildren>
+			
+			</tablelayout>
+		
+		</vbox>
 			
 		
 		
@@ -82,7 +95,7 @@
 			<tablechildren>
 
 				<textbox value="@bind(vm.loteSelected.estado)"
-					width="150px" />
+					width="150px" readonly="@load(vm.camposBloqueados)"/>
 			
 			</tablechildren>
 			

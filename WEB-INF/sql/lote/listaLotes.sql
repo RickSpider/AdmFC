@@ -2,7 +2,7 @@ Select
 
 l.loteid,
 c.nombre,
-l.fecha,
+TO_CHAR(l.fecha, 'yyyy-mm-dd HH24:MI:SS'),
 l.nro,
 l.estado
 

@@ -36,6 +36,8 @@ public class LoteVM extends TemplateViewModelLocal {
 	private boolean opEditarLote;
 	private boolean opBorrarLote;
 
+	private boolean camposBloqueados = false;
+	
 	private Date desde = new Date();
 	private Date hasta;
 
@@ -143,6 +145,7 @@ public class LoteVM extends TemplateViewModelLocal {
 				return;
 
 			this.editar = true;
+			this.camposBloqueados = true;
 			this.loteSelected = this.reg.getObjectById(Lote.class.getName(),
 					loteid);
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
@@ -293,6 +296,14 @@ public class LoteVM extends TemplateViewModelLocal {
 
 	public void setFiltroColumns(String[] filtroColumns) {
 		this.filtroColumns = filtroColumns;
+	}
+
+	public boolean isCamposBloqueados() {
+		return camposBloqueados;
+	}
+
+	public void setCamposBloqueados(boolean camposBloqueados) {
+		this.camposBloqueados = camposBloqueados;
 	}
 
 	

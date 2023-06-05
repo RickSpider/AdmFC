@@ -38,6 +38,8 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 	private boolean opCrearComprobanteElectronico;
 	private boolean opEditarComprobanteElectronico;
 	private boolean opBorrarComprobanteElectronico;
+	
+	private boolean camposBloqueados = false;
 
 	private Date desde = new Date();
 	private Date hasta;
@@ -144,6 +146,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 				return;
 
 			this.editar = true;
+			this.camposBloqueados = true;
 			this.comprobanteElectronicoSelected = this.reg.getObjectById(ComprobanteElectronico.class.getName(),
 					comprobanteElectronicoid);
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
@@ -343,6 +346,14 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 
 	public void setContribuyenteSelected(Contribuyente contribuyenteSelected) {
 		this.contribuyenteSelected = contribuyenteSelected;
+	}
+
+	public boolean isCamposBloqueados() {
+		return camposBloqueados;
+	}
+
+	public void setCamposBloqueados(boolean camposBloqueados) {
+		this.camposBloqueados = camposBloqueados;
 	}
 
 }

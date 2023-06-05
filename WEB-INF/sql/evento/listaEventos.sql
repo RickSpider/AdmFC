@@ -2,7 +2,7 @@ Select
 
 e.eventoid,
 c.nombre,
-e.fecha,
+TO_CHAR(e.fecha, 'yyyy-mm-dd HH24:MI:SS'),
 e.cdc,
 e.motivo,
 e.enviado,
