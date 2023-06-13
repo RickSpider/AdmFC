@@ -3,406 +3,802 @@
 	<window title="Contribuyente Crear/Ver/Editar" border="normal"
 		position="center,center" closable="true" mode="modal"
 		action="show: slideDown;hide: slideUp">
-				
+
 		<tablelayout columns="6">
-		
+
 			<tablechildren>
-			
-				<label value= "ID:" />
-			
+
+				<label value="ID:" />
+
 			</tablechildren>
 			<tablechildren>
 
-				<textbox value="@bind(vm.contribuyenteSelected.contribuyenteid)"
-					width="75px" readonly="true"/>
-			
+				<textbox
+					value="@bind(vm.contribuyenteSelected.contribuyenteid)"
+					width="75px" readonly="true" />
+
 			</tablechildren>
-			
+
 			<tablechildren>
-			
-				<label value= "Ambiente:" />
-			
+
+				<label value="Ambiente:" />
+
 			</tablechildren>
 			<tablechildren>
 
-				<textbox value="@load(vm.contribuyenteSelected.ambiente) @save(vm.contribuyenteSelected.ambiente, before='guardar')"
-					width="150px" 
-					constraint="no empty: Es campo obligatorio."/>
-			
+				<textbox
+					value="@load(vm.contribuyenteSelected.ambiente) @save(vm.contribuyenteSelected.ambiente, before='guardar')"
+					width="150px" constraint="no empty: Es campo obligatorio." />
+
 			</tablechildren>
-			
+
 			<tablechildren>
-			
-				<label value= "Contribuyente:" />
-			
+
+				<label value="Contribuyente:" />
+
 			</tablechildren>
 			<tablechildren>
 
-				<textbox value="@load(vm.contribuyenteSelected.nombre) @save(vm.contribuyenteSelected.nombre, before='guardar')"
-					width="150px" 
-					constraint="no empty: Es campo obligatorio."/>
-			
+				<textbox
+					value="@load(vm.contribuyenteSelected.nombre) @save(vm.contribuyenteSelected.nombre, before='guardar')"
+					width="150px" constraint="no empty: Es campo obligatorio." />
+
 			</tablechildren>
-			
-			
-			<tablechildren>
-			
-				<label value= "Nombre Fantacia:" />
-			
-			</tablechildren>
-			
+
+
 			<tablechildren>
 
-				<textbox value="@bind(vm.contribuyenteSelected.nombreFantacia)"
+				<label value="Nombre Fantacia:" />
+
+			</tablechildren>
+
+			<tablechildren>
+
+				<textbox
+					value="@bind(vm.contribuyenteSelected.nombreFantacia)"
 					width="150px" />
-			
+
 			</tablechildren>
-			
+
 			<tablechildren>
-			
-				<label value= "Ruc:" />
-			
+
+				<label value="Ruc:" />
+
 			</tablechildren>
 			<tablechildren>
 
-				<textbox value="@load(vm.contribuyenteSelected.ruc) @save(vm.contribuyenteSelected.ruc, before='guardar')"
-					width="150px" 
-					constraint="no empty: Es campo obligatorio."/>
-			
+				<textbox
+					value="@load(vm.contribuyenteSelected.ruc) @save(vm.contribuyenteSelected.ruc, before='guardar')"
+					width="150px" constraint="no empty: Es campo obligatorio." />
+
 			</tablechildren>
-			
+
 			<tablechildren>
-			
-				<label value= "DV:" />
-			
+
+				<label value="DV:" />
+
+			</tablechildren>
+
+
+
+			<tablechildren>
+
+				<textbox
+					value="@load(vm.contribuyenteSelected.dv) @save(vm.contribuyenteSelected.dv, before='guardar')"
+					width="50px" constraint="no empty: Es campo obligatorio." />
+
+			</tablechildren>
+
+			<tablechildren>
+
+				<label value="Tipo Contribuyente:" />
+
 			</tablechildren>
 			<tablechildren>
 
-				<textbox value="@load(vm.contribuyenteSelected.dv) @save(vm.contribuyenteSelected.dv, before='guardar')"
-					width="50px" 
-					constraint="no empty: Es campo obligatorio."/>
-			
-			</tablechildren>
-			
-			
-			<tablechildren >
-			
-				<label value= "Direccion:" />
-			
-			</tablechildren>
-			
-			<tablechildren colspan="3" >
+				<bandbox id="bd"
+					value="@load(vm.buscarTipoContribuyente) @save(vm.buscarTipoContribuyente, before='guardar')"
+					constraint="no empty: Es campo obligatorio." mold="rounded"
+					autodrop="true" width="150px"
+					onOpen="@command('generarListaTiposContribuyentes')"
+					readonly="true">
+					<bandpopup>
 
-				<textbox value="@load(vm.contribuyenteSelected.direccion) @save(vm.contribuyenteSelected.direccion, before='guardar')"
+						<vbox>
 
-					constraint="no empty: Es campo obligatorio." hflex="1"/>
-			
+							<hbox>
+
+								<label value="Buscar:" />
+
+								<textbox instant="true"
+									value="@bind(vm.buscarTipoContribuyente)"
+									onChange="@command('filtrarTipoContribuyenteBuscar')" />
+
+							</hbox>
+
+							<listbox height="250px" width="450px"
+								mold="paging" autopaging="true" onSelect="bd.close()"
+								model="@load(vm.lTiposContribuyentesBuscar)">
+
+								<listhead>
+									<listheader label="Codigo Sifen"
+										hflex="min" />
+									<listheader
+										label="Tipo Contribuyente" />
+
+								</listhead>
+
+								<template name="model">
+
+									<listitem
+										onClick="@command('onSelectTipoContribuyente', id = each[0])">
+
+										<listcell
+											label="@load(each[1])" />
+
+										<listcell label="@load(each[2])"
+											tooltiptext="@load(each[2])" />
+
+
+									</listitem>
+
+								</template>
+								<listitem />
+							</listbox>
+
+						</vbox>
+					</bandpopup>
+				</bandbox>
+
 			</tablechildren>
-			
+
 			<tablechildren>
-			
-				<label value= "Nro.:" />
-			
+
+				<label value="Tipo Transacción:" />
+
 			</tablechildren>
-			
+			<tablechildren>
+
+				<bandbox id="bd1"
+					value="@load(vm.buscarTipoTransaccion) @save(vm.buscarTipoTransaccion, before='guardar')"
+					constraint="no empty: Es campo obligatorio." mold="rounded"
+					autodrop="true" width="150px"
+					onOpen="@command('generarListaTiposTransacciones')"
+					readonly="true">
+					<bandpopup>
+
+						<vbox>
+
+							<hbox>
+
+								<label value="Buscar:" />
+
+								<textbox instant="true"
+									value="@bind(vm.buscarTipoTransaccion)"
+									onChange="@command('filtrarTipoTransaccionBuscar')" />
+
+							</hbox>
+
+							<listbox height="250px" width="450px"
+								mold="paging" autopaging="true" onSelect="bd1.close()"
+								model="@load(vm.lTiposTransaccionesBuscar)">
+
+								<listhead>
+									<listheader label="Codigo Sifen"
+										hflex="min" />
+									<listheader
+										label="Tipo Contribuyente" />
+
+								</listhead>
+
+								<template name="model">
+
+									<listitem
+										onClick="@command('onSelectTipoTransaccion', id = each[0])">
+
+										<listcell
+											label="@load(each[1])" />
+
+										<listcell label="@load(each[2])"
+											tooltiptext="@load(each[2])" />
+
+
+									</listitem>
+
+								</template>
+								<listitem />
+							</listbox>
+
+						</vbox>
+					</bandpopup>
+				</bandbox>
+
+			</tablechildren>
+
+			<tablechildren>
+
+				<label value="Tipo Impuesto:" />
+
+			</tablechildren>
+			<tablechildren>
+
+				<bandbox id="bd2"
+					value="@load(vm.buscarTipoImpuesto) @save(vm.buscarTipoImpuesto, before='guardar')"
+					constraint="no empty: Es campo obligatorio." mold="rounded"
+					autodrop="true" width="150px"
+					onOpen="@command('generarListaTiposImpuestos')" readonly="true">
+					<bandpopup>
+
+						<vbox>
+
+							<hbox>
+
+								<label value="Buscar:" />
+
+								<textbox instant="true"
+									value="@bind(vm.buscarTipoImpuesto)"
+									onChange="@command('filtrarTipoImpuestoBuscar')" />
+
+							</hbox>
+
+							<listbox height="250px" width="450px"
+								mold="paging" autopaging="true" onSelect="bd2.close()"
+								model="@load(vm.lTiposImpuestosBuscar)">
+
+								<listhead>
+									<listheader label="Codigo Sifen"
+										hflex="min" />
+									<listheader
+										label="Tipo Contribuyente" />
+
+								</listhead>
+
+								<template name="model">
+
+									<listitem
+										onClick="@command('onSelectTipoImpuesto', id = each[0])">
+
+										<listcell
+											label="@load(each[1])" />
+
+										<listcell label="@load(each[2])"
+											tooltiptext="@load(each[2])" />
+
+
+									</listitem>
+
+								</template>
+								<listitem />
+							</listbox>
+
+						</vbox>
+					</bandpopup>
+				</bandbox>
+
+			</tablechildren>
+
+
+			<tablechildren>
+
+				<label value="Direccion:" />
+
+			</tablechildren>
+
+			<tablechildren colspan="3">
+
+				<textbox
+					value="@load(vm.contribuyenteSelected.direccion) @save(vm.contribuyenteSelected.direccion, before='guardar')"
+					constraint="no empty: Es campo obligatorio." hflex="1" />
+
+			</tablechildren>
+
+			<tablechildren>
+
+				<label value="Nro.:" />
+
+			</tablechildren>
+
 			<tablechildren>
 
 				<textbox value="@bind(vm.contribuyenteSelected.numCasa)"
 					width="150px" />
-			
+
 			</tablechildren>
-			
-			<tablechildren>
-			
-				<label value= "Telefono:" />
-			
-			</tablechildren>
-			
+
 			<tablechildren>
 
-				<textbox value="@load(vm.contribuyenteSelected.telefono) @save(vm.contribuyenteSelected.telefono, before='guardar')"
-					width="150px" 
-					constraint="no empty: Es campo obligatorio."/>
-			
+				<label value="Distrito:" />
+
 			</tablechildren>
-			
-			<tablechildren>
-			
-				<label value= "Email:" />
-			
-			</tablechildren>
-			
+
 			<tablechildren>
 
-				<textbox value="@load(vm.contribuyenteSelected.email) @save(vm.contribuyenteSelected.email, before='guardar')"
-					width="150px" 
-					constraint="no empty: Es campo obligatorio."/>
-			
+				<bandbox id="bd4"
+					value="@load(vm.buscarDistrito) @save(vm.buscarDistrito, before='guardar')"
+					constraint="no empty: Es campo obligatorio." mold="rounded"
+					autodrop="true" width="150px"
+					onOpen="@command('generarListaDistritos')" readonly="true">
+					<bandpopup>
+
+						<vbox>
+
+							<hbox>
+
+								<label value="Buscar:" />
+
+								<textbox instant="true"
+									value="@bind(vm.buscarDistrito)"
+									onChange="@command('filtrarDistritoBuscar')" />
+
+							</hbox>
+
+							<listbox height="250px" width="450px"
+								mold="paging" autopaging="true" onSelect="bd4.close()"
+								model="@load(vm.lDistritosBuscar)">
+
+								<listhead>
+									<listheader label="Codigo Sifen"
+										hflex="min" />
+									<listheader
+										label="Distrito" />
+									<listheader
+										label="Departamento" />
+
+								</listhead>
+
+								<template name="model">
+
+									<listitem
+										onClick="@command('onSelectDistrito', id = each[0])">
+
+										<listcell
+											label="@load(each[1])" />
+
+										<listcell label="@load(each[2])"
+											tooltiptext="@load(each[2])" />
+										
+										<listcell label="@load(each[4])"
+											tooltiptext="@load(each[4])" />
+
+
+									</listitem>
+
+								</template>
+								<listitem />
+							</listbox>
+
+						</vbox>
+					</bandpopup>
+				</bandbox>
+
 			</tablechildren>
-			
-			<tablechildren colspan="4"/>
+
+			<tablechildren>
+
+				<label value="Telefono:" />
+
+			</tablechildren>
+
+			<tablechildren>
+
+				<textbox
+					value="@load(vm.contribuyenteSelected.telefono) @save(vm.contribuyenteSelected.telefono, before='guardar')"
+					width="150px" constraint="no empty: Es campo obligatorio." />
+
+			</tablechildren>
+
+			<tablechildren>
+
+				<label value="Email:" />
+
+			</tablechildren>
+
+			<tablechildren>
+
+				<textbox
+					value="@load(vm.contribuyenteSelected.email) @save(vm.contribuyenteSelected.email, before='guardar')"
+					width="150px" constraint="no empty: Es campo obligatorio." />
+
+			</tablechildren>
+
+
 			<tablechildren colspan="6">
-			
+
 				<space height="10px" />
-			
+
 			</tablechildren>
-			
-			<tablechildren>
-			
-				<label value= "PathKey:" />
-			
-			</tablechildren>
-			
+
 			<tablechildren>
 
-				<textbox value="@load(vm.contribuyenteSelected.pathkey) @save(vm.contribuyenteSelected.pathkey, before='guardar')"
-					width="150px" 
-					constraint="no empty: Es campo obligatorio."/>
-			
+				<label value="PathKey:" />
+
 			</tablechildren>
-			
-			
-			
-			<tablechildren>
-			
-				<label value= "PassKey:" />
-			
-			</tablechildren>
-			
+
 			<tablechildren>
 
-				<textbox value="@load(vm.contribuyenteSelected.passkey) @save(vm.contribuyenteSelected.passkey, before='guardar')"
-					width="150px" 
-					constraint="no empty: Es campo obligatorio."/>
-			
+				<textbox
+					value="@load(vm.contribuyenteSelected.pathkey) @save(vm.contribuyenteSelected.pathkey, before='guardar')"
+					width="150px" constraint="no empty: Es campo obligatorio." />
+
 			</tablechildren>
-			
-			<tablechildren>
-			
-				<label value= "CSC:" />
-			
-			</tablechildren>
-			
+
+
+
 			<tablechildren>
 
-				<textbox value="@load(vm.contribuyenteSelected.csc) @save(vm.contribuyenteSelected.csc, before='guardar')"
-					width="150px" 
-					constraint="no empty: Es campo obligatorio."/>
-			
+				<label value="PassKey:" />
+
 			</tablechildren>
-			
-			<tablechildren>
-			
-				<label value= "CSCID" />
-			
-			</tablechildren>
-			
+
 			<tablechildren>
 
-				<textbox value="@load(vm.contribuyenteSelected.cscid) @save(vm.contribuyenteSelected.cscid, before='guardar')"
-					width="150px" 
-					constraint="no empty: Es campo obligatorio."/>
-			
+				<textbox
+					value="@load(vm.contribuyenteSelected.passkey) @save(vm.contribuyenteSelected.passkey, before='guardar')"
+					width="150px" constraint="no empty: Es campo obligatorio." />
+
 			</tablechildren>
-			
-			
-			
-			<tablechildren>
-			
-				<label value= "Solo Lote:" />
-			
-			</tablechildren>
-			
-			
+
 			<tablechildren>
 
-				<checkbox checked="@bind(vm.contribuyenteSelected.soloLote)" mold="switch" />
-			
+				<label value="CSC:" />
+
 			</tablechildren>
-			
+
+			<tablechildren>
+
+				<textbox
+					value="@load(vm.contribuyenteSelected.csc) @save(vm.contribuyenteSelected.csc, before='guardar')"
+					width="150px" constraint="no empty: Es campo obligatorio." />
+
+			</tablechildren>
+
+			<tablechildren>
+
+				<label value="CSCID" />
+
+			</tablechildren>
+
+			<tablechildren>
+
+				<textbox
+					value="@load(vm.contribuyenteSelected.cscid) @save(vm.contribuyenteSelected.cscid, before='guardar')"
+					width="150px" constraint="no empty: Es campo obligatorio." />
+
+			</tablechildren>
+
+
+
+			<tablechildren>
+
+				<label value="Solo Lote:" />
+
+			</tablechildren>
+
+
+			<tablechildren>
+
+				<checkbox
+					checked="@bind(vm.contribuyenteSelected.soloLote)" mold="switch" />
+
+			</tablechildren>
+
 			<tablechildren colspan="2" />
 
 			<tablechildren colspan="6">
-			
+
 				<space height="10px" />
-			
+
 			</tablechildren>
-			
-			
+
+
 
 
 			<tablechildren>
-			
-				<label value= "Server Host:" />
-			
+
+				<label value="Server Host:" />
+
 			</tablechildren>
 			<tablechildren>
 
-				<textbox value="@bind(vm.contribuyenteSelected.mailServerHost)" width="150px" />
-			
+				<textbox
+					value="@bind(vm.contribuyenteSelected.mailServerHost)"
+					width="150px" />
+
 			</tablechildren>
-			
+
 			<tablechildren>
-			
-				<label value= "Server Port:" />
-			
+
+				<label value="Server Port:" />
+
 			</tablechildren>
 			<tablechildren>
 
-				<textbox value="@bind(vm.contribuyenteSelected.mailServerPort)" width="150px" />
-			
+				<textbox
+					value="@bind(vm.contribuyenteSelected.mailServerPort)"
+					width="150px" />
+
 			</tablechildren>
-			
+
 			<tablechildren>
-			
-				<label value= "Server User:" />
-			
+
+				<label value="Server User:" />
+
 			</tablechildren>
 			<tablechildren>
 
-				<textbox value="@bind(vm.contribuyenteSelected.mailServerUser)" width="150px" />
-			
+				<textbox
+					value="@bind(vm.contribuyenteSelected.mailServerUser)"
+					width="150px" />
+
 			</tablechildren>
-			
+
 			<tablechildren>
-			
-				<label value= "Server Pass:" />
-			
+
+				<label value="Server Pass:" />
+
 			</tablechildren>
 			<tablechildren>
 
-				<textbox value="@bind(vm.contribuyenteSelected.mailServerpass)" width="150px" />
-			
+				<textbox
+					value="@bind(vm.contribuyenteSelected.mailServerpass)"
+					width="150px" />
+
 			</tablechildren>
-			
+
 			<tablechildren>
-			
-				<label value= "Enviar Alerta:" />
-			
+
+				<label value="Enviar Alerta:" />
+
 			</tablechildren>
 			<tablechildren>
 
-				<checkbox checked="@bind(vm.contribuyenteSelected.enviarAlerta)" mold="switch" />
-			
+				<checkbox
+					checked="@bind(vm.contribuyenteSelected.enviarAlerta)"
+					mold="switch" />
+
 			</tablechildren>
-			
+
 			<tablechildren colspan="2" />
-			
+
 			<tablechildren colspan="6">
-			
+
 				<space height="10px" />
-			
+
 			</tablechildren>
-			
-			<tablechildren >
-			
-				<label value= "Habilitado:" />
-			
+
+			<tablechildren>
+
+				<label value="Habilitado:" />
+
 			</tablechildren>
 			<tablechildren>
 
-				<checkbox checked="@bind(vm.contribuyenteSelected.habilitado)" mold="switch" />
-			
+				<checkbox
+					checked="@bind(vm.contribuyenteSelected.habilitado)" mold="switch" />
+
 			</tablechildren>
-			
-			
-			<tablechildren >
-			
-				<label value= "Pass WS:" />
-			
+
+
+			<tablechildren>
+
+				<label value="Pass WS:" />
+
 			</tablechildren>
-			
+
 			<tablechildren colspan="3" rowspan="2">
 
-				<textbox value="@load(vm.contribuyenteSelected.pass)" hflex="1" 
-				rows="2" readonly="true"/>
-			
+				<textbox value="@load(vm.contribuyenteSelected.pass)"
+					hflex="1" rows="2" readonly="true" />
+
 			</tablechildren>
-			
-			
-			<tablechildren >
-			
-				<label value= "Regenerar Pass WS:" />
-			
+
+
+			<tablechildren>
+
+				<label value="Regenerar Pass WS:" />
+
 			</tablechildren>
 			<tablechildren>
 
-				<button label="Regenerar" iconSclass="z-icon-refresh " 
-				onClick="@command('regenerarPass')"/>
-			
+				<button label="Regenerar" iconSclass="z-icon-refresh "
+					onClick="@command('regenerarPass')" />
+
 			</tablechildren>
-		
+
 		</tablelayout>
-		
-		<tablelayout columns="3">
-		
-			<tablechildren>
-			
-				<textbox value="@bind(vm.nombre)" placeholder="Nombre" />
-			
-			</tablechildren>
-			<tablechildren>
-			
-				<textbox value="@bind(vm.email)" placeholder="Correo"/>
-			
-			</tablechildren>
-			
-			<tablechildren>
-			
-				<button iconSclass="z-icon-plus"
-					onClick="@command('agregarContacto')"
-					tooltiptext="Agregar Contacto" />
-			
-			</tablechildren>
-		
-		</tablelayout>
-		<listbox emptyMessage="lista vacía..." mold="paging"
-					model="@load(vm.contribuyenteSelected.contactos)"
-					checkmark="true" 
-					width="750px" height="200px">
-				
-				<listhead>
 
-						<listheader hflex="min" align="center" />
-						<listheader label="NOMBRE" align="center" />
-						<listheader label="CORREO" align="center" />
-						<listheader width = "75px" align="center"/>
-						
-				</listhead>
-				
-					<template name="model">
 
-						<listitem>
-							<listcell />
-							<listcell label="@load(each.nombre)" />
-							<listcell label="@load(each.mail)" />
-							<listcell>
-							
+
+		<tabbox width="100%" sclass="nav_tabs">
+			<tabs id="tabs">
+				<tab label="Actividades" />
+				<tab label="Contactos" />
+
+			</tabs>
+			<tabpanels>
+				<tabpanel>
+
+					<tablelayout columns="2">
+
+						<tablechildren>
+
+							<bandbox id="bd3"
+								value="@load(vm.buscarActividadEconomica) @save(vm.buscarActividadEconomica, before='guardar')"
+								mold="rounded" autodrop="true" width="150px"
+								onOpen="@command('generarListaActividadesEconomicas')"
+								readonly="true">
+								<bandpopup>
+
+									<vbox>
+
+										<hbox>
+
+											<label value="Buscar:" />
+
+											<textbox instant="true"
+												value="@bind(vm.buscarActividadEconomica)"
+												onChange="@command('filtrarActividadEconomicaBuscar')" />
+
+										</hbox>
+
+										<listbox height="250px"
+											width="450px" mold="paging" autopaging="true"
+											onSelect="bd3.close()"
+											model="@load(vm.lActividadesEconomicasBuscar)">
+
+											<listhead>
+												<listheader
+													label="Codigo Sifen" hflex="min" />
+												<listheader
+													label="Actividad Economica" />
+
+											</listhead>
+
+											<template name="model">
+
+												<listitem
+													onClick="@command('onSelectActividadEconomica', id = each[0])">
+
+													<listcell
+														label="@load(each[1])" />
+
+													<listcell
+														label="@load(each[2])" tooltiptext="@load(each[2])" />
+
+
+												</listitem>
+
+											</template>
+											<listitem />
+										</listbox>
+
+									</vbox>
+								</bandpopup>
+							</bandbox>
+
+						</tablechildren>
+						<tablechildren>
+
+							<button iconSclass="z-icon-plus"
+								onClick="@command('agregarActividadEconomica')"
+								tooltiptext="Agregar Actividad" />
+
+						</tablechildren>
+
+
+					</tablelayout>
+
+					<listbox emptyMessage="lista vacía..." mold="paging"
+						model="@load(vm.contribuyenteSelected.actividades)"
+						checkmark="true" width="750px" height="200px">
+
+						<listhead>
+
+							<listheader hflex="min" align="center" />
+							<listheader label="Codigo" hflex="min" />
+							<listheader label="Actividad Economica"
+								align="center" />
+							<listheader hflex="min" />
+						</listhead>
+
+						<template name="model">
+
+							<listitem>
+								<listcell />
+								<listcell label="@load(each.codigo)" />
+								<listcell
+									label="@load(each.descripcion)"
+									tooltiptext="@load(each.descripcion)" />
+								<listcell>
+
+									<button iconSclass="z-icon-trash-o"
+										style="background-color:red"
+										onClick="@command('removerActividadEconomica', actividadEconomica=each)"
+										tooltiptext="Borrar" />
+
+
+								</listcell>
+							</listitem>
+						</template>
+
+					</listbox>
+
+				</tabpanel>
+				<tabpanel>
+
+					<tablelayout columns="3">
+
+						<tablechildren>
+
+							<textbox value="@bind(vm.nombre)"
+								placeholder="Nombre" />
+
+						</tablechildren>
+						<tablechildren>
+
+							<textbox value="@bind(vm.email)"
+								placeholder="Correo" />
+
+						</tablechildren>
+
+						<tablechildren>
+
+							<button iconSclass="z-icon-plus"
+								onClick="@command('agregarContacto')"
+								tooltiptext="Agregar Contacto" />
+
+						</tablechildren>
+
+					</tablelayout>
+
+					<listbox emptyMessage="lista vacía..." mold="paging"
+						model="@load(vm.contribuyenteSelected.contactos)" checkmark="true"
+						width="750px" height="200px">
+
+						<listhead>
+
+							<listheader hflex="min" align="center" />
+							<listheader label="NOMBRE" align="center" />
+							<listheader label="CORREO" align="center" />
+							<listheader width="75px" align="center" />
+
+						</listhead>
+
+						<template name="model">
+
+							<listitem>
+								<listcell />
+								<listcell label="@load(each.nombre)" />
+								<listcell label="@load(each.mail)" />
+								<listcell>
+
 									<button iconSclass="z-icon-trash-o"
 										style="background-color:red"
 										onClick="@command('removerContacto', contacto=each)"
-										tooltiptext="Borrar"
-										 />
-									
-							
-							</listcell>
-						</listitem>
-					</template>
+										tooltiptext="Borrar" />
 
-		
-		</listbox>
 
-		
+								</listcell>
+							</listitem>
+						</template>
 
-			<space height="10px" />
 
-			<hlayout>
+					</listbox>
+				</tabpanel>
+			</tabpanels>
+		</tabbox>
 
-				<button label="Aceptar" onClick="@command('guardar')"/>
 
-			</hlayout>
 
-		
+		<space height="10px" />
+
+		<hlayout>
+
+			<button label="Aceptar" onClick="@command('guardar')" />
+
+		</hlayout>
+
+
 
 
 	</window>
