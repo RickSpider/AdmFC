@@ -58,6 +58,7 @@ public class Contribuyente extends Modelo implements Serializable {
     private String nombre; //razon social
     private String nombreFantacia;
     private String direccion;
+    @Column(name="num_casa")
     private String numCasa;
 
     @ManyToOne
