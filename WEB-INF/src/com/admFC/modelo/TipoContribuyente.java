@@ -6,6 +6,7 @@
 package com.admFC.modelo;
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +31,11 @@ public class TipoContribuyente extends Modelo implements Serializable {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)    
     private Long tipocontribuyenteid;
+	
+	@Column(name="tipo_contribuyente")
     private String tipoContribuyente;
+	
+	@Column(name="codigo_sifen")
     private Long codigoSifen;
 
     public Long getCodigoSifen() {

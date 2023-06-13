@@ -6,6 +6,8 @@
 package com.admFC.modelo;
 
 import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +32,8 @@ public class TipoImpuesto extends Modelo implements Serializable{
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long tipoimpuestoid;
+	
+	@Column(name="codigo_sifen")
     private Long codigoSifen;
     private String descripcion;
 
