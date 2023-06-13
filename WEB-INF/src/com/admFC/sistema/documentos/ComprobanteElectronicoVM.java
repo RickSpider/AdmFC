@@ -84,13 +84,20 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		String sql = this.um.getSql("comprobanteElectronico/listaComprobantesElectronicos.sql")
-				.replace("?1", sdf.format(desde)).replace("?2", sdf.format(hasta))
-				.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
-		;
+		if (lContribuyentes.size()  > 0) {
+			
 
-		this.lComprobantesElectronicos = this.reg.sqlNativo(sql);
-		this.lComprobantesElectronicosOri = this.lComprobantesElectronicos;
+			String sql = this.um.getSql("comprobanteElectronico/listaComprobantesElectronicos.sql")
+					.replace("?1", sdf.format(desde)).replace("?2", sdf.format(hasta))
+					.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
+			
+
+			this.lComprobantesElectronicos = this.reg.sqlNativo(sql);
+			this.lComprobantesElectronicosOri = this.lComprobantesElectronicos;
+			
+		}
+		
+		
 
 	}
 	

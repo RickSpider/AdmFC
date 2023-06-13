@@ -77,17 +77,22 @@ public class EventoVM extends TemplateViewModelLocal {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		String sql = this.um.getSql("evento/listaEventos.sql")
-				.replace("?1", sdf.format(desde)).replace("?2", sdf.format(hasta))
-				.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
-		;
-
-		System.out.println("==================SQL EVENTOS=====================");
-		System.out.println(sql);
-		System.out.println("==================================================");
 		
-		this.lEventos = this.reg.sqlNativo(sql);
-		this.lEventosOri = this.lEventos;
+		if (lContribuyentes.size()  > 0) {
+			
+			String sql = this.um.getSql("evento/listaEventos.sql")
+					.replace("?1", sdf.format(desde)).replace("?2", sdf.format(hasta))
+					.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
+			;
+	
+			System.out.println("==================SQL EVENTOS=====================");
+			System.out.println(sql);
+			System.out.println("==================================================");
+			
+			this.lEventos = this.reg.sqlNativo(sql);
+			this.lEventosOri = this.lEventos;
+		
+		}
 
 	}
 	

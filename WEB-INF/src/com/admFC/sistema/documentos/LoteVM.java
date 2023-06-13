@@ -79,17 +79,21 @@ public class LoteVM extends TemplateViewModelLocal {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		String sql = this.um.getSql("lote/listaLotes.sql")
-				.replace("?1", sdf.format(desde)).replace("?2", sdf.format(hasta))
-				.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
-		;
-
-		System.out.println("==================SQL LOTES=====================");
-		System.out.println(sql);
-		System.out.println("==================================================");
+		if (lContribuyentes.size()  > 0) {
 		
-		this.lLotes = this.reg.sqlNativo(sql);
-		this.lLotesOri = this.lLotes;
+			String sql = this.um.getSql("lote/listaLotes.sql")
+					.replace("?1", sdf.format(desde)).replace("?2", sdf.format(hasta))
+					.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
+			;
+	
+			System.out.println("==================SQL LOTES=====================");
+			System.out.println(sql);
+			System.out.println("==================================================");
+			
+			this.lLotes = this.reg.sqlNativo(sql);
+			this.lLotesOri = this.lLotes;
+			
+		}
 
 	}
 	
