@@ -27,6 +27,7 @@ import com.doxacore.modelo.Usuario;
 import com.doxacore.modelo.UsuarioRol;
 import com.doxacore.util.UtilStaticMetodos;
 import com.google.gson.Gson;
+import java.util.Random;
 
 
 
@@ -148,7 +149,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal{
 		}else {
 			
 			this.contribuyenteSelected = new Contribuyente();
-			
+			this.contribuyenteSelected.setPass(UtilStaticMetodos.getSHA256(this.GenerarStringAleatorio()));
 		}
 		
 
@@ -157,6 +158,14 @@ public class ContribuyenteVM extends TemplateViewModelLocal{
 		Selectors.wireComponents(modal, this, false);
 		modal.doModal();
 
+	}
+	
+	@Command
+	@NotifyChange("contribuyenteSelected")
+	public void regenerarPass() {
+		
+		this.contribuyenteSelected.setPass(UtilStaticMetodos.getSHA256(this.GenerarStringAleatorio()));
+		
 	}
 	
 	@Command
@@ -309,6 +318,23 @@ public class ContribuyenteVM extends TemplateViewModelLocal{
 		this.contribuyenteSelected.getContactos().remove(contacto);
 		
 	}
+	
+	  public String GenerarStringAleatorio() {
+	        int length = 8; // Longitud del string aleatorio
+	        String caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!$%&";
+	        StringBuilder sb = new StringBuilder();
+
+	        Random random = new Random();
+	        for (int i = 0; i < length; i++) {
+	            int index = random.nextInt(caracteres.length());
+	            char randomChar = caracteres.charAt(index);
+	            sb.append(randomChar);
+	        }
+
+	        String stringAleatorio = sb.toString();
+	        System.out.println("String aleatorio: " + stringAleatorio);
+	        return stringAleatorio;
+	    }
 	
 	public Contribuyente getContribuyenteSelected() {
 		return contribuyenteSelected;
