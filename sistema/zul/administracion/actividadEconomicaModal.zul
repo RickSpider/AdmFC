@@ -1,0 +1,69 @@
+<?page title="agenciaMOdal" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Actividad Economica Crear/Ver/Editar" border="normal"
+		position="center,center" closable="true" mode="modal"
+		action="show: slideDown;hide: slideUp">
+		
+		
+		<space height="10px" />
+		
+				
+		<tablelayout columns="2">
+		
+			<tablechildren>
+			
+				<label value= "ID:" />
+			
+			</tablechildren>			
+			<tablechildren>
+
+				<textbox value="@load(vm.actividadEconomicaSelected.actividadeconomicaid)"
+					width="75px" readonly="true"/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Codigo:" />
+			
+			</tablechildren>
+
+			
+			<tablechildren>
+
+				<textbox value="@bind(vm.actividadEconomicaSelected.codigo)"
+					width="100px" />
+			
+			</tablechildren>
+			
+			
+			<tablechildren>
+			
+				<label value= "Descripcion:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.actividadEconomicaSelected.descripcion)"
+					width="300px"  rows="2"/>
+			
+			</tablechildren>
+		
+		
+		</tablelayout>
+
+		
+
+			<space height="10px" />
+
+			<hlayout>
+
+				<button label="Aceptar" onClick="@command('guardar')" />
+
+			</hlayout>
+
+		
+
+
+	</window>
+</zk>

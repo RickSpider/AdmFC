@@ -40,4 +40,8 @@ public class ParamsLocal extends Params {
 	public static final String OP_EDITAR_LOTE = "EditarLote";
 	public static final String OP_BORRAR_LOTE = "BorrarLote";
 	
+	public static final String OP_CREAR_ACTIVIDADECONOMICA = "CrearActividadEconomica";
+	public static final String OP_EDITAR_ACTIVIDADECONOMICA = "EditarActividadEconomica";
+	public static final String OP_BORRAR_ACTIVIDADECONOMICA = "BorrarActividadEconomica";
+	
 }

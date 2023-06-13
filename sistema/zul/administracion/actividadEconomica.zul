@@ -1,0 +1,112 @@
+<?page title="ActividadesEconomicas" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="ActividadEconomica" border="normal"
+		viewModel="@id('vm') @init('com.admFC.sistema.administracion.ActividadEconomicaVM')"
+		vflex="1" id="Body" apply="org.zkoss.bind.BindComposer">
+
+		<hlayout vflex="1">
+
+			<vlayout hflex="1" vflex="1">
+
+				<hbox pack="end" hflex="1">
+
+					<button label="Agregar" iconSclass=" z-icon-plus"
+						onClick="@command('modalActividadEconomicaAgregar')"
+						disabled="@load(!vm.opCrearActividadEconomica)" />
+
+				</hbox>
+
+				<listbox emptyMessage="lista vacía..." mold="paging"
+					vflex="1" model="@load(vm.lActividadesEconomicas)" checkmark="true">
+
+					<listhead>
+
+						<listheader hflex="min" align="center" />
+						<listheader label="ID" align="right"
+							hflex="min" />
+							<listheader label="Codigo" align="left" />
+						<listheader label="Actividad Economica" align="left" />
+
+						<listheader align="center" width="150px" />
+
+
+					</listhead>
+
+
+					<auxhead>
+
+						<auxheader />
+						<auxheader />
+						
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[1])"
+								instant="true" onChange="@command('filtrarActividadEconomica')"
+								hflex="1" />
+						</auxheader>
+
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[2])"
+								instant="true" onChange="@command('filtrarActividadEconomica')"
+								hflex="1" />
+						</auxheader>
+						
+						<auxheader />
+
+
+					</auxhead>
+
+					<template name="model">
+
+						<listitem>
+							<listcell />
+							<listcell label="@load(each[0])" />
+							<listcell label="@load(each[1])" />
+							<listcell label="@load(each[2])" />
+
+
+							<listcell>
+								<hlayout>
+								
+									<button iconSclass="z-icon-edit"
+										onClick="@command('modalActividadEconomica', actividadEconomicaid=each[0])"
+										tooltiptext="Editar"
+										disabled="@load(!vm.opEditarActividadEconomica)" />
+									<button iconSclass="z-icon-trash-o"
+										style="background-color:red"
+										onClick="@command('borrarActividadEconomicaConfirmacion', actividadEconomicaid=each[0])"
+										tooltiptext="Borrar"
+										disabled="@load(!vm.opBorrarActividadEconomica)" />
+
+
+								</hlayout>
+
+
+							</listcell>
+
+
+						</listitem>
+
+
+					</template>
+
+					<listfoot>
+						<listfooter span="4" align="left">
+							<hlayout>
+								<label
+									value="@load(vm.lActividadesEconomicas.size())" />
+								<label value="items" />
+							</hlayout>
+						</listfooter>
+					</listfoot>
+
+
+				</listbox>
+
+			</vlayout>
+
+
+
+		</hlayout>
+
+	</window>
+</zk>
