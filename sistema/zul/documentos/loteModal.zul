@@ -1,6 +1,6 @@
 <?page title="agenciaMOdal" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window title="Comprobante Elecronico Crear/Ver/Editar" border="normal"
+	<window title="Lote Crear/Ver/Editar" border="normal"
 		position="center,center" closable="true" mode="modal"
 		action="show: slideDown;hide: slideUp">
 		
