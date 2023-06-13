@@ -6,6 +6,8 @@
 package com.admFC.modelo;
 
 import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -32,6 +34,7 @@ public class Distrito extends Modelo implements Serializable {
 	@Id
     private Long distritoid;
     private String distrito;
+    @Column(name="codigo_sifen")
     private Long codigoSifen;
     
     @ManyToOne
