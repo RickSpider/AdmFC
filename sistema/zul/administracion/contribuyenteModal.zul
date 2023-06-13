@@ -294,7 +294,7 @@
 			
 			</tablechildren>
 			
-			<tablechildren>
+			<tablechildren >
 			
 				<label value= "Habilitado:" />
 			
@@ -302,6 +302,33 @@
 			<tablechildren>
 
 				<checkbox checked="@bind(vm.contribuyenteSelected.habilitado)" mold="switch" />
+			
+			</tablechildren>
+			
+			
+			<tablechildren >
+			
+				<label value= "Pass WS:" />
+			
+			</tablechildren>
+			
+			<tablechildren colspan="3" rowspan="2">
+
+				<textbox value="@load(vm.contribuyenteSelected.pass)" hflex="1" 
+				rows="2" readonly="true"/>
+			
+			</tablechildren>
+			
+			
+			<tablechildren >
+			
+				<label value= "Regenerar Pass WS:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<button label="Regenerar" iconSclass="z-icon-refresh " 
+				onClick="@command('regenerarPass')"/>
 			
 			</tablechildren>
 		
