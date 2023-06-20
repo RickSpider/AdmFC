@@ -83,7 +83,7 @@ public class Contribuyente extends Modelo implements Serializable {
             name = "contribuyentesactividades",
             joinColumns = @JoinColumn(name = "contribuyenteid"),
             inverseJoinColumns = @JoinColumn(name = "actividadeconomicaid"))
-    private Set<ActividadEconomica> actividades;
+    private Set<ActividadEconomica> actividades = new HashSet<ActividadEconomica>();
 
     private String pass;
 

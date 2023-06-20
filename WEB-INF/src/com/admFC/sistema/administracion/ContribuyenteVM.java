@@ -540,6 +540,17 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 			return;
 
 		}
+		
+		for (ActividadEconomica x : this.contribuyenteSelected.getActividades()) {
+			
+			if (x.getActividadeconomicaid().longValue() == this.actividadEconomicaSelected.getActividadeconomicaid().longValue()) {
+				this.actividadEconomicaSelected = null;
+				this.buscarActividadEconomica = "";
+				return;
+				
+			}
+			
+		}
 
 		this.contribuyenteSelected.getActividades().add(this.actividadEconomicaSelected);
 		this.actividadEconomicaSelected = null;
