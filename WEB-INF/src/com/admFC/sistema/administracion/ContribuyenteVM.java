@@ -2,6 +2,7 @@ package com.admFC.sistema.administracion;
 
 import java.util.List;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -532,7 +533,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	}
 
 	@Command
-	@NotifyChange({ "buscarActividadEconomica", "contribuyenteSelected" })
+	@NotifyChange({ "buscarActividadEconomica"})
 	public void agregarActividadEconomica() {
 
 		if (this.actividadEconomicaSelected == null) {
@@ -555,6 +556,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		this.contribuyenteSelected.getActividades().add(this.actividadEconomicaSelected);
 		this.actividadEconomicaSelected = null;
 		this.buscarActividadEconomica = "";
+		BindUtils.postNotifyChange(null, null, this.contribuyenteSelected, "actividades");
 	}
 
 	@Command
