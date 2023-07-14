@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.hibernate.annotations.CreationTimestamp;
+
 
 import com.doxacore.modelo.Modelo;
 
@@ -39,7 +39,7 @@ public class Lote extends Modelo implements Serializable{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long loteid;
     
-    @CreationTimestamp 
+    
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;

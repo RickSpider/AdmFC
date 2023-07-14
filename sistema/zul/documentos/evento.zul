@@ -56,6 +56,19 @@
 					</tablelayout>
 
 					<hbox pack="end" hflex="1">
+					
+						
+						<button label="Refrescar"
+							style="background-color:orange"
+							iconSclass=" z-icon-refresh "
+							onClick="@command('cargarEventos')"
+							 />
+					
+						<button label="Enviar Comprobantes"
+							style="background-color:yellowgreen"
+							iconSclass="z-icon-cloud-upload "
+							onClick="@command('enviarEventos')"
+							 />
 
 						<button label="Agregar"
 							iconSclass=" z-icon-plus"

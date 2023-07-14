@@ -1,5 +1,6 @@
 package com.admFC.sistema.documentos;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,6 +20,8 @@ import com.admFC.modelo.Evento;
 import com.admFC.modelo.Contribuyente;
 import com.admFC.util.ParamsLocal;
 import com.admFC.util.TemplateViewModelLocal;
+import com.admFC.util.conexionRest.HttpConexion;
+import com.admFC.util.conexionRest.ResultRest;
 import com.doxacore.modelo.Auditoria;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -73,7 +76,9 @@ public class EventoVM extends TemplateViewModelLocal {
 
 	}
 
-	private void cargarEventos() {
+	@Command
+	@NotifyChange("*")
+	public void cargarEventos() {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -211,6 +216,20 @@ public class EventoVM extends TemplateViewModelLocal {
 		this.cargarEventos();
 		
 	}
+	
+	@Command
+	@NotifyChange("lEventos")
+	public void enviarEventos() throws IOException {
+	
+		HttpConexion conn = new HttpConexion();
+		String link = this.getSistemaPropiedad("SERVIDOR_FC").getValor()+this.getSistemaPropiedad("ENVIO_EVENTO").getValor();
+		ResultRest rr = conn.consumirREST(link, HttpConexion.GET,"");
+				
+		Notification.show("Respuesta de servido:\n Code:"+rr.getCode()+"\n Mensaje: "+rr.getMensaje());
+		
+		this.cargarEventos();
+	}
+
 
 	public List<Object[]> getlEventos() {
 		return lEventos;
