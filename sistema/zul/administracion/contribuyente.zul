@@ -73,14 +73,14 @@
 								<hlayout>
 									<button iconSclass="z-icon-user"
 										onClick="@command('modalContribuyenteUsuario', contribuyenteid=each[0])"
-										style="background-color:green" tooltiptext="Agregar Usuario"
+										class="doxa-button-green" tooltiptext="Agregar Usuario"
 										disabled="@load(!vm.opAgregarContribuyenteUsuario)" />
 									<button iconSclass="z-icon-edit"
 										onClick="@command('modalContribuyente', contribuyenteid=each[0])"
 										tooltiptext="Editar"
 										disabled="@load(!vm.opEditarContribuyente)" />
 									<button iconSclass="z-icon-trash-o"
-										style="background-color:red"
+										class="doxa-button-red"
 										onClick="@command('borrarContribuyenteConfirmacion', contribuyente=each[0])"
 										tooltiptext="Borrar"
 										disabled="@load(!vm.opBorrarContribuyente)" />

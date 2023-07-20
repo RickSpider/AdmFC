@@ -59,13 +59,13 @@
 					
 						
 						<button label="Refrescar"
-							style="background-color:orange"
+							class="doxa-button-orange"
 							iconSclass=" z-icon-refresh "
 							onClick="@command('cargarEventos')"
 							 />
 					
 						<button label="Enviar Comprobantes"
-							style="background-color:yellowgreen"
+							class="doxa-button-green"
 							iconSclass="z-icon-cloud-upload "
 							onClick="@command('enviarEventos')"
 							 />
@@ -194,7 +194,7 @@
 										tooltiptext="Editar"
 										disabled="@load(!vm.opEditarEvento)" />
 									<button iconSclass="z-icon-trash-o"
-										style="background-color:red"
+										class="doxa-button-red"
 										onClick="@command('borrarEventoConfirmacion', evento=each[0])"
 										tooltiptext="Borrar"
 										disabled="@load(!vm.opBorrarEvento)" />

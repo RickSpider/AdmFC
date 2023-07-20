@@ -72,7 +72,7 @@
 										tooltiptext="Editar"
 										disabled="@load(!vm.opEditarActividadEconomica)" />
 									<button iconSclass="z-icon-trash-o"
-										style="background-color:red"
+										class="doxa-button-red"
 										onClick="@command('borrarActividadEconomicaConfirmacion', actividadEconomicaid=each[0])"
 										tooltiptext="Borrar"
 										disabled="@load(!vm.opBorrarActividadEconomica)" />
