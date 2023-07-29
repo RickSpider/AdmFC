@@ -84,7 +84,7 @@
 
 				</hbox>
 
-				<listbox emptyMessage="lista vacía..." mold="paging"
+				<listbox emptyMessage="lista vacía..." mold="paging" autopaging="true"
 					vflex="1" model="@load(vm.lComprobantesElectronicos)"
 					checkmark="true">
 
