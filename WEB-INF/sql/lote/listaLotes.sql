@@ -4,7 +4,8 @@ l.loteid,
 c.nombre,
 TO_CHAR(l.fecha, 'yyyy-mm-dd HH24:MI:SS'),
 l.nro,
-l.estado
+l.estado,
+l.ambiente
 
 from lotes l
 left join contribuyentes c on c.contribuyenteid = l.contribuyenteid

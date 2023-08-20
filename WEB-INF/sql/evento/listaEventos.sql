@@ -7,7 +7,8 @@ e.cdc,
 e.motivo,
 e.enviado,
 e.estado,
-e.mensaje
+e.mensaje,
+e.ambiente
 
 from Eventos e
 left join contribuyentes c on c.contribuyenteid = e.contribuyenteid

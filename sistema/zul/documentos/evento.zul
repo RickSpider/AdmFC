@@ -105,6 +105,9 @@
 
 						<listheader label="Mensaje" align="center"
 							hflex="min" />
+							
+						<listheader label="Ambiente" align="center"
+							hflex="min" />
 
 						<listheader align="center" width="100px" />
 
@@ -158,6 +161,12 @@
 								instant="true"
 								onChange="@command('filtrarEvento')" hflex="1" />
 						</auxheader>
+						
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[8])"
+								instant="true"
+								onChange="@command('filtrarEvento')" hflex="1" />
+						</auxheader>
 
 						<auxheader />
 
@@ -184,6 +193,8 @@
 								tooltiptext="@load(each[6])" />
 							<listcell label="@load(each[7])"
 								tooltiptext="@load(each[7])" />
+							<listcell label="@load(each[8])"
+								tooltiptext="@load(each[8])" />
 				
 
 							<listcell>

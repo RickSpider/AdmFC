@@ -117,6 +117,9 @@
 
 						<listheader label="Tipo Comprobante"
 							align="center" hflex="min"/>
+						
+						<listheader label="Ambiente"
+							align="center" hflex="min"/>
 
 
 						<listheader align="center" hflex="min" />
@@ -188,6 +191,12 @@
 								instant="true"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
+						
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[12])"
+								instant="true"
+								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
+						</auxheader>
 
 
 					</auxhead>
@@ -228,6 +237,9 @@
 								
 							<listcell label="@load(each[10])"
 								tooltiptext="@load(each[10])" style="text-align: Left" />
+								
+							<listcell label="@load(each[12])"
+								tooltiptext="@load(each[12])" />
 
 
 							<listcell>

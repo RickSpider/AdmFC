@@ -86,9 +86,9 @@ public class LoteVM extends TemplateViewModelLocal {
 					.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
 			;
 	
-			System.out.println("==================SQL LOTES=====================");
-			System.out.println(sql);
-			System.out.println("==================================================");
+			//System.out.println("==================SQL LOTES=====================");
+			//System.out.println(sql);
+			//System.out.println("==================================================");
 			
 			this.lLotes = this.reg.sqlNativo(sql);
 			this.lLotesOri = this.lLotes;
@@ -103,7 +103,7 @@ public class LoteVM extends TemplateViewModelLocal {
 
 	private void inicializarFiltros() {
 
-		this.filtroColumns = new String[10]; 
+		this.filtroColumns = new String[6]; 
 		
 
 		for (int i = 0; i < this.filtroColumns.length; i++) {

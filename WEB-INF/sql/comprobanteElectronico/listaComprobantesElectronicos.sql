@@ -10,7 +10,8 @@ ce.envioporlote,
 ce.enviadolote, 
 l.nro,
 tce.tipocomprobanteelectronico,
-ce.enlaceqr
+ce.enlaceqr,
+ce.ambiente
 from comprobanteselectronicos ce
 left join tiposcomprobanteselectronicos tce on tce.tipocomprobanteelectronicoid = ce.tipocomprobanteelectronicoid 
 left join lotes l on l.loteid = ce.loteid

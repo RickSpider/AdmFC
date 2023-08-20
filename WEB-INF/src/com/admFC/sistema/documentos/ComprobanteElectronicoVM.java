@@ -107,7 +107,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 
 	private void inicializarFiltros() {
 
-		this.filtroColumns = new String[11]; 
+		this.filtroColumns = new String[13]; 
 		
 
 		for (int i = 0; i < this.filtroColumns.length; i++) {

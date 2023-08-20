@@ -90,9 +90,9 @@ public class EventoVM extends TemplateViewModelLocal {
 					.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
 			;
 	
-			System.out.println("==================SQL EVENTOS=====================");
-			System.out.println(sql);
-			System.out.println("==================================================");
+			//System.out.println("==================SQL EVENTOS=====================");
+			//System.out.println(sql);
+			//System.out.println("==================================================");
 			
 			this.lEventos = this.reg.sqlNativo(sql);
 			this.lEventosOri = this.lEventos;
@@ -107,7 +107,7 @@ public class EventoVM extends TemplateViewModelLocal {
 
 	private void inicializarFiltros() {
 
-		this.filtroColumns = new String[10]; 
+		this.filtroColumns = new String[9]; 
 		
 
 		for (int i = 0; i < this.filtroColumns.length; i++) {

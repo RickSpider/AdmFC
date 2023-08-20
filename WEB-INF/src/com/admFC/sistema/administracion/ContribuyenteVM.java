@@ -352,7 +352,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		}
 
 		String stringAleatorio = sb.toString();
-		System.out.println("String aleatorio: " + stringAleatorio);
+		//System.out.println("String aleatorio: " + stringAleatorio);
 		return stringAleatorio;
 	}
 

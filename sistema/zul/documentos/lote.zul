@@ -83,6 +83,9 @@
 
 						<listheader label="Estado" align="center"
 							 />
+							 
+						<listheader label="Ambiente" align="center"
+							 />
 
 						<listheader align="center" width="100px" />
 
@@ -117,6 +120,12 @@
 								instant="true"
 								onChange="@command('filtrarLote')" hflex="1" />
 						</auxheader>
+						
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[5])"
+								instant="true"
+								onChange="@command('filtrarLote')" hflex="1" />
+						</auxheader>
 
 						<auxheader />
 
@@ -140,6 +149,8 @@
 							</listcell>
 							<listcell label="@load(each[4])"
 								tooltiptext="@load(each[4])" />
+							<listcell label="@load(each[5])"
+								tooltiptext="@load(each[5])" />
 					
 				
 
