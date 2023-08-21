@@ -252,19 +252,42 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 	private List<ContribuyenteUsuario> lContribuyentesUsuarios;
 	private Usuario usuarioSelected;
+	
+	@Command
+	@NotifyChange("usuarioSelected")
+	public void onBlurUsuario() {
+		
+		Usuario us = this.reg.getObjectByColumnString(Usuario.class.getName(), "account", this.usuarioSelected.getAccount());
+		
+		if (us != null) {
+			
+			this.usuarioSelected = us;
+			
+		}
+		
+		
+	}
 
 	@Command
 	@NotifyChange({ "lContribuyentesUsuarios", "usuarioSelected" })
 	public void agregarUsuario() {
 
+		
 		ContribuyenteUsuario cu = new ContribuyenteUsuario();
-		this.usuarioSelected.setActivo(true);
-		this.usuarioSelected.setPassword(UtilStaticMetodos.getSHA256(this.usuarioSelected.getAccount()));
-
+		
+		if (this.usuarioSelected.getUsuarioid() == null) {
+			
+			this.usuarioSelected.setActivo(true);
+			this.usuarioSelected.setPassword(UtilStaticMetodos.getSHA256(this.usuarioSelected.getAccount()));
+			
+		}
+		
 		cu.setContribuyente(this.contribuyenteSelected);
 		cu.setUsuario(this.usuarioSelected);
-
+		
 		lContribuyentesUsuarios.add(cu);
+		
+		
 
 		this.usuarioSelected = new Usuario();
 

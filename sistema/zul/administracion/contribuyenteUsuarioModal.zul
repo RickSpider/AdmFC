@@ -14,7 +14,7 @@
 			<tablechildren>
 
 				<textbox value="@bind(vm.usuarioSelected.account)"
-					width="150px" />
+					width="150px" onBlur="@command('onBlurUsuario')"/>
 
 			</tablechildren>
 
