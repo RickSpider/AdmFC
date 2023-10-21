@@ -2,7 +2,8 @@ Select
 c.contribuyenteid,  
 c.nombre, 
 c.ruc||'-'||c.dv,  
-ambiente 
+c.ambiente, 
+c.habilitado
 from contribuyentes c
 --left join contribuyentesusuarios cu on cu.contribuyenteid = c.contribuyenteid 
 --where cu.usuarioid = ?1

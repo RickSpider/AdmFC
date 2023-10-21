@@ -163,7 +163,7 @@
 										disabled="@load(!vm.opEditarLote)" />
 									<button iconSclass="z-icon-trash-o"
 										class="doxa-button-red"
-										onClick="@command('borrarLoteConfirmacion', lote=each[0])"
+										onClick="@command('borrarConfirmacion', dato=each[0])"
 										tooltiptext="Borrar"
 										disabled="@load(!vm.opBorrarLote)" />
 

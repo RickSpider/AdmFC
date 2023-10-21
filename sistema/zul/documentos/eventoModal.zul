@@ -1,0 +1,172 @@
+<?page title="eventoModal" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="EVento Crear/Ver/Editar" border="normal"
+		position="center,center" closable="true" mode="modal"
+		action="show: slideDown;hide: slideUp">
+		
+		<space height="10px" />
+		
+		<vbox>
+		
+			<hbox>
+			<label value ="Nota:" style="font-weight:bold" />
+			Los cambios hechos quedan exclusivamente bajo responsabilidad del operador.
+			</hbox>
+			<tablelayout columns="2">
+		
+				<tablechildren>
+					<label value ="CamposBloqueados:" style="font-weight:bold" />
+				</tablechildren>
+				<tablechildren>
+						<checkbox checked="@bind(vm.camposBloqueados)" mold="switch" />
+				</tablechildren>
+			
+			</tablelayout>
+		
+		</vbox>
+			
+		
+		
+		<space height="10px" />
+		
+				
+		<tablelayout columns="4">
+		
+			<tablechildren>
+			
+				<label value= "ID:" />
+			
+			</tablechildren>			
+			<tablechildren>
+
+				<textbox value="@bind(vm.eventoSelected.eventoid)"
+					width="75px" readonly="true"/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Ambiente:" />
+			
+			</tablechildren>			
+			<tablechildren>
+
+				<textbox value="@bind(vm.eventoSelected.ambiente)"
+					width="75px" readonly="true"/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Fecha:" />
+			
+			</tablechildren>
+
+			
+			<tablechildren>
+
+				<textbox value="@bind(vm.eventoSelected.fecha)"
+					width="150px" readonly="true"/>
+			
+			</tablechildren>
+			
+			
+			<tablechildren>
+			
+				<label value= "Contribuyente:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.eventoSelected.contribuyente.nombre)"
+					width="150px"  readonly="true"/>
+			
+			</tablechildren>
+			
+			
+			<tablechildren>
+			
+				<label value= "CDC" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.eventoSelected.cdc)"
+					width="150px"  readonly="true"/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+					<label value ="Enviado: "/>
+				</tablechildren>
+				<tablechildren>
+						<checkbox checked="@bind(vm.eventoSelected.enviado)" mold="switch" disabled="@load(vm.camposBloqueados)"/>
+				</tablechildren>
+			
+			
+			
+			<tablechildren>
+			
+				<label value= "Estado:" />
+			
+			</tablechildren>
+
+			
+			
+			<tablechildren>
+
+				<textbox value="@bind(vm.eventoSelected.estado)"
+					width="150px" readonly="@load(vm.camposBloqueados)"/>
+			
+			</tablechildren>
+			
+			<tablechildren colspan="2"/>
+			
+			<tablechildren >
+			
+				<label value= "Respespuesta:" />
+			
+			</tablechildren>
+			<tablechildren  colspan="3">
+
+				<textbox value="@load(vm.eventoSelected.respuesta)"
+					width="450px"
+					rows="10"
+					readonly="true"
+					/>
+			
+			</tablechildren>
+			
+			<tablechildren >
+			
+				<label value= "Mensaje:" />
+			
+			</tablechildren>
+			<tablechildren  colspan="3">
+
+				<textbox value="@load(vm.eventoSelected.mensaje)"
+					width="450px"
+					rows="10"
+					readonly="true"
+					/>
+			
+			</tablechildren>
+		
+		
+		</tablelayout>
+
+		
+
+			<space height="10px" />
+
+			<hlayout>
+
+				<button label="Aceptar" onClick="@command('guardar')" />
+
+			</hlayout>
+
+		
+
+
+	</window>
+</zk>

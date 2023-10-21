@@ -64,6 +64,8 @@ public class Evento extends Modelo implements Serializable {
     @ManyToOne
     @JoinColumn(name = "contribuyenteid")
     private Contribuyente contribuyente;
+    
+    private String ambiente;
 
     public Long getEventoid() {
         return eventoid;
@@ -155,6 +157,14 @@ public class Evento extends Modelo implements Serializable {
 	public String getStringDatos() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public String getAmbiente() {
+		return ambiente;
+	}
+
+	public void setAmbiente(String ambiente) {
+		this.ambiente = ambiente;
 	}
     
     

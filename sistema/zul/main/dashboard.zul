@@ -1,0 +1,68 @@
+<?page title="Dashboard" contentType="text/html;charset=UTF-8"?>
+
+<?component name="statBox" templateURI="/doxacore/zul/component/statBox.zul"?>
+<?component name="finder" templateURI="/doxacore/zul/component/finder.zul"?>
+
+<zk xmlns:h="http://www.w3.org/1999/xhtml">
+	<window title="Dashboard" border="normal" vflex="1" hflex="1"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('com.admFC.sistema.main.DashboardVM')">
+
+		<h:h6>FILTRO DE DATOS</h:h6>
+		<h:hr class="hr" />
+		<h:div>	
+			
+			<tablelayout columns="6">
+			
+				<tablechildren>
+					<label value="Contribuyente: " style="font-weight: bold; "/>
+				</tablechildren>
+				<tablechildren width="160px">
+					<finder finderValue="@load(vm.contribuyenteSelected.nombre)" finderModel="@init(vm.contribuyenteFinder)"/>
+				</tablechildren>
+				
+				<tablechildren>
+					<label value="Desde: " style="font-weight: bold; "/>
+				</tablechildren>
+				<tablechildren width="160px">
+					<datebox value="@bind(vm.desde)"
+								format="dd/MM/yyyy" onChange="@command('onChangeFiltroFechas')"
+								width="150px"/>
+				</tablechildren>
+				
+				<tablechildren>
+					<label value="Hasta: " style="font-weight: bold; "/>
+				</tablechildren>
+				<tablechildren width="160px">
+					<datebox value="@bind(vm.hasta)"
+								format="dd/MM/yyyy" onChange="@command('onChangeFiltroFechas')"
+								width="150px"/>
+				</tablechildren>
+			
+			</tablelayout>
+			
+		</h:div>
+		
+		<space width="50px"/>
+		
+
+		<h:h6>COMPROBANTES ELECTRONICOS</h:h6>
+		<h:hr class="hr" />
+
+		<h:div sclass="row">
+			<forEach items="@init(vm.lStatsComprobantes)">
+				<statBox statBlock="@init(each)" />
+			</forEach>
+		</h:div>
+		
+		<h:h6>EVENTOS</h:h6>
+		<h:hr class="hr" />
+		
+		<h:div sclass="row">
+			<forEach items="@init(vm.lStatsEventos)">
+				<statBox statBlock="@init(each)" />
+			</forEach>
+		</h:div>
+		
+	</window>
+</zk>

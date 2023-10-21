@@ -6,18 +6,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.util.Notification;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 import com.admFC.modelo.ComprobanteElectronico;
 import com.admFC.modelo.Contribuyente;
+import com.admFC.modelo.Evento;
 import com.admFC.util.ParamsLocal;
 import com.admFC.util.TemplateViewModelLocal;
 import com.admFC.util.conexionRest.HttpConexion;
@@ -266,6 +271,41 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 		Notification.show("Respuesta de servido:\n Code:"+rr.getCode()+"\n Mensaje: "+rr.getMensaje());
 		
 	}
+	
+	@Command
+	public void borrarConfirmacion(@BindingParam("dato") long id) {
+		
+		if (!this.opBorrarComprobanteElectronico)
+			return;
+		
+		ComprobanteElectronico ce = this.reg.getObjectById(ComprobanteElectronico.class.getName(), id);
+		
+		EventListener event = new EventListener () {
+
+			@Override
+			public void onEvent(Event evt) throws Exception {
+				
+				if (evt.getName().equals(Messagebox.ON_YES)) {
+					
+					borrar(ce);
+					
+				}
+				
+			}
+
+		};
+		
+		this.mensajeEliminar("El Comprobante Electronico sera borrado permanentemente. \n Continuar?", event);
+		
+	}
+	
+	private void borrar(ComprobanteElectronico ce) {
+		
+		this.reg.deleteObject(ce);
+		this.cargarComprobanteElectronicos();
+		BindUtils.postNotifyChange(null,null,this,"lComprobantesElectronicos");
+	}
+
 
 	public ComprobanteElectronico getComprobanteElectronicoSelected() {
 		return comprobanteElectronicoSelected;

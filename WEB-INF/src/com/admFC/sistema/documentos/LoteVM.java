@@ -5,18 +5,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.util.Notification;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 import com.admFC.modelo.Lote;
 import com.admFC.modelo.Contribuyente;
+import com.admFC.modelo.Evento;
 import com.admFC.util.ParamsLocal;
 import com.admFC.util.TemplateViewModelLocal;
 import com.doxacore.modelo.Auditoria;
@@ -132,6 +137,7 @@ public class LoteVM extends TemplateViewModelLocal {
 		if (!this.isOpCrearLote())
 			return;
 
+		this.camposBloqueados = true;
 		this.editar = false;
 		this.modalLote(-1);
 
@@ -213,6 +219,41 @@ public class LoteVM extends TemplateViewModelLocal {
 		this.cargarLotes();
 		
 	}
+	
+	@Command
+	public void borrarConfirmacion(@BindingParam("dato") long id) {
+		
+		if (!this.opBorrarLote)
+			return;
+		
+		Lote lote = this.reg.getObjectById(Lote.class.getName(), id);
+		
+		EventListener event = new EventListener () {
+
+			@Override
+			public void onEvent(Event evt) throws Exception {
+				
+				if (evt.getName().equals(Messagebox.ON_YES)) {
+					
+					borrar(lote);
+					
+				}
+				
+			}
+
+		};
+		
+		this.mensajeEliminar("El Lote sera borrado permanentemente. \n Continuar?", event);
+		
+	}
+	
+	private void borrar(Lote l) {
+		
+		this.reg.deleteObject(l);
+		this.cargarLotes();
+		BindUtils.postNotifyChange(null,null,this,"lLotes");
+	}
+
 
 	public List<Object[]> getlLotes() {
 		return lLotes;

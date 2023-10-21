@@ -104,7 +104,8 @@
 			</tablechildren>
 			<tablechildren>
 
-				<checkbox checked="@bind(vm.comprobanteElectronicoSelected.envioPorLote)" mold="switch"/>
+				<checkbox checked="@bind(vm.comprobanteElectronicoSelected.envioPorLote)" mold="switch"
+				disabled="@load(vm.camposBloqueados)"/>
 			
 			</tablechildren>
 			
@@ -115,7 +116,8 @@
 			</tablechildren>
 			<tablechildren>
 
-				<checkbox checked="@bind(vm.comprobanteElectronicoSelected.enviado)" mold="switch" />
+				<checkbox checked="@bind(vm.comprobanteElectronicoSelected.enviado)" mold="switch" 
+				disabled="@load(vm.camposBloqueados)"/>
 			
 			</tablechildren>
 			
@@ -128,7 +130,8 @@
 			</tablechildren>
 			<tablechildren>
 
-				<checkbox checked="@bind(vm.comprobanteElectronicoSelected.enviadoLote)" mold="switch"/>
+				<checkbox checked="@bind(vm.comprobanteElectronicoSelected.enviadoLote)" mold="switch"
+				disabled="@load(vm.camposBloqueados)"/>
 			
 			</tablechildren>
 			

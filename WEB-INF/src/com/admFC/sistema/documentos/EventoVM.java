@@ -262,7 +262,7 @@ public class EventoVM extends TemplateViewModelLocal {
 
 		};
 		
-		this.mensajeEliminar("El evento sera borra permanentemente. \n Continuar?", event);
+		this.mensajeEliminar("El Evento sera borrado permanentemente. \n Continuar?", event);
 		
 	}
 	
