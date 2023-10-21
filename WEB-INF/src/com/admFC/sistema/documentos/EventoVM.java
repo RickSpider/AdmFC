@@ -6,14 +6,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.util.Notification;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 import com.admFC.modelo.Evento;
@@ -23,6 +27,7 @@ import com.admFC.util.TemplateViewModelLocal;
 import com.admFC.util.conexionRest.HttpConexion;
 import com.admFC.util.conexionRest.ResultRest;
 import com.doxacore.modelo.Auditoria;
+import com.doxacore.modelo.Rol;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -43,6 +48,8 @@ public class EventoVM extends TemplateViewModelLocal {
 	private Date hasta;
 
 	private boolean editar = false;
+	
+	private boolean camposBloqueados = true;
 
 	@Init(superclass = true)
 	public void initEventoVM() {
@@ -135,7 +142,8 @@ public class EventoVM extends TemplateViewModelLocal {
 
 		if (!this.isOpCrearEvento())
 			return;
-
+		
+		this.camposBloqueados = true;
 		this.editar = false;
 		this.modalEvento(-1);
 
@@ -230,6 +238,40 @@ public class EventoVM extends TemplateViewModelLocal {
 		this.cargarEventos();
 	}
 
+	
+	@Command
+	public void borrarConfirmacion(@BindingParam("dato") long id) {
+		
+		if (!this.opBorrarEvento)
+			return;
+		
+		Evento evento = this.reg.getObjectById(Evento.class.getName(), id);
+		
+		EventListener event = new EventListener () {
+
+			@Override
+			public void onEvent(Event evt) throws Exception {
+				
+				if (evt.getName().equals(Messagebox.ON_YES)) {
+					
+					borrar(evento);
+					
+				}
+				
+			}
+
+		};
+		
+		this.mensajeEliminar("El evento sera borra permanentemente. \n Continuar?", event);
+		
+	}
+	
+	private void borrar(Evento e) {
+		
+		this.reg.deleteObject(e);
+		this.cargarEventos();
+		BindUtils.postNotifyChange(null,null,this,"lEventos");
+	}
 
 	public List<Object[]> getlEventos() {
 		return lEventos;
@@ -317,6 +359,14 @@ public class EventoVM extends TemplateViewModelLocal {
 
 	public void setFiltroColumns(String[] filtroColumns) {
 		this.filtroColumns = filtroColumns;
+	}
+
+	public boolean isCamposBloqueados() {
+		return camposBloqueados;
+	}
+
+	public void setCamposBloqueados(boolean camposBloqueados) {
+		this.camposBloqueados = camposBloqueados;
 	}
 
 	
