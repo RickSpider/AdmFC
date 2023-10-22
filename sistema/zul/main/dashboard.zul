@@ -1,6 +1,6 @@
 <?page title="Dashboard" contentType="text/html;charset=UTF-8"?>
 
-<?component name="statBox" templateURI="/doxacore/zul/component/statBox.zul"?>
+<?component name="statBox" templateURI="/doxacore/zul/component/statbox.zul"?>
 <?component name="finder" templateURI="/doxacore/zul/component/finder.zul"?>
 
 <zk xmlns:h="http://www.w3.org/1999/xhtml">
