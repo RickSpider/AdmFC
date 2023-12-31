@@ -11,6 +11,7 @@ import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.MatchMedia;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
@@ -306,6 +307,27 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 		BindUtils.postNotifyChange(null,null,this,"lComprobantesElectronicos");
 	}
 
+	private boolean visibleResponsive = true;
+	
+	 @MatchMedia("all and (min-width: 958px)")
+	 @NotifyChange({"collapsed", "includeSclass", "visibleResponsive"})
+	 public void beWide(){
+		 	
+		 this.visibleResponsive = true;
+		
+	    
+	 }
+
+	
+	 @MatchMedia("all and (max-width: 957px)")
+	 @NotifyChange({"collapsed", "includeSclass", "visibleResponsive"})
+	 public void beNarrow(){
+		 
+		 this.visibleResponsive = false;
+		 
+		 
+	 }
+
 
 	public ComprobanteElectronico getComprobanteElectronicoSelected() {
 		return comprobanteElectronicoSelected;
@@ -401,6 +423,14 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal {
 
 	public void setCamposBloqueados(boolean camposBloqueados) {
 		this.camposBloqueados = camposBloqueados;
+	}
+
+	public boolean isVisibleResponsive() {
+		return visibleResponsive;
+	}
+
+	public void setVisibleResponsive(boolean visibleResponsive) {
+		this.visibleResponsive = visibleResponsive;
 	}
 
 }

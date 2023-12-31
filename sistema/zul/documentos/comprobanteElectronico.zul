@@ -95,31 +95,35 @@
 							hflex="min" />
 
 						<listheader label="Creado" align="center"
-							hflex="min" />
+							hflex="min" visible="@load(vm.visibleResponsive)"/>
 						<listheader label="Contribuyente" align="center" 
 						hflex="min" visible = "false"/>
-						<listheader label="CDC" align="center" width="350px"/>
+						<listheader label="CDC" align="center" width="350px" visible="@load(vm.visibleResponsive)"/>
 
 						<listheader label="Numero" align="center"
 							hflex="min" />
+						
+
+						<listheader label="EnvioPorlote" align="center"
+							hflex="min" visible="@load(vm.visibleResponsive)"/>
+
+						<listheader label="EnviadoLote" align="center"
+							hflex="min" visible="@load(vm.visibleResponsive)"/>
+							
+						<listheader label="Enviado" align="center"
+							hflex="min" visible="@load(vm.visibleResponsive)"/>
+						
+						<listheader label="Lote Nº" align="center"
+							hflex="min" visible="@load(vm.visibleResponsive)"/>
+							
 						<listheader label="Estado" align="center"
 							hflex="min" />
 
-						<listheader label="Enviado" align="center"
-							hflex="min" />
-						<listheader label="EnvioPorlote" align="center"
-							hflex="min" />
-
-						<listheader label="EnviadoLote" align="center"
-							hflex="min" />
-						<listheader label="Lote Nº" align="center"
-							hflex="min" />
-
 						<listheader label="Tipo Comprobante"
-							align="center" hflex="min"/>
+							align="center" hflex="min" visible="@load(vm.visibleResponsive)"/>
 						
 						<listheader label="Ambiente"
-							align="center" hflex="min"/>
+							align="center" hflex="min" visible="@load(vm.visibleResponsive)"/>
 
 
 						<listheader align="center" hflex="min" />
@@ -227,13 +231,15 @@
 								tooltiptext="@load(each[6])" />
 							<listcell label="@load(each[7])"
 								tooltiptext="@load(each[7])" />
-							<listcell label="@load(each[8])"
-								tooltiptext="@load(each[8])" />
+							
 							<listcell >
 							
-								<textbox value="@load(each[9])" tooltiptext="@load(each[9])" readonly ="true" hflex="1"/>
+								<textbox value="@load(each[8])" tooltiptext="@load(each[8])" readonly ="true" hflex="1"/>
 							
 							</listcell>
+							
+							<listcell label="@load(each[9])"
+								tooltiptext="@load(each[9])" />
 								
 							<listcell label="@load(each[10])"
 								tooltiptext="@load(each[10])" style="text-align: Left" />
@@ -253,12 +259,12 @@
 									<button iconSclass="z-icon-edit"
 										onClick="@command('modalComprobanteElectronico', comprobanteElectronicoid=each[0])"
 										tooltiptext="Ver/Editar"
-										disabled="@load(!vm.opEditarComprobanteElectronico)" />
+										disabled="@load(!vm.opEditarComprobanteElectronico)" visible="@load(vm.visibleResponsive)"/>
 									<button iconSclass="z-icon-trash-o"
 										class="doxa-button-red"
 										onClick="@command('borrarConfirmacion', dato=each[0])"
 										tooltiptext="Borrar"
-										disabled="@load(!vm.opBorrarComprobanteElectronico)" />
+										disabled="@load(!vm.opBorrarComprobanteElectronico)" visible="@load(vm.visibleResponsive)"/>
 
 
 								</hlayout>
