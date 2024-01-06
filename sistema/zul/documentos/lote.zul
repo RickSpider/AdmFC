@@ -1,4 +1,6 @@
 <?page title="Lotes" contentType="text/html;charset=UTF-8"?>
+<?component name="finder" templateURI="/doxacore/zul/component/finder.zul"?>
+
 <zk>
 	<window title="Lote" border="normal"
 		viewModel="@id('vm') @init('com.admFC.sistema.documentos.LoteVM')"
@@ -20,7 +22,7 @@
 
 						<tablechildren>
 
-							<combobox id="countriesCombobox"
+							<!-- <combobox id="countriesCombobox"
 								model="@load(vm.lContribuyentes)" autodrop="true"
 								selectedItem="@bind(vm.contribuyenteSelected)"
 								onChange="@command('onChangeContribuyente')">
@@ -28,7 +30,9 @@
 									<comboitem
 										label="@load(each.nombre)" />
 								</template>
-							</combobox>
+							</combobox>  -->
+							
+							<finder finderValue="@load(vm.contribuyenteSelected.nombre)" finderModel="@init(vm.contribuyenteFinder)"/>
 
 						</tablechildren>
 
