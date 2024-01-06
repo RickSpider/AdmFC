@@ -24,6 +24,7 @@ import com.admFC.modelo.Contribuyente;
 import com.admFC.modelo.Evento;
 import com.admFC.util.ParamsLocal;
 import com.admFC.util.TemplateViewModelLocal;
+import com.doxacore.components.finder.FinderModel;
 import com.doxacore.modelo.Auditoria;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,7 +35,7 @@ public class LoteVM extends TemplateViewModelLocal {
 	private List<Object[]> lLotesOri;
 	private Lote loteSelected;
 	private Auditoria auditoria;
-	private List<Contribuyente> lContribuyentes;
+	private List<Object[]> lContribuyentes;
 	private Contribuyente contribuyenteSelected;
 
 	private boolean opCrearLote;
@@ -42,7 +43,7 @@ public class LoteVM extends TemplateViewModelLocal {
 	private boolean opBorrarLote;
 
 	private boolean camposBloqueados = false;
-	
+
 	private Date desde = new Date();
 	private Date hasta;
 
@@ -53,17 +54,9 @@ public class LoteVM extends TemplateViewModelLocal {
 
 		hasta = this.um.calcularFecha(this.desde, Calendar.HOUR, 24);
 
-		lContribuyentes = this.getContribuyentesPorUsuario();
-
-		if (lContribuyentes.size()  > 0) {
-
-			this.contribuyenteSelected = lContribuyentes.get(0);
-
-		}
-
 		cargarLotes();
 		inicializarFiltros();
-
+		inicializarFinders();
 	}
 
 	@AfterCompose(superclass = true)
@@ -81,35 +74,40 @@ public class LoteVM extends TemplateViewModelLocal {
 	}
 
 	private void cargarLotes() {
-
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-		if (lContribuyentes.size()  > 0) {
 		
-			String sql = this.um.getSql("lote/listaLotes.sql")
-					.replace("?1", sdf.format(desde)).replace("?2", sdf.format(hasta))
-					.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
-			;
-	
-			//System.out.println("==================SQL LOTES=====================");
-			//System.out.println(sql);
-			//System.out.println("==================================================");
+
+		if (this.contribuyenteSelected == null) {
 			
-			this.lLotes = this.reg.sqlNativo(sql);
-			this.lLotesOri = this.lLotes;
+			return;
 			
 		}
 
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+		if (lContribuyentes.size() > 0) {
+
+			String sql = this.um.getSql("lote/listaLotes.sql").replace("?1", sdf.format(desde))
+					.replace("?2", sdf.format(hasta))
+					.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
+			;
+
+			// System.out.println("==================SQL LOTES=====================");
+			// System.out.println(sql);
+			// System.out.println("==================================================");
+
+			this.lLotes = this.reg.sqlNativo(sql);
+			this.lLotesOri = this.lLotes;
+
+		}
+
 	}
-	
-	
 
 	private String filtroColumns[];
 
 	private void inicializarFiltros() {
 
-		this.filtroColumns = new String[6]; 
-		
+		this.filtroColumns = new String[6];
 
 		for (int i = 0; i < this.filtroColumns.length; i++) {
 
@@ -118,13 +116,13 @@ public class LoteVM extends TemplateViewModelLocal {
 		}
 
 	}
-	
+
 	@Command
 	@NotifyChange("lLotes")
 	public void filtrarLote() {
-		
+
 		this.lLotes = filtrarListaObject(this.filtroColumns, this.lLotesOri);
-		
+
 	}
 
 	// Seccion modal
@@ -156,8 +154,7 @@ public class LoteVM extends TemplateViewModelLocal {
 
 			this.editar = true;
 			this.camposBloqueados = true;
-			this.loteSelected = this.reg.getObjectById(Lote.class.getName(),
-					loteid);
+			this.loteSelected = this.reg.getObjectById(Lote.class.getName(), loteid);
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
 			this.auditoria.setJson(gson.toJson(this.loteSelected));
 
@@ -167,8 +164,7 @@ public class LoteVM extends TemplateViewModelLocal {
 
 		}
 
-		modal = (Window) Executions.createComponents("/sistema/zul/documentos/loteModal.zul",
-				this.mainComponent, null);
+		modal = (Window) Executions.createComponents("/sistema/zul/documentos/loteModal.zul", this.mainComponent, null);
 		Selectors.wireComponents(modal, this, false);
 		modal.doModal();
 
@@ -193,7 +189,7 @@ public class LoteVM extends TemplateViewModelLocal {
 			Notification.show("Lote Actualizado.");
 			this.editar = false;
 			this.auditoria.setSentencia("UPDATE");
-		
+
 		} else {
 
 			this.auditoria.setSentencia("INSERT");
@@ -211,49 +207,115 @@ public class LoteVM extends TemplateViewModelLocal {
 		this.cargarLotes();
 
 	}
-	
+
 	@Command
 	@NotifyChange("lLotes")
 	public void onChangeContribuyente() {
-		
+
 		this.cargarLotes();
-		
+
 	}
-	
+
 	@Command
 	public void borrarConfirmacion(@BindingParam("dato") long id) {
-		
+
 		if (!this.opBorrarLote)
 			return;
-		
+
 		Lote lote = this.reg.getObjectById(Lote.class.getName(), id);
-		
-		EventListener event = new EventListener () {
+
+		EventListener event = new EventListener() {
 
 			@Override
 			public void onEvent(Event evt) throws Exception {
-				
+
 				if (evt.getName().equals(Messagebox.ON_YES)) {
-					
+
 					borrar(lote);
-					
+
 				}
-				
+
 			}
 
 		};
-		
+
 		this.mensajeEliminar("El Lote sera borrado permanentemente. \n Continuar?", event);
-		
-	}
-	
-	private void borrar(Lote l) {
-		
-		this.reg.deleteObject(l);
-		this.cargarLotes();
-		BindUtils.postNotifyChange(null,null,this,"lLotes");
+
 	}
 
+	private void borrar(Lote l) {
+
+		this.reg.deleteObject(l);
+		this.cargarLotes();
+		BindUtils.postNotifyChange(null, null, this, "lLotes");
+	}
+
+	// -------------Finder Seccion --------------
+
+	private FinderModel contribuyenteFinder;
+
+	@NotifyChange("*")
+	public void inicializarFinders() {
+
+		String sqlContribuyente = "Select c.contribuyenteid as id, c.nombre as contribuyente, (c.ruc||'-'||c.dv) as ruc, ambiente as ambiente from contribuyentes c \n"
+				+ "--left join contribuyentesusuarios cu on cu.contribuyenteid = c.contribuyenteid \n"
+				+ "--where cu.usuarioid = ?1 \n" + "order by c.contribuyenteid asc;";
+
+		// String sqlContribuyente =
+		// this.um.getSql("contribuyente/listaContribuyentes.sql");
+
+		if (!this.isUserRolMaster()) {
+
+			sqlContribuyente = sqlContribuyente.replace("--", "").replace("?1",
+					this.getCurrentUser().getUsuarioid() + "");
+
+		}
+
+		contribuyenteFinder = new FinderModel("Contribuyente", sqlContribuyente);
+
+		this.lContribuyentes = this.reg.sqlNativo(sqlContribuyente);
+
+		// System.out.println("El tamaño de lContribuyetes es:
+		// "+this.lContribuyentes.size());
+	}
+
+	public void generarFinders(@BindingParam("finder") String finder) {
+
+		if (finder.compareTo(this.contribuyenteFinder.getNameFinder()) == 0) {
+
+			this.contribuyenteFinder.generarListFinder();
+			BindUtils.postNotifyChange(null, null, this.contribuyenteFinder, "listFinder");
+
+		}
+
+	}
+
+	@Command
+	public void finderFilter(@BindingParam("filter") String filter, @BindingParam("finder") String finder) {
+
+		if (finder.compareTo(this.contribuyenteFinder.getNameFinder()) == 0) {
+
+			this.contribuyenteFinder
+					.setListFinder(this.filtrarListaObject(filter, this.contribuyenteFinder.getListFinderOri()));
+			BindUtils.postNotifyChange(null, null, this.contribuyenteFinder, "listFinder");
+
+		}
+
+	}
+
+	@Command
+	@NotifyChange("*")
+	public void onSelectetItemFinder(@BindingParam("id") Long id, @BindingParam("finder") String finder) {
+
+		if (finder.compareTo(this.contribuyenteFinder.getNameFinder()) == 0) {
+
+			this.contribuyenteSelected = this.reg.getObjectById(Contribuyente.class.getName(), id);
+			// BindUtils.postNotifyChange(null, null, this, "contribuyenteFinder");
+		}
+
+		this.cargarLotes();
+
+	}
 
 	public List<Object[]> getlLotes() {
 		return lLotes;
@@ -271,11 +333,11 @@ public class LoteVM extends TemplateViewModelLocal {
 		this.loteSelected = loteSelected;
 	}
 
-	public List<Contribuyente> getlContribuyentes() {
+	public List<Object[]> getlContribuyentes() {
 		return lContribuyentes;
 	}
 
-	public void setlContribuyentes(List<Contribuyente> lContribuyentes) {
+	public void setlContribuyentes(List<Object[]> lContribuyentes) {
 		this.lContribuyentes = lContribuyentes;
 	}
 
@@ -351,5 +413,12 @@ public class LoteVM extends TemplateViewModelLocal {
 		this.camposBloqueados = camposBloqueados;
 	}
 
-	
+	public FinderModel getContribuyenteFinder() {
+		return contribuyenteFinder;
+	}
+
+	public void setContribuyenteFinder(FinderModel contribuyenteFinder) {
+		this.contribuyenteFinder = contribuyenteFinder;
+	}
+
 }

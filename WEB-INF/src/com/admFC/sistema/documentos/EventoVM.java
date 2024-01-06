@@ -26,18 +26,20 @@ import com.admFC.util.ParamsLocal;
 import com.admFC.util.TemplateViewModelLocal;
 import com.admFC.util.conexionRest.HttpConexion;
 import com.admFC.util.conexionRest.ResultRest;
+import com.doxacore.components.finder.FinderInterface;
+import com.doxacore.components.finder.FinderModel;
 import com.doxacore.modelo.Auditoria;
 import com.doxacore.modelo.Rol;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class EventoVM extends TemplateViewModelLocal {
+public class EventoVM extends TemplateViewModelLocal implements FinderInterface {
 
 	private List<Object[]> lEventos;
 	private List<Object[]> lEventosOri;
 	private Evento eventoSelected;
 	private Auditoria auditoria;
-	private List<Contribuyente> lContribuyentes;
+	private List<Object[]> lContribuyentes;
 	private Contribuyente contribuyenteSelected;
 
 	private boolean opCrearEvento;
@@ -48,7 +50,7 @@ public class EventoVM extends TemplateViewModelLocal {
 	private Date hasta;
 
 	private boolean editar = false;
-	
+
 	private boolean camposBloqueados = true;
 
 	@Init(superclass = true)
@@ -56,16 +58,9 @@ public class EventoVM extends TemplateViewModelLocal {
 
 		hasta = this.um.calcularFecha(this.desde, Calendar.HOUR, 24);
 
-		lContribuyentes = this.getContribuyentesPorUsuario();
-
-		if (lContribuyentes.size()  > 0) {
-
-			this.contribuyenteSelected = lContribuyentes.get(0);
-
-		}
-
 		cargarEventos();
 		inicializarFiltros();
+		inicializarFinders();
 
 	}
 
@@ -86,36 +81,40 @@ public class EventoVM extends TemplateViewModelLocal {
 	@Command
 	@NotifyChange("*")
 	public void cargarEventos() {
+		
+
+		if (this.contribuyenteSelected == null) {
+			
+			return;
+			
+		}
+
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		
-		if (lContribuyentes.size()  > 0) {
-			
-			String sql = this.um.getSql("evento/listaEventos.sql")
-					.replace("?1", sdf.format(desde)).replace("?2", sdf.format(hasta))
+		if (lContribuyentes.size() > 0) {
+
+			String sql = this.um.getSql("evento/listaEventos.sql").replace("?1", sdf.format(desde))
+					.replace("?2", sdf.format(hasta))
 					.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
 			;
-	
-			//System.out.println("==================SQL EVENTOS=====================");
-			//System.out.println(sql);
-			//System.out.println("==================================================");
-			
+
+			// System.out.println("==================SQL EVENTOS=====================");
+			// System.out.println(sql);
+			// System.out.println("==================================================");
+
 			this.lEventos = this.reg.sqlNativo(sql);
 			this.lEventosOri = this.lEventos;
-		
+
 		}
 
 	}
-	
-	
 
 	private String filtroColumns[];
 
 	private void inicializarFiltros() {
 
-		this.filtroColumns = new String[9]; 
-		
+		this.filtroColumns = new String[9];
 
 		for (int i = 0; i < this.filtroColumns.length; i++) {
 
@@ -124,13 +123,13 @@ public class EventoVM extends TemplateViewModelLocal {
 		}
 
 	}
-	
+
 	@Command
 	@NotifyChange("lEventos")
 	public void filtrarEvento() {
-		
+
 		this.lEventos = filtrarListaObject(this.filtroColumns, this.lEventosOri);
-		
+
 	}
 
 	// Seccion modal
@@ -142,7 +141,7 @@ public class EventoVM extends TemplateViewModelLocal {
 
 		if (!this.isOpCrearEvento())
 			return;
-		
+
 		this.camposBloqueados = true;
 		this.editar = false;
 		this.modalEvento(-1);
@@ -161,8 +160,7 @@ public class EventoVM extends TemplateViewModelLocal {
 				return;
 
 			this.editar = true;
-			this.eventoSelected = this.reg.getObjectById(Evento.class.getName(),
-					eventoid);
+			this.eventoSelected = this.reg.getObjectById(Evento.class.getName(), eventoid);
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
 			this.auditoria.setJson(gson.toJson(this.eventoSelected));
 
@@ -172,8 +170,8 @@ public class EventoVM extends TemplateViewModelLocal {
 
 		}
 
-		modal = (Window) Executions.createComponents("/sistema/zul/documentos/eventoModal.zul",
-				this.mainComponent, null);
+		modal = (Window) Executions.createComponents("/sistema/zul/documentos/eventoModal.zul", this.mainComponent,
+				null);
 		Selectors.wireComponents(modal, this, false);
 		modal.doModal();
 
@@ -216,61 +214,128 @@ public class EventoVM extends TemplateViewModelLocal {
 		this.cargarEventos();
 
 	}
-	
+
 	@Command
 	@NotifyChange("lEventos")
 	public void onChangeContribuyente() {
-		
+
 		this.cargarEventos();
-		
+
 	}
-	
+
 	@Command
 	@NotifyChange("lEventos")
 	public void enviarEventos() throws IOException {
-	
+
 		HttpConexion conn = new HttpConexion();
-		String link = this.getSistemaPropiedad("SERVIDOR_FC").getValor()+this.getSistemaPropiedad("ENVIO_EVENTO").getValor();
-		ResultRest rr = conn.consumirREST(link, HttpConexion.GET,"");
-				
-		Notification.show("Respuesta de servido:\n Code:"+rr.getCode()+"\n Mensaje: "+rr.getMensaje());
-		
+		String link = this.getSistemaPropiedad("SERVIDOR_FC").getValor()
+				+ this.getSistemaPropiedad("ENVIO_EVENTO").getValor();
+		ResultRest rr = conn.consumirREST(link, HttpConexion.GET, "");
+
+		Notification.show("Respuesta de servido:\n Code:" + rr.getCode() + "\n Mensaje: " + rr.getMensaje());
+
 		this.cargarEventos();
 	}
 
-	
 	@Command
 	public void borrarConfirmacion(@BindingParam("dato") long id) {
-		
+
 		if (!this.opBorrarEvento)
 			return;
-		
+
 		Evento evento = this.reg.getObjectById(Evento.class.getName(), id);
-		
-		EventListener event = new EventListener () {
+
+		EventListener event = new EventListener() {
 
 			@Override
 			public void onEvent(Event evt) throws Exception {
-				
+
 				if (evt.getName().equals(Messagebox.ON_YES)) {
-					
+
 					borrar(evento);
-					
+
 				}
-				
+
 			}
 
 		};
-		
+
 		this.mensajeEliminar("El Evento sera borrado permanentemente. \n Continuar?", event);
-		
+
 	}
-	
+
 	private void borrar(Evento e) {
-		
+
 		this.reg.deleteObject(e);
 		this.cargarEventos();
-		BindUtils.postNotifyChange(null,null,this,"lEventos");
+		BindUtils.postNotifyChange(null, null, this, "lEventos");
+	}
+
+	// -------------Finder Seccion --------------
+
+	private FinderModel contribuyenteFinder;
+
+	@NotifyChange("*")
+	public void inicializarFinders() {
+
+		String sqlContribuyente = "Select c.contribuyenteid as id, c.nombre as contribuyente, (c.ruc||'-'||c.dv) as ruc, ambiente as ambiente from contribuyentes c \n"
+				+ "--left join contribuyentesusuarios cu on cu.contribuyenteid = c.contribuyenteid \n"
+				+ "--where cu.usuarioid = ?1 \n" + "order by c.contribuyenteid asc;";
+
+		// String sqlContribuyente =
+		// this.um.getSql("contribuyente/listaContribuyentes.sql");
+
+		if (!this.isUserRolMaster()) {
+
+			sqlContribuyente = sqlContribuyente.replace("--", "").replace("?1",
+					this.getCurrentUser().getUsuarioid() + "");
+
+		}
+
+		contribuyenteFinder = new FinderModel("Contribuyente", sqlContribuyente);
+
+		this.lContribuyentes = this.reg.sqlNativo(sqlContribuyente);
+
+		// System.out.println("El tamaño de lContribuyetes es:
+		// "+this.lContribuyentes.size());
+	}
+
+	public void generarFinders(@BindingParam("finder") String finder) {
+
+		if (finder.compareTo(this.contribuyenteFinder.getNameFinder()) == 0) {
+
+			this.contribuyenteFinder.generarListFinder();
+			BindUtils.postNotifyChange(null, null, this.contribuyenteFinder, "listFinder");
+
+		}
+
+	}
+
+	@Command
+	public void finderFilter(@BindingParam("filter") String filter, @BindingParam("finder") String finder) {
+
+		if (finder.compareTo(this.contribuyenteFinder.getNameFinder()) == 0) {
+
+			this.contribuyenteFinder
+					.setListFinder(this.filtrarListaObject(filter, this.contribuyenteFinder.getListFinderOri()));
+			BindUtils.postNotifyChange(null, null, this.contribuyenteFinder, "listFinder");
+
+		}
+
+	}
+
+	@Command
+	@NotifyChange("*")
+	public void onSelectetItemFinder(@BindingParam("id") Long id, @BindingParam("finder") String finder) {
+
+		if (finder.compareTo(this.contribuyenteFinder.getNameFinder()) == 0) {
+
+			this.contribuyenteSelected = this.reg.getObjectById(Contribuyente.class.getName(), id);
+			// BindUtils.postNotifyChange(null, null, this, "contribuyenteFinder");
+		}
+
+		this.cargarEventos();
+
 	}
 
 	public List<Object[]> getlEventos() {
@@ -289,11 +354,11 @@ public class EventoVM extends TemplateViewModelLocal {
 		this.eventoSelected = eventoSelected;
 	}
 
-	public List<Contribuyente> getlContribuyentes() {
+	public List<Object[]> getlContribuyentes() {
 		return lContribuyentes;
 	}
 
-	public void setlContribuyentes(List<Contribuyente> lContribuyentes) {
+	public void setlContribuyentes(List<Object[]> lContribuyentes) {
 		this.lContribuyentes = lContribuyentes;
 	}
 
@@ -369,5 +434,12 @@ public class EventoVM extends TemplateViewModelLocal {
 		this.camposBloqueados = camposBloqueados;
 	}
 
-	
+	public FinderModel getContribuyenteFinder() {
+		return contribuyenteFinder;
+	}
+
+	public void setContribuyenteFinder(FinderModel contribuyenteFinder) {
+		this.contribuyenteFinder = contribuyenteFinder;
+	}
+
 }

@@ -151,7 +151,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 	@NotifyChange("*")
 	public void inicializarFinders() {
 		
-		String sqlContribuyente = "Select c.contribuyenteid as id, c.nombre as contribuyente, (c.ruc||'-'||c.dv) as ruc from contribuyentes c \n"
+		String sqlContribuyente = "Select c.contribuyenteid as id, c.nombre as contribuyente, (c.ruc||'-'||c.dv) as ruc, ambiente as ambiente from contribuyentes c \n"
 				+ "--left join contribuyentesusuarios cu on cu.contribuyenteid = c.contribuyenteid \n"  
 				+ "--where cu.usuarioid = ?1 \n"
 				+ "order by c.contribuyenteid asc;";
