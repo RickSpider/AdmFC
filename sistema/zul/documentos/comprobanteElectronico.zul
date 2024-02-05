@@ -12,7 +12,7 @@
 
 				<hbox hflex="1">
 
-					<tablelayout columns="6">
+					<tablelayout columns="@load(vm.colResponsive)">
 
 						<tablechildren>
 
@@ -27,13 +27,15 @@
 								selectedItem="@bind(vm.contribuyenteSelected)"
 								onChange="@command('onChangeContribuyente')">
 								<template name="model">
-									<comboitem
-										label="@load(each.nombre)" />
+								<comboitem
+								label="@load(each.nombre)" />
 								</template>
-							</combobox> -->
-							
-							<finder finderValue="@load(vm.contribuyenteSelected.nombre)" finderModel="@init(vm.contribuyenteFinder)"/>
-							
+								</combobox> -->
+
+							<finder
+								finderValue="@load(vm.contribuyenteSelected.nombre)"
+								finderModel="@init(vm.contribuyenteFinder)" />
+
 						</tablechildren>
 
 						<tablechildren>
@@ -60,74 +62,118 @@
 					</tablelayout>
 
 					<hbox pack="end" hflex="1">
-				
-					
-					<button label="Refrescar"
-							class="doxa-button-orange"
-							iconSclass=" z-icon-refresh "
-							onClick="@command('cargarComprobanteElectronicos')"
-							 />
-					
-					<button label="Enviar Comprobantes"
-							class="doxa-button-green"
-							iconSclass="z-icon-cloud-upload "
-							onClick="@command('enviarLote')"
-							 />
-					<button label="Consultar"
-							class="doxa-button-green"
-							iconSclass="z-icon-cloud-download "
-							onClick="@command('consultarEstados')"
-							 />
 
-					<button label="Agregar"
-							iconSclass=" z-icon-plus"
-							onClick="@command('modalComprobanteElectronicoAgregar')"
-							disabled="@load(!vm.opCrearComprobanteElectronico)" />
+						<tablelayout columns="4" visible="@load(vm.visibleResponsive)">
+
+							<tablechildren>
+
+								<button label="Refrescar"
+									class="doxa-button-orange" iconSclass=" z-icon-refresh "
+									onClick="@command('cargarComprobanteElectronicos')" />
+
+							</tablechildren>
+
+							<tablechildren>
+
+								<button label="Enviar Comprobantes"
+									class="doxa-button-green" iconSclass="z-icon-cloud-upload "
+									onClick="@command('enviarLote')" />
+
+							</tablechildren>
+
+							<tablechildren>
+								<button label="Consultar"
+									class="doxa-button-green" iconSclass="z-icon-cloud-download "
+									onClick="@command('consultarEstados')" />
+							</tablechildren>
+
+							<tablechildren>
+
+								<button label="Agregar"
+									iconSclass=" z-icon-plus"
+									onClick="@command('modalComprobanteElectronicoAgregar')"
+									disabled="@load(!vm.opCrearComprobanteElectronico)" />
+
+							</tablechildren>
+
+						</tablelayout>
+
+						<tablelayout visible="@load(!vm.visibleResponsive)">
+
+							<tablechildren>
+
+								<button 
+									class="doxa-button-orange" iconSclass=" z-icon-refresh "
+									onClick="@command('cargarComprobanteElectronicos')" 
+									tooltiptext="Refrescar"/>
+
+							</tablechildren>
+
+							<tablechildren>
+
+								<button 
+									class="doxa-button-green" iconSclass="z-icon-cloud-upload "
+									onClick="@command('enviarLote')" 
+									tooltiptext="Enviar"/>
+
+							</tablechildren>
+
+							<tablechildren>
+								<button 
+									class="doxa-button-green" iconSclass="z-icon-cloud-download "
+									onClick="@command('consultarEstados')" 
+									tooltiptext="Consultar"/>
+							</tablechildren>
+
+
+						</tablelayout>
 
 					</hbox>
 
 				</hbox>
 
-				<listbox emptyMessage="lista vacía..." mold="paging" autopaging="true"
-					vflex="1" model="@load(vm.lComprobantesElectronicos)"
-					checkmark="true">
+				<listbox emptyMessage="lista vacía..." mold="paging"
+					autopaging="true" vflex="1"
+					model="@load(vm.lComprobantesElectronicos)" checkmark="true">
 
 					<listhead>
 
-						<listheader hflex="min" align="center" />
+						<listheader hflex="min" align="center"
+							visible="@load(vm.visibleResponsive)" />
 						<listheader label="ID" align="center"
 							hflex="min" />
 
 						<listheader label="Creado" align="center"
-							hflex="min" visible="@load(vm.visibleResponsive)"/>
-						<listheader label="Contribuyente" align="center" 
-						hflex="min" visible = "false"/>
-						<listheader label="CDC" align="center" width="350px" visible="@load(vm.visibleResponsive)"/>
+							hflex="min" visible="@load(vm.visibleResponsive)" />
+						<listheader label="Contribuyente" align="center"
+							hflex="min" visible="false" />
+						<listheader label="CDC" align="center"
+							width="350px" visible="@load(vm.visibleResponsive)" />
 
 						<listheader label="Numero" align="center"
 							hflex="min" />
-						
+
 
 						<listheader label="EnvioPorlote" align="center"
-							hflex="min" visible="@load(vm.visibleResponsive)"/>
+							hflex="min" visible="@load(vm.visibleResponsive)" />
 
 						<listheader label="EnviadoLote" align="center"
-							hflex="min" visible="@load(vm.visibleResponsive)"/>
-							
+							hflex="min" visible="@load(vm.visibleResponsive)" />
+
 						<listheader label="Enviado" align="center"
-							hflex="min" visible="@load(vm.visibleResponsive)"/>
-						
+							hflex="min" visible="@load(vm.visibleResponsive)" />
+
 						<listheader label="Lote Nº" align="center"
-							hflex="min" visible="@load(vm.visibleResponsive)"/>
-							
+							hflex="min" visible="@load(vm.visibleResponsive)" />
+
 						<listheader label="Estado" align="center"
 							hflex="min" />
 
 						<listheader label="Tipo Comprobante"
-							align="center" hflex="min" visible="@load(vm.visibleResponsive)"/>
-						
-						<listheader label="Ambiente"
-							align="center" hflex="min" visible="@load(vm.visibleResponsive)"/>
+							align="center" hflex="min" visible="@load(vm.visibleResponsive)" />
+
+						<listheader label="Ambiente" align="center"
+							hflex="min" visible="@load(vm.visibleResponsive)" />
 
 
 						<listheader align="center" hflex="min" />
@@ -199,7 +245,7 @@
 								instant="true"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
-						
+
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[12])"
 								instant="true"
@@ -215,60 +261,75 @@
 							<listcell />
 							<listcell label="@load(each[0])" />
 							<listcell label="@load(each[1])"
-								tooltiptext="@load(each[1])"  />
+								tooltiptext="@load(each[1])" />
 							<listcell label="@load(each[2])"
-								tooltiptext="@load(each[2])" style="text-align: Left"/>
-							<listcell >
-								
-								<textbox value="@load(each[3])" tooltiptext="@load(each[3])" readonly ="true" hflex="1" />
-								
+								tooltiptext="@load(each[2])" style="text-align: Left" />
+							<listcell>
+
+								<textbox value="@load(each[3])"
+									tooltiptext="@load(each[3])" readonly="true" hflex="1" />
+
 							</listcell>
-								
-							<listcell > 
-								
-								<textbox value="@load(each[4])" tooltiptext="@load(each[4])" readonly ="true" hflex="1"/>
-								
-								</listcell>
+
+							<listcell>
+
+								<textbox value="@load(each[4])"
+									tooltiptext="@load(each[4])" readonly="true" hflex="1" />
+
+							</listcell>
 							<listcell label="@load(each[5])"
 								tooltiptext="@load(each[5])" />
 							<listcell label="@load(each[6])"
 								tooltiptext="@load(each[6])" />
 							<listcell label="@load(each[7])"
 								tooltiptext="@load(each[7])" />
-							
-							<listcell >
-							
-								<textbox value="@load(each[8])" tooltiptext="@load(each[8])" readonly ="true" hflex="1"/>
-							
+
+							<listcell>
+
+								<textbox value="@load(each[8])"
+									tooltiptext="@load(each[8])" readonly="true" hflex="1" />
+
 							</listcell>
-							
+
 							<listcell label="@load(each[9])"
-								tooltiptext="@load(each[9])" />
-								
+								tooltiptext="@load(each[13])">
+
+
+							</listcell>
+
 							<listcell label="@load(each[10])"
 								tooltiptext="@load(each[10])" style="text-align: Left" />
-								
+
 							<listcell label="@load(each[12])"
 								tooltiptext="@load(each[12])" />
 
 
 							<listcell>
 								<hlayout>
-								
+
+									<button
+										iconSclass=" z-icon-exchange " class="doxa-button-orange"
+										onClick="@command('consultarEstadoSifen', dato=each[0])"
+										tooltiptext="Consutar Comprobante Sifen" />
+
 									<button iconSclass="z-icon-qrcode "
 										class="doxa-button-green"
 										onClick="@command('openQrSifen', linkQr=each[11])"
-										tooltiptext="Sifen Comprobante Electronico"
-										/>
+										tooltiptext="Sifen Comprobante Electronico" />
+
+
+
 									<button iconSclass="z-icon-edit"
 										onClick="@command('modalComprobanteElectronico', comprobanteElectronicoid=each[0])"
 										tooltiptext="Ver/Editar"
-										disabled="@load(!vm.opEditarComprobanteElectronico)" visible="@load(vm.visibleResponsive)"/>
+										disabled="@load(!vm.opEditarComprobanteElectronico)"
+										visible="@load(vm.visibleResponsive)" />
 									<button iconSclass="z-icon-trash-o"
 										class="doxa-button-red"
 										onClick="@command('borrarConfirmacion', dato=each[0])"
 										tooltiptext="Borrar"
-										disabled="@load(!vm.opBorrarComprobanteElectronico)" visible="@load(vm.visibleResponsive)"/>
+										disabled="@load(!vm.opBorrarComprobanteElectronico)"
+										visible="@load(vm.visibleResponsive)" />
 
 
 								</hlayout>

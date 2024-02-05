@@ -232,7 +232,7 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 				+ this.getSistemaPropiedad("ENVIO_EVENTO").getValor();
 		ResultRest rr = conn.consumirREST(link, HttpConexion.GET, "");
 
-		Notification.show("Respuesta de servido:\n Code:" + rr.getCode() + "\n Mensaje: " + rr.getMensaje());
+		Notification.show("Respuesta de servidor:\n Code:" + rr.getCode() + "\n Mensaje: " + rr.getMensaje());
 
 		this.cargarEventos();
 	}

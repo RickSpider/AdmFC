@@ -250,7 +250,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 				+ this.getSistemaPropiedad("ENVIO_LOTE").getValor();
 		ResultRest rr = conn.consumirREST(link, HttpConexion.POST, new Gson().toJson(c));
 
-		Notification.show("Respuesta de servido:\n Code:" + rr.getCode() + "\n Mensaje: " + rr.getMensaje());
+		Notification.show("Respuesta de servidor:\n Code:" + rr.getCode() + "\n Mensaje: " + rr.getMensaje());
 
 	}
 
@@ -271,7 +271,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 				+ this.getSistemaPropiedad("CONSULTA_LOTE").getValor();
 		ResultRest rr = conn.consumirREST(link, HttpConexion.POST, new Gson().toJson(c));
 
-		Notification.show("Respuesta de servido:\n Code:" + rr.getCode() + "\n Mensaje: " + rr.getMensaje());
+		Notification.show("Respuesta de servidor:\n Code:" + rr.getCode() + "\n Mensaje: " + rr.getMensaje());
 
 	}
 
@@ -301,6 +301,19 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		this.mensajeEliminar("El Comprobante Electronico sera borrado permanentemente. \n Continuar?", event);
 
 	}
+	
+	public void consultarEstadoSifen(@BindingParam("dato") long id) throws IOException {
+		
+		ComprobanteElectronico ce = this.reg.getObjectById(ComprobanteElectronico.class.getName(), id);
+		
+		HttpConexion conn = new HttpConexion();
+		String link = this.getSistemaPropiedad("SERVIDOR_FC").getValor()
+				+ this.getSistemaPropiedad("CONSULTA_SIFEN_CDC").getValor()+"/"+ce.getCdc();
+		ResultRest rr = conn.consumirREST(link, HttpConexion.GET, null);
+
+		Notification.show("Respuesta de servidor:\n Code:" + rr.getCode() + "\n Mensaje: " + rr.getMensaje());
+		
+	}
 
 	private void borrar(ComprobanteElectronico ce) {
 
@@ -309,21 +322,24 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		BindUtils.postNotifyChange(null, null, this, "lComprobantesElectronicos");
 	}
 
+	//seccion responsive
 	private boolean visibleResponsive = true;
-
+	private int colResponsive = 6;
+	
 	@MatchMedia("all and (min-width: 958px)")
-	@NotifyChange({ "collapsed", "includeSclass", "visibleResponsive" })
+	@NotifyChange({ "collapsed", "includeSclass", "visibleResponsive", "colResponsive" })
 	public void beWide() {
 
 		this.visibleResponsive = true;
-
+		this.colResponsive = 6;
 	}
 
 	@MatchMedia("all and (max-width: 957px)")
-	@NotifyChange({ "collapsed", "includeSclass", "visibleResponsive" })
+	@NotifyChange({ "collapsed", "includeSclass", "visibleResponsive", "colResponsive" })
 	public void beNarrow() {
 
 		this.visibleResponsive = false;
+		this.colResponsive = 2;
 
 	}
 
@@ -504,6 +520,14 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 
 	public void setContribuyenteFinder(FinderModel contribuyenteFinder) {
 		this.contribuyenteFinder = contribuyenteFinder;
+	}
+
+	public int getColResponsive() {
+		return colResponsive;
+	}
+
+	public void setColResponsive(int colResponsive) {
+		this.colResponsive = colResponsive;
 	}
 
 }

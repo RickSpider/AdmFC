@@ -146,7 +146,22 @@
 					width="450px"
 					rows="10"
 					constraint="no empty: Es campo obligatorio." 
-					/>
+					readonly="@load(vm.camposBloqueados)"/>
+			
+			</tablechildren>
+			
+			<tablechildren >
+			
+				<label value= "Respuesta:" />
+			
+			</tablechildren>
+			<tablechildren  colspan="3">
+
+				<textbox value="@load(vm.comprobanteElectronicoSelected.respuesta)"
+					width="450px"
+					rows="1"
+					constraint="no empty: Es campo obligatorio." 
+					readonly="true"/>
 			
 			</tablechildren>
 		

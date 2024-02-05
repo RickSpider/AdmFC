@@ -11,7 +11,8 @@ l.nro,
 ce.estado ,
 tce.tipocomprobanteelectronico,
 ce.enlaceqr,
-ce.ambiente
+ce.ambiente,
+ce.respuesta
 from comprobanteselectronicos ce
 left join tiposcomprobanteselectronicos tce on tce.tipocomprobanteelectronicoid = ce.tipocomprobanteelectronicoid 
 left join lotes l on l.loteid = ce.loteid

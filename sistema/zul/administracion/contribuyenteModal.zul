@@ -544,6 +544,46 @@
 					width="150px" />
 
 			</tablechildren>
+			
+			<tablechildren>
+
+				<label value="Smtp Starttls:" />
+
+			</tablechildren>
+			<tablechildren>
+
+				<checkbox
+					checked="@bind(vm.contribuyenteSelected.smtpstarttls)"
+					mold="switch" />
+
+			</tablechildren>
+			
+			<tablechildren>
+
+				<label value="Smtp Auth:" />
+
+			</tablechildren>
+			<tablechildren>
+
+				<checkbox
+					checked="@bind(vm.contribuyenteSelected.smtpauth)"
+					mold="switch" />
+
+			</tablechildren>
+			
+			<tablechildren>
+
+				<label value="Smtp SSL:" />
+
+			</tablechildren>
+			<tablechildren>
+
+				<checkbox
+					checked="@bind(vm.contribuyenteSelected.smtpssl)"
+					mold="switch" />
+
+			</tablechildren>
+			
 
 			<tablechildren>
 

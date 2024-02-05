@@ -116,6 +116,7 @@ public class Contribuyente extends Modelo implements Serializable {
     @Column(columnDefinition = "boolean default true", name="habilitado")
     private boolean habilitado;
     
+  
     /**
      * 
      * PROD = produccion
@@ -147,6 +148,16 @@ public class Contribuyente extends Modelo implements Serializable {
     
     @Column(name="mailserverpass")
     private String mailServerpass;
+    
+    @Column(name="smtpauth", columnDefinition = "boolean default false")
+    private boolean smtpauth;
+    
+    @Column(name="smtpssl", columnDefinition = "boolean default false")
+    private boolean smtpssl;
+    
+    @Column(name="smtpstarttls", columnDefinition = "boolean default false" )
+    private boolean smtpstarttls;
+    
 
 
     public String getPass() {
@@ -402,6 +413,30 @@ public class Contribuyente extends Modelo implements Serializable {
 
 	public void setMailServerpass(String mailServerpass) {
 		this.mailServerpass = mailServerpass;
+	}
+
+	public boolean isSmtpauth() {
+		return smtpauth;
+	}
+
+	public void setSmtpauth(boolean smtpauth) {
+		this.smtpauth = smtpauth;
+	}
+
+	public boolean isSmtpssl() {
+		return smtpssl;
+	}
+
+	public void setSmtpssl(boolean smtpssl) {
+		this.smtpssl = smtpssl;
+	}
+
+	public boolean isSmtpstarttls() {
+		return smtpstarttls;
+	}
+
+	public void setSmtpstarttls(boolean smtpstarttls) {
+		this.smtpstarttls = smtpstarttls;
 	}
 
 	

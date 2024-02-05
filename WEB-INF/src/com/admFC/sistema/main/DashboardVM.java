@@ -71,7 +71,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		String sqlComprobante = "SELECT \n" + 
 				"    COALESCE(SUM(CASE WHEN estado like '%Aprobado%' THEN 1 ELSE 0 END),0) AS aprobados,\n" + 
 				"    COALESCE(SUM(CASE WHEN estado like '%Rechazado%' THEN 1 ELSE 0 END),0) AS rechazados,\n" + 
-				"    COALESCE(SUM(CASE WHEN estado isnull OR estado = '' THEN 1 ELSE 0 END),0) AS nulos\n" + 
+				"    COALESCE(SUM(CASE WHEN estado isnull OR estado = '' OR estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
 				"FROM comprobanteselectronicos \n" +
 				"WHERE creado BETWEEN '"+sdf.format(desde)+"' AND '"+sdf.format(hasta)+"' \n"+
 				"--##CONTRIBUYENTE## \n"+
@@ -80,7 +80,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		String sqlEvento = "SELECT \n" + 
 				"    COALESCE(SUM(CASE WHEN estado like '%Aprobado%' THEN 1 ELSE 0 END),0) AS aprobados,\n" + 
 				"    COALESCE(SUM(CASE WHEN estado like '%Rechazado%' THEN 1 ELSE 0 END),0) AS rechazados,\n" + 
-				"    COALESCE(SUM(CASE WHEN estado isnull OR estado = '' THEN 1 ELSE 0 END),0) AS nulos\n" + 
+				"    COALESCE(SUM(CASE WHEN estado isnull OR estado = '' OR estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
 				"FROM eventos \n"+
 				"WHERE fecha BETWEEN '"+sdf.format(desde)+"' AND '"+sdf.format(hasta)+"' \n"+
 				"--##CONTRIBUYENTE## \n"+
@@ -103,7 +103,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				toPorcentaje(Double.parseDouble(resultComprobante.get(0)[0].toString()),totalComprobantes)));
 		lStatsComprobantes.add(new Statbox("2","RECHAZADOS",resultComprobante.get(0)[1].toString(),"fa-close",Statbox.styleRedDarker,true,
 				toPorcentaje(Double.parseDouble(resultComprobante.get(0)[1].toString()),totalComprobantes)));
-		lStatsComprobantes.add(new Statbox("3","SIN ESTADO",resultComprobante.get(0)[2].toString(),"fa-file-o",Statbox.stylePurpleDarker,true,
+		lStatsComprobantes.add(new Statbox("3","PENDIENTE/SIN ESTADO",resultComprobante.get(0)[2].toString(),"fa-file-o",Statbox.stylePurpleDarker,true,
 				toPorcentaje(Double.parseDouble(resultComprobante.get(0)[2].toString()),totalComprobantes)));
 		
 		
@@ -119,7 +119,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				toPorcentaje(Double.parseDouble(resultEvento.get(0)[0].toString()),totalEventos)));
 		lStatsEventos.add(new Statbox("2","RECHAZADOS",resultEvento.get(0)[1].toString(),"fa-close",Statbox.styleRedDarker,true,
 				toPorcentaje(Double.parseDouble(resultEvento.get(0)[1].toString()),totalEventos)));
-		lStatsEventos.add(new Statbox("3","SIN ESTADO",resultEvento.get(0)[2].toString(),"fa-file-o",Statbox.stylePurpleDarker,true,
+		lStatsEventos.add(new Statbox("3","PENDIENTE/SIN ESTADO",resultEvento.get(0)[2].toString(),"fa-file-o",Statbox.stylePurpleDarker,true,
 				toPorcentaje(Double.parseDouble(resultEvento.get(0)[2].toString()),totalEventos)));
 		
 	}
