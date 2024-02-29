@@ -49,15 +49,18 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 
 	private boolean camposBloqueados = false;
 
-	private Date desde = new Date();
+	private Date desde;
 	private Date hasta;
 
 	private boolean editar = false;
 
 	@Init(superclass = true)
 	public void initComprobanteElectronicoVM() {
-
-		hasta = this.um.calcularFecha(this.desde, Calendar.HOUR, 24);
+		
+		desde = this.um.modificarHorasMinutosSegundos(new Date(), 0,0,0,0);
+		
+		
+		hasta = this.um.modificarHorasMinutosSegundos(this.desde, 23, 59, 59, 999);
 
 	/*	lContribuyentes = this.getContribuyentesPorUsuario();
 
@@ -72,6 +75,9 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		inicializarFinders();
 
 	}
+	
+	
+	
 
 	@AfterCompose(superclass = true)
 	public void afterComposeComprobanteElectronicoVM() {
@@ -352,7 +358,8 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 
 		String sqlContribuyente = "Select c.contribuyenteid as id, c.nombre as contribuyente, (c.ruc||'-'||c.dv) as ruc, ambiente as ambiente from contribuyentes c \n"
 				+ "--left join contribuyentesusuarios cu on cu.contribuyenteid = c.contribuyenteid \n"
-				+ "--where cu.usuarioid = ?1 \n" + "order by c.contribuyenteid asc;";
+				+ "--where cu.usuarioid = ?1 and c.habilitado = true \n" 
+				+ "order by c.contribuyenteid asc;";
 
 		// String sqlContribuyente =
 		// this.um.getSql("contribuyente/listaContribuyentes.sql");

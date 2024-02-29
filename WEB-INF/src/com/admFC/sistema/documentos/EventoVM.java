@@ -56,7 +56,11 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 	@Init(superclass = true)
 	public void initEventoVM() {
 
-		hasta = this.um.calcularFecha(this.desde, Calendar.HOUR, 24);
+		
+		desde = this.um.modificarHorasMinutosSegundos(new Date(), 0,0,0,0);
+		
+		
+		hasta = this.um.modificarHorasMinutosSegundos(this.desde, 23, 59, 59, 999);
 
 		cargarEventos();
 		inicializarFiltros();
