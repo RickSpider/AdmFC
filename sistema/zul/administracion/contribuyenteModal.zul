@@ -339,10 +339,8 @@
 								<listhead>
 									<listheader label="Codigo Sifen"
 										hflex="min" />
-									<listheader
-										label="Distrito" />
-									<listheader
-										label="Departamento" />
+									<listheader label="Distrito" />
+									<listheader label="Departamento" />
 
 								</listhead>
 
@@ -356,7 +354,7 @@
 
 										<listcell label="@load(each[2])"
 											tooltiptext="@load(each[2])" />
-										
+
 										<listcell label="@load(each[4])"
 											tooltiptext="@load(each[4])" />
 
@@ -407,6 +405,20 @@
 				<space height="10px" />
 
 			</tablechildren>
+			
+			<tablechildren>
+
+				<label value="PassKey:" />
+
+			</tablechildren>
+
+			<tablechildren>
+
+				<textbox
+					value="@bind(vm.contribuyenteSelected.passkey)"
+					width="150px" constraint="no empty: Es campo obligatorio." />
+
+			</tablechildren>
 
 			<tablechildren>
 
@@ -418,23 +430,28 @@
 
 				<textbox
 					value="@load(vm.contribuyenteSelected.pathkey) @save(vm.contribuyenteSelected.pathkey, before='guardar')"
-					width="150px" constraint="no empty: Es campo obligatorio." />
+					width="150px" constraint="no empty: Es campo obligatorio." readonly="true"/>
+
+				<button iconSclass="z-icon-cloud-upload" tooltiptext="Subir Archivo"
+					upload="true,maxsize=300"
+					onUpload="@command('uploadFile', file=event.media)" />
 
 			</tablechildren>
-
-
-
+			
 			<tablechildren>
 
-				<label value="PassKey:" />
+				<label value="vencimiento:" />
 
 			</tablechildren>
 
 			<tablechildren>
 
 				<textbox
-					value="@load(vm.contribuyenteSelected.passkey) @save(vm.contribuyenteSelected.passkey, before='guardar')"
-					width="150px" constraint="no empty: Es campo obligatorio." />
+					value="@load(vm.contribuyenteSelected.vencimientokey)" 
+					width="150px" readonly="true"/>
+					
+					<button iconSclass="z-icon-refresh" tooltiptext="Actualizar Vencimiento"
+					onClick="@command('refreshVencimiento')" />
 
 			</tablechildren>
 
@@ -544,7 +561,7 @@
 					width="150px" />
 
 			</tablechildren>
-			
+
 			<tablechildren>
 
 				<label value="Smtp Starttls:" />
@@ -557,7 +574,7 @@
 					mold="switch" />
 
 			</tablechildren>
-			
+
 			<tablechildren>
 
 				<label value="Smtp Auth:" />
@@ -566,11 +583,10 @@
 			<tablechildren>
 
 				<checkbox
-					checked="@bind(vm.contribuyenteSelected.smtpauth)"
-					mold="switch" />
+					checked="@bind(vm.contribuyenteSelected.smtpauth)" mold="switch" />
 
 			</tablechildren>
-			
+
 			<tablechildren>
 
 				<label value="Smtp SSL:" />
@@ -579,11 +595,10 @@
 			<tablechildren>
 
 				<checkbox
-					checked="@bind(vm.contribuyenteSelected.smtpssl)"
-					mold="switch" />
+					checked="@bind(vm.contribuyenteSelected.smtpssl)" mold="switch" />
 
 			</tablechildren>
-			
+
 
 			<tablechildren>
 
@@ -730,7 +745,7 @@
 
 					<listbox emptyMessage="lista vacía..." mold="paging"
 						model="@load(vm.contribuyenteSelected.actividades)"
-						checkmark="true" width="750px" height="200px">
+						checkmark="true" width="800px" height="200px">
 
 						<listhead>
 
@@ -793,7 +808,7 @@
 
 					<listbox emptyMessage="lista vacía..." mold="paging"
 						model="@load(vm.contribuyenteSelected.contactos)" checkmark="true"
-						width="750px" height="200px">
+						width="800px" height="200px">
 
 						<listhead>
 

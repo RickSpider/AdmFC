@@ -87,8 +87,8 @@ public class LoteVM extends TemplateViewModelLocal {
 		}
 
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
 		if (lContribuyentes.size() > 0) {
 
 			String sql = this.um.getSql("lote/listaLotes.sql").replace("?1", sdf.format(desde))

@@ -36,7 +36,8 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 	public void initDashboardVM() {
 		
 		
-		hasta = this.um.calcularFecha(this.desde, Calendar.HOUR, 24);
+		desde = this.um.modificarHorasMinutosSegundos(new Date(), 0,0,0,0);
+		hasta = this.um.modificarHorasMinutosSegundos(this.desde, 23, 59, 59, 999);
 
 		cargarDatos();
 		
@@ -64,7 +65,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 	
 	private void cargarDatos() {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		this.lStatsComprobantes.clear();
 		this.lStatsEventos.clear();	 
 		

@@ -26,7 +26,7 @@
 				</tablechildren>
 				<tablechildren width="160px">
 					<datebox value="@bind(vm.desde)"
-								format="dd/MM/yyyy" onChange="@command('onChangeFiltroFechas')"
+								format="dd/MM/yyyy HH:mm:ss" onChange="@command('onChangeFiltroFechas')"
 								width="150px"/>
 				</tablechildren>
 				
@@ -35,7 +35,7 @@
 				</tablechildren>
 				<tablechildren width="160px">
 					<datebox value="@bind(vm.hasta)"
-								format="dd/MM/yyyy" onChange="@command('onChangeFiltroFechas')"
+								format="dd/MM/yyyy HH:mm:ss" onChange="@command('onChangeFiltroFechas')"
 								width="150px"/>
 				</tablechildren>
 			

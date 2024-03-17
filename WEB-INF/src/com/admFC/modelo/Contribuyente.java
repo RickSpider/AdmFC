@@ -8,6 +8,7 @@ package com.admFC.modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +25,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.doxacore.modelo.Modelo;
 
@@ -95,6 +98,8 @@ public class Contribuyente extends Modelo implements Serializable {
     @Column(columnDefinition = "boolean default true", name="sololote")
     private boolean soloLote;
     
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date vencimientokey;
     private String pathkey;
     private String passkey;
     
@@ -438,6 +443,17 @@ public class Contribuyente extends Modelo implements Serializable {
 	public void setSmtpstarttls(boolean smtpstarttls) {
 		this.smtpstarttls = smtpstarttls;
 	}
+
+	public Date getVencimientokey() {
+		return vencimientokey;
+	}
+
+	public void setVencimientokey(Date vencimientokey) {
+		this.vencimientokey = vencimientokey;
+	}
+
+	
+
 
 	
     

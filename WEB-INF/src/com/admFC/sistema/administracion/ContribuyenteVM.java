@@ -1,5 +1,21 @@
 package com.admFC.sistema.administracion;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Date;
 import java.util.List;
 
 import org.zkoss.bind.BindUtils;
@@ -8,6 +24,7 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.util.Notification;
@@ -30,6 +47,9 @@ import com.doxacore.modelo.UsuarioRol;
 import com.doxacore.util.UtilStaticMetodos;
 import com.google.gson.Gson;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Random;
 
 public class ContribuyenteVM extends TemplateViewModelLocal {
@@ -128,6 +148,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	public void modalContribuyente(@BindingParam("contribuyenteid") long contribuyenteid) {
 
 		this.auditoria = new Auditoria();
+		this.auditoria.setModulo("Contribuyente");
 
 		this.nombre = "";
 		this.email = "";
@@ -143,12 +164,12 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 			this.buscarTipoContribuyente = "";
 			this.buscarTipoTransaccion = "";
 			this.buscarTipoImpuesto = "";
-			this.buscarDistrito ="";
-			
+			this.buscarDistrito = "";
+
 			if (this.contribuyenteSelected.getDistrito() != null) {
-				
+
 				this.buscarDistrito = this.contribuyenteSelected.getDistrito().getDistrito();
-				
+
 			}
 
 			if (this.contribuyenteSelected.getTipoContribuyente() != null) {
@@ -203,6 +224,8 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		}
 
 		this.save(this.contribuyenteSelected);
+		
+		this.guardarCert();
 
 		this.contribuyenteSelected = null;
 
@@ -252,42 +275,39 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 	private List<ContribuyenteUsuario> lContribuyentesUsuarios;
 	private Usuario usuarioSelected;
-	
+
 	@Command
 	@NotifyChange("usuarioSelected")
 	public void onBlurUsuario() {
-		
-		Usuario us = this.reg.getObjectByColumnString(Usuario.class.getName(), "account", this.usuarioSelected.getAccount());
-		
+
+		Usuario us = this.reg.getObjectByColumnString(Usuario.class.getName(), "account",
+				this.usuarioSelected.getAccount());
+
 		if (us != null) {
-			
+
 			this.usuarioSelected = us;
-			
+
 		}
-		
-		
+
 	}
 
 	@Command
 	@NotifyChange({ "lContribuyentesUsuarios", "usuarioSelected" })
 	public void agregarUsuario() {
 
-		
 		ContribuyenteUsuario cu = new ContribuyenteUsuario();
-		
+
 		if (this.usuarioSelected.getUsuarioid() == null) {
-			
+
 			this.usuarioSelected.setActivo(true);
 			this.usuarioSelected.setPassword(UtilStaticMetodos.getSHA256(this.usuarioSelected.getAccount()));
-			
+
 		}
-		
+
 		cu.setContribuyente(this.contribuyenteSelected);
 		cu.setUsuario(this.usuarioSelected);
-		
+
 		lContribuyentesUsuarios.add(cu);
-		
-		
 
 		this.usuarioSelected = new Usuario();
 
@@ -375,7 +395,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		}
 
 		String stringAleatorio = sb.toString();
-		//System.out.println("String aleatorio: " + stringAleatorio);
+		// System.out.println("String aleatorio: " + stringAleatorio);
 		return stringAleatorio;
 	}
 
@@ -556,7 +576,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	}
 
 	@Command
-	@NotifyChange({ "buscarActividadEconomica"})
+	@NotifyChange({ "buscarActividadEconomica" })
 	public void agregarActividadEconomica() {
 
 		if (this.actividadEconomicaSelected == null) {
@@ -564,16 +584,17 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 			return;
 
 		}
-		
+
 		for (ActividadEconomica x : this.contribuyenteSelected.getActividades()) {
-			
-			if (x.getActividadeconomicaid().longValue() == this.actividadEconomicaSelected.getActividadeconomicaid().longValue()) {
+
+			if (x.getActividadeconomicaid().longValue() == this.actividadEconomicaSelected.getActividadeconomicaid()
+					.longValue()) {
 				this.actividadEconomicaSelected = null;
 				this.buscarActividadEconomica = "";
 				return;
-				
+
 			}
-			
+
 		}
 
 		this.contribuyenteSelected.getActividades().add(this.actividadEconomicaSelected);
@@ -591,6 +612,169 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	}
 
 	// fin buscadores
+
+	private Media certFile;
+
+	@Command
+	public void uploadFile(@BindingParam("file") Media file) {
+
+		System.out.println("formato:" + file.getName());
+
+		if (file.getName().contains(".pfx")) {
+
+			System.out.println("es el archivo");
+
+			Date vencimiento = this.getVencimientoKey(file.getByteData());
+
+			if (vencimiento != null) {
+
+				certFile = file;
+
+				this.contribuyenteSelected.setVencimientokey(vencimiento);
+
+				String directorio = this.getSistemaPropiedad("FE_CERTDIR").getValor();
+
+				this.contribuyenteSelected
+						.setPathkey(directorio + "/" + this.contribuyenteSelected.getRuc() + "/" + file.getName());
+			}
+
+			// this.guardarArchivo();
+
+		} else {
+
+			this.mensajeInfo("Archivo no valido.");
+			this.certFile = null;
+
+		}
+		
+		BindUtils.postNotifyChange(null, null, this.contribuyenteSelected, "vencimientokey");
+		BindUtils.postNotifyChange(null, null, this.contribuyenteSelected, "pathkey");
+
+	}
+	
+	@Command
+	public void refreshVencimiento() {
+	
+		try {
+					
+			Path path = Paths.get(this.contribuyenteSelected.getPathkey());
+			
+			Date vencimiento = this.getVencimientoKey(Files.readAllBytes(path)); 
+			
+			if (vencimiento != null) {
+				
+				System.out.println(vencimiento);
+				
+				this.contribuyenteSelected.setVencimientokey(vencimiento);
+				
+			}else {
+				
+				this.mensajeError("No se pudo actualizar la fecha de vencimiento.");
+				
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+		
+		BindUtils.postNotifyChange(null, null, this.contribuyenteSelected, "vencimientokey");
+		
+	}
+
+	public Date getVencimientoKey(byte[] fis) {
+
+		try {
+
+			KeyStore ks = KeyStore.getInstance("PKCS12");
+			// ks.load(fis, password.toCharArray());
+			ks.load(new ByteArrayInputStream(fis), this.contribuyenteSelected.getPasskey().toCharArray());
+
+			// Obtener el certificado del almacén de claves
+			String alias = ks.aliases().nextElement();
+			Certificate cert = ks.getCertificate(alias);
+
+			// Verificar que el certificado sea de tipo X509
+			if (cert instanceof X509Certificate) {
+				X509Certificate x509Cert = (X509Certificate) cert;
+				// Verificar la validez del certificado
+				x509Cert.checkValidity();
+				// Si no hay excepciones, el certificado es válido
+
+				System.out.println("El certificado es válido hasta: " + x509Cert.getNotAfter());
+
+				return x509Cert.getNotAfter();
+
+			} else {
+				System.err.println("El certificado no es de tipo X509.");
+
+				return null;
+			}
+
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		} catch (CertificateException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		} catch (KeyStoreException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+
+		return null;
+
+	}
+
+	public void guardarCert() {
+
+		if (this.certFile == null) {
+
+			return;
+
+		}
+		
+		File cert = new File(this.contribuyenteSelected.getPathkey());
+
+		Path directorioPath = Paths.get(cert.getParent());
+
+		try {
+
+			if (!Files.exists(directorioPath)) {
+
+				Files.createDirectories(directorioPath);
+			}
+
+			try (InputStream inputStream = this.certFile.getStreamData();
+
+					OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(this.contribuyenteSelected.getPathkey()))) {
+
+				byte[] buffer = new byte[65536];
+				int bytesRead;
+				while ((bytesRead = inputStream.read(buffer)) != -1) {
+					outputStream.write(buffer, 0, bytesRead);
+				}
+
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+
+	}
 
 	public Contribuyente getContribuyenteSelected() {
 		return contribuyenteSelected;

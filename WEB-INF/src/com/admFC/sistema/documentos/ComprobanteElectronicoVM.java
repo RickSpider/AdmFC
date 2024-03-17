@@ -103,7 +103,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 			
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		if (lContribuyentes.size() > 0) {
 

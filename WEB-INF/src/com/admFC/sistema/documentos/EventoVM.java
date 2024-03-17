@@ -94,7 +94,7 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 		}
 
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		if (lContribuyentes.size() > 0) {
 
