@@ -86,12 +86,72 @@
 			
 			<tablechildren>
 			
-				<label value= "CDC" />
+				<label value= "CDC:" />
 			
 			</tablechildren>
 			<tablechildren>
 
 				<textbox value="@bind(vm.eventoSelected.cdc)"
+					width="150px"  readonly="true"/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Timbrado:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.eventoSelected.timbrado)"
+					width="150px"  readonly="true"/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Establecimiento:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.eventoSelected.establecimiento)"
+					width="150px"  readonly="true"/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Punto Expedición:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.eventoSelected.puntoExpedicion)"
+					width="150px"  readonly="true"/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Numero Ini:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.eventoSelected.numeroIni)"
+					width="150px"  readonly="true"/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Numero Fin:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<textbox value="@bind(vm.eventoSelected.numeroFin)"
 					width="150px"  readonly="true"/>
 			
 			</tablechildren>
@@ -110,8 +170,6 @@
 				<label value= "Estado:" />
 			
 			</tablechildren>
-
-			
 			
 			<tablechildren>
 
@@ -120,7 +178,7 @@
 			
 			</tablechildren>
 			
-			<tablechildren colspan="2"/>
+			
 			
 			<tablechildren >
 			

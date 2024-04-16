@@ -97,7 +97,9 @@
 							hflex="min" />
 						<listheader label="Fecha" align="center"
 							hflex="min" />
-						<listheader label="CDC" align="center" />
+						<listheader label="CDC" align="center" width="360px"/>
+						<listheader label="Timbrado" align="center" />
+						<listheader label="Intervalo" align="center" hflex="min"/>
 
 						<listheader label="Motivo" align="center"
 							hflex="min" />
@@ -172,6 +174,20 @@
 								instant="true"
 								onChange="@command('filtrarEvento')" hflex="1" />
 						</auxheader>
+						
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[9])"
+								instant="true"
+								onChange="@command('filtrarEvento')" hflex="1" />
+						</auxheader>
+						
+						
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[10])"
+								instant="true"
+								onChange="@command('filtrarEvento')" hflex="1" />
+						</auxheader>
+						
 
 						<auxheader />
 
@@ -188,8 +204,11 @@
 								tooltiptext="@load(each[1])" />
 							<listcell label="@load(each[2])"
 								tooltiptext="@load(each[2])" />
-							<listcell label="@load(each[3])"
-								tooltiptext="@load(each[3])" />
+							<listcell >
+								
+								<textbox value="@load(each[3])" tooltiptext="@load(each[2])" readonly="true" width="350px"/>
+							
+							</listcell>
 							<listcell label="@load(each[4])"
 								tooltiptext="@load(each[4])" />
 							<listcell label="@load(each[5])"
@@ -200,6 +219,12 @@
 								tooltiptext="@load(each[7])" />
 							<listcell label="@load(each[8])"
 								tooltiptext="@load(each[8])" />
+							<listcell label="@load(each[9])"
+								tooltiptext="@load(each[9])" />
+							<listcell label="@load(each[10])"
+								tooltiptext="@load(each[10])" />
+							
+							
 				
 
 							<listcell>

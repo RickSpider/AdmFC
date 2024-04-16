@@ -66,6 +66,19 @@ public class Evento extends Modelo implements Serializable {
     private Contribuyente contribuyente;
     
     private String ambiente;
+    
+    private String timbrado;
+    private String establecimiento;
+    
+    @Column(name="punto_expedicion")
+    private String puntoExpedicion;
+    
+    @Column(name="numero_ini")
+    private String numeroIni;
+    
+    @Column(name="numero_fin")
+    private String numeroFin;    
+    
 
     public Long getEventoid() {
         return eventoid;
@@ -165,6 +178,46 @@ public class Evento extends Modelo implements Serializable {
 
 	public void setAmbiente(String ambiente) {
 		this.ambiente = ambiente;
+	}
+
+	public String getTimbrado() {
+		return timbrado;
+	}
+
+	public void setTimbrado(String timbrado) {
+		this.timbrado = timbrado;
+	}
+
+	public String getEstablecimiento() {
+		return establecimiento;
+	}
+
+	public void setEstablecimiento(String establecimiento) {
+		this.establecimiento = establecimiento;
+	}
+
+	public String getPuntoExpedicion() {
+		return puntoExpedicion;
+	}
+
+	public void setPuntoExpedicion(String puntoExpedicion) {
+		this.puntoExpedicion = puntoExpedicion;
+	}
+
+	public String getNumeroIni() {
+		return numeroIni;
+	}
+
+	public void setNumeroIni(String numeroIni) {
+		this.numeroIni = numeroIni;
+	}
+
+	public String getNumeroFin() {
+		return numeroFin;
+	}
+
+	public void setNumeroFin(String numeroFin) {
+		this.numeroFin = numeroFin;
 	}
     
     

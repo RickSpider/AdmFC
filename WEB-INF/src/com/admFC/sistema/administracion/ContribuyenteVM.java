@@ -35,6 +35,7 @@ import com.admFC.modelo.Contribuyente;
 import com.admFC.modelo.ContribuyenteContacto;
 import com.admFC.modelo.ContribuyenteUsuario;
 import com.admFC.modelo.Distrito;
+import com.admFC.modelo.Localidad;
 import com.admFC.modelo.TipoContribuyente;
 import com.admFC.modelo.TipoImpuesto;
 import com.admFC.modelo.TipoTransaccion;
@@ -166,9 +167,9 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 			this.buscarTipoImpuesto = "";
 			this.buscarDistrito = "";
 
-			if (this.contribuyenteSelected.getDistrito() != null) {
+			if (this.contribuyenteSelected.getLocalidad() != null) {
 
-				this.buscarDistrito = this.contribuyenteSelected.getDistrito().getDistrito();
+				this.buscarDistrito = this.contribuyenteSelected.getLocalidad().getLocalidad();
 
 			}
 
@@ -410,7 +411,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	@NotifyChange("lDistritosBuscar")
 	public void generarListaDistritos() {
 
-		String sql = this.um.getSql("buscadores/buscarDistrito.sql");
+		String sql = this.um.getSql("buscadores/buscarLocalidad.sql");
 
 		this.lDistritosBuscar = this.reg.sqlNativo(sql);
 
@@ -430,8 +431,8 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	@NotifyChange("buscarDistrito")
 	public void onSelectDistrito(@BindingParam("id") long id) {
 
-		this.contribuyenteSelected.setDistrito(this.reg.getObjectById(Distrito.class.getName(), id));
-		this.buscarDistrito = this.contribuyenteSelected.getDistrito().getDistrito();
+		this.contribuyenteSelected.setLocalidad(this.reg.getObjectById(Localidad.class.getName(), id));
+		this.buscarDistrito = this.contribuyenteSelected.getLocalidad().getLocalidad();
 
 	}
 
@@ -468,7 +469,8 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		this.buscarTipoImpuesto = this.contribuyenteSelected.getTipoImpuesto().getDescripcion();
 
 	}
-
+	
+	
 	// tipotransaccion
 	private List<Object[]> lTiposTransaccionesBuscarOri = null;
 	private List<Object[]> lTiposTransaccionesBuscar = null;

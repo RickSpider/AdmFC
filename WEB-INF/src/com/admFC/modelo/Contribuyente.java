@@ -65,8 +65,8 @@ public class Contribuyente extends Modelo implements Serializable {
     private String numCasa;
 
     @ManyToOne
-    @JoinColumn(name = "distritoid")
-    private Distrito distrito;
+    @JoinColumn(name = "localidadid")
+    private Localidad localidad;
 
     private String telefono;
 
@@ -171,14 +171,6 @@ public class Contribuyente extends Modelo implements Serializable {
 
     public void setPass(String pass) {
         this.pass = pass;
-    }
-
-    public Distrito getDistrito() {
-        return distrito;
-    }
-
-    public void setDistrito(Distrito distrito) {
-        this.distrito = distrito;
     }
 
     public String getTelefono() {
@@ -450,6 +442,14 @@ public class Contribuyente extends Modelo implements Serializable {
 
 	public void setVencimientokey(Date vencimientokey) {
 		this.vencimientokey = vencimientokey;
+	}
+
+	public Localidad getLocalidad() {
+		return localidad;
+	}
+
+	public void setLocalidad(Localidad localidad) {
+		this.localidad = localidad;
 	}
 
 	

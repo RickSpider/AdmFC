@@ -118,7 +118,7 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 
 	private void inicializarFiltros() {
 
-		this.filtroColumns = new String[9];
+		this.filtroColumns = new String[11];
 
 		for (int i = 0; i < this.filtroColumns.length; i++) {
 

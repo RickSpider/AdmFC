@@ -307,7 +307,7 @@
 
 			<tablechildren>
 
-				<label value="Distrito:" />
+				<label value="Localidad:" />
 
 			</tablechildren>
 
@@ -339,6 +339,7 @@
 								<listhead>
 									<listheader label="Codigo Sifen"
 										hflex="min" />
+									<listheader label="localidad" />
 									<listheader label="Distrito" />
 									<listheader label="Departamento" />
 
@@ -354,6 +355,9 @@
 
 										<listcell label="@load(each[2])"
 											tooltiptext="@load(each[2])" />
+											
+										<listcell label="@load(each[3])"
+											tooltiptext="@load(each[3])" />
 
 										<listcell label="@load(each[4])"
 											tooltiptext="@load(each[4])" />
