@@ -68,7 +68,7 @@
 			<tablechildren>
 
 				<textbox
-					value="@load(vm.contribuyenteSelected.ruc) @save(vm.contribuyenteSelected.ruc, before='guardar')"
+					value="@bind(vm.contribuyenteSelected.ruc)"
 					width="150px" constraint="no empty: Es campo obligatorio." />
 
 			</tablechildren>

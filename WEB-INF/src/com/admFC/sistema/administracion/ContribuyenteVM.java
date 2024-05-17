@@ -224,7 +224,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 			return;
 		}
 
-		this.save(this.contribuyenteSelected);
+		this.contribuyenteSelected = this.save(this.contribuyenteSelected);
 		
 		this.guardarCert();
 
@@ -620,11 +620,11 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	@Command
 	public void uploadFile(@BindingParam("file") Media file) {
 
-		System.out.println("formato:" + file.getName());
+	//	System.out.println("formato:" + file.getName());
 
 		if (file.getName().contains(".pfx")) {
 
-			System.out.println("es el archivo");
+			//System.out.println("es el archivo");
 
 			Date vencimiento = this.getVencimientoKey(file.getByteData());
 

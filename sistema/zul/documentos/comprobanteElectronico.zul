@@ -2,7 +2,20 @@
 
 <?component name="finder" templateURI="/doxacore/zul/component/finder.zul"?>
 <zk>
-	<window title="ComprobanteElectronico" border="normal"
+	<style>
+		.Aprobado { 
+			
+			color: green; 
+			
+		 }
+
+		.Rechazado{
+
+			color: red; 
+		
+		}
+	</style>
+	<window title="Comprobante Electronico" border="normal"
 		viewModel="@id('vm') @init('com.admFC.sistema.documentos.ComprobanteElectronicoVM')"
 		vflex="1" id="Body" apply="org.zkoss.bind.BindComposer">
 
@@ -16,21 +29,12 @@
 
 						<tablechildren>
 
-							<label value="Contribuyente:" />
+							<label value="Contribuyente:"
+								style="font-weight:bold" />
 
 						</tablechildren>
 
 						<tablechildren>
-
-							<!-- <combobox id="countriesCombobox"
-								model="@load(vm.lContribuyentes)" autodrop="true"
-								selectedItem="@bind(vm.contribuyenteSelected)"
-								onChange="@command('onChangeContribuyente')">
-								<template name="model">
-								<comboitem
-								label="@load(each.nombre)" />
-								</template>
-								</combobox> -->
 
 							<finder
 								finderValue="@load(vm.contribuyenteSelected.nombre)"
@@ -39,21 +43,23 @@
 						</tablechildren>
 
 						<tablechildren>
-							<label value="Desde:" />
+							<label value="Desde:"
+								style="font-weight:bold" />
 						</tablechildren>
 						<tablechildren>
 							<datebox value="@bind(vm.desde)"
-								format="dd/MM/yyyy HH:mm:ss" onChange="@command('onChangeFiltroFechas')"
-								width="150px" />
+								format="dd/MM/yyyy HH:mm:ss"
+								onChange="@command('onChangeFiltroFechas')" width="150px" />
 						</tablechildren>
 
 						<tablechildren>
-							<label value="Hasta:" />
+							<label value="Hasta:"
+								style="font-weight:bold" />
 						</tablechildren>
 						<tablechildren>
 							<datebox value="@bind(vm.hasta)"
-								format="dd/MM/yyyy HH:mm:ss" onChange="@command('onChangeFiltroFechas')"
-								width="150px" />
+								format="dd/MM/yyyy HH:mm:ss"
+								onChange="@command('onChangeFiltroFechas')" width="150px" />
 						</tablechildren>
 
 
@@ -63,13 +69,14 @@
 
 					<hbox pack="end" hflex="1">
 
-						<tablelayout columns="4" visible="@load(vm.visibleResponsive)">
+						<tablelayout columns="4"
+							visible="@load(vm.visibleResponsive)">
 
 							<tablechildren>
 
 								<button label="Refrescar"
 									class="doxa-button-orange" iconSclass=" z-icon-refresh "
-									onClick="@command('cargarComprobanteElectronicos')" />
+									onClick="@command('refrescarCompronbantesElectronicos')" />
 
 							</tablechildren>
 
@@ -98,31 +105,30 @@
 
 						</tablelayout>
 
-						<tablelayout visible="@load(!vm.visibleResponsive)">
+						<tablelayout
+							visible="@load(!vm.visibleResponsive)">
 
 							<tablechildren>
 
-								<button 
-									class="doxa-button-orange" iconSclass=" z-icon-refresh "
-									onClick="@command('cargarComprobanteElectronicos')" 
-									tooltiptext="Refrescar"/>
+								<button class="doxa-button-orange"
+									iconSclass=" z-icon-refresh "
+									onClick="@command('cargarComprobanteElectronicos')"
+									tooltiptext="Refrescar" />
 
 							</tablechildren>
 
 							<tablechildren>
 
-								<button 
-									class="doxa-button-green" iconSclass="z-icon-cloud-upload "
-									onClick="@command('enviarLote')" 
-									tooltiptext="Enviar"/>
+								<button class="doxa-button-green"
+									iconSclass="z-icon-cloud-upload "
+									onClick="@command('enviarLote')" tooltiptext="Enviar" />
 
 							</tablechildren>
 
 							<tablechildren>
-								<button 
-									class="doxa-button-green" iconSclass="z-icon-cloud-download "
-									onClick="@command('consultarEstados')" 
-									tooltiptext="Consultar"/>
+								<button class="doxa-button-green"
+									iconSclass="z-icon-cloud-download "
+									onClick="@command('consultarEstados')" tooltiptext="Consultar" />
 							</tablechildren>
 
 
@@ -291,9 +297,10 @@
 
 							</listcell>
 
-							<listcell label="@load(each[9])"
-								tooltiptext="@load(each[13])">
+							<listcell tooltiptext="@load(each[13])">
 
+								<label value="@load(each[9])"
+									sclass="@load(each[9])" />
 
 							</listcell>
 
@@ -363,4 +370,6 @@
 		</hlayout>
 
 	</window>
+
+
 </zk>

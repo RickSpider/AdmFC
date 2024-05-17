@@ -19,6 +19,7 @@ import com.admFC.util.TemplateViewModelLocal;
 import com.doxacore.components.Statbox;
 import com.doxacore.components.finder.FinderInterface;
 import com.doxacore.components.finder.FinderModel;
+import com.doxacore.modelo.Usuario;
 
 public class DashboardVM extends TemplateViewModelLocal implements FinderInterface {
 	
@@ -43,13 +44,10 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		
 		inicializarFinders();
 		
-
 	}
 
 	@AfterCompose(superclass = true)
 	public void afterComposeDashboardVM() {
-
-	
 		
 	}
 
@@ -70,27 +68,43 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		this.lStatsEventos.clear();	 
 		
 		String sqlComprobante = "SELECT \n" + 
-				"    COALESCE(SUM(CASE WHEN estado like '%Aprobado%' THEN 1 ELSE 0 END),0) AS aprobados,\n" + 
-				"    COALESCE(SUM(CASE WHEN estado like '%Rechazado%' THEN 1 ELSE 0 END),0) AS rechazados,\n" + 
-				"    COALESCE(SUM(CASE WHEN estado isnull OR estado = '' OR estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
-				"FROM comprobanteselectronicos \n" +
-				"WHERE creado BETWEEN '"+sdf.format(desde)+"' AND '"+sdf.format(hasta)+"' \n"+
+				"    COALESCE(SUM(CASE WHEN ce.estado like '%Aprobado%' THEN 1 ELSE 0 END),0) AS aprobados,\n" + 
+				"    COALESCE(SUM(CASE WHEN ce.estado like '%Rechazado%' THEN 1 ELSE 0 END),0) AS rechazados,\n" + 
+				"    COALESCE(SUM(CASE WHEN ce.estado isnull OR ce.estado = '' OR ce.estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
+				"FROM comprobanteselectronicos ce \n" +
+				"--##NOMASTER## \n"+
+				"WHERE ce.creado BETWEEN '"+sdf.format(desde)+"' AND '"+sdf.format(hasta)+"' \n"+
+				"--##USUARIO## \n"+
 				"--##CONTRIBUYENTE## \n"+
 				";";
 		
 		String sqlEvento = "SELECT \n" + 
-				"    COALESCE(SUM(CASE WHEN estado like '%Aprobado%' THEN 1 ELSE 0 END),0) AS aprobados,\n" + 
-				"    COALESCE(SUM(CASE WHEN estado like '%Rechazado%' THEN 1 ELSE 0 END),0) AS rechazados,\n" + 
-				"    COALESCE(SUM(CASE WHEN estado isnull OR estado = '' OR estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
-				"FROM eventos \n"+
+				"    COALESCE(SUM(CASE WHEN e.estado like '%Aprobado%' THEN 1 ELSE 0 END),0) AS aprobados,\n" + 
+				"    COALESCE(SUM(CASE WHEN e.estado like '%Rechazado%' THEN 1 ELSE 0 END),0) AS rechazados,\n" + 
+				"    COALESCE(SUM(CASE WHEN e.estado isnull OR estado = '' OR e.estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
+				"FROM eventos e\n"+
+				"--##NOMASTER## \n"+
 				"WHERE fecha BETWEEN '"+sdf.format(desde)+"' AND '"+sdf.format(hasta)+"' \n"+
+				"--##USUARIO## \n"+
 				"--##CONTRIBUYENTE## \n"+
 				";";
 		
+		Usuario user = this.getCurrentUser();
+		
+		if (!this.isUserRolMaster()) {
+			
+			sqlComprobante = sqlComprobante.replace("--##NOMASTER##", " JOIN contribuyentesusuarios cu on cu.contribuyenteid = ce.contribuyenteid ")
+					.replace("--##USUARIO##", "AND cu.usuarioid = "+this.getCurrentUser().getUsuarioid() +" \n" );
+			
+			sqlEvento = sqlEvento.replace("--##NOMASTER##", " JOIN contribuyentesusuarios cu on cu.contribuyenteid = e.contribuyenteid ")
+					.replace("--##USUARIO##", "AND cu.usuarioid = "+this.getCurrentUser().getUsuarioid() +" \n" );
+			
+		}
+		
 		if (this.contribuyenteSelected != null) {
 			
-			sqlComprobante = sqlComprobante.replace("--##CONTRIBUYENTE##", "AND contribuyenteid = "+this.contribuyenteSelected.getContribuyenteid()+" ");
-			sqlEvento = sqlEvento.replace("--##CONTRIBUYENTE##", "AND contribuyenteid = "+this.contribuyenteSelected.getContribuyenteid()+" ");
+			sqlComprobante = sqlComprobante.replace("--##CONTRIBUYENTE##", "AND ce.contribuyenteid = "+this.contribuyenteSelected.getContribuyenteid()+" ");
+			sqlEvento = sqlEvento.replace("--##CONTRIBUYENTE##", "AND e.contribuyenteid = "+this.contribuyenteSelected.getContribuyenteid()+" ");
 		}
 		
 		System.out.println(sqlComprobante);
@@ -106,8 +120,6 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				toPorcentaje(Double.parseDouble(resultComprobante.get(0)[1].toString()),totalComprobantes)));
 		lStatsComprobantes.add(new Statbox("3","PENDIENTE/SIN ESTADO",resultComprobante.get(0)[2].toString(),"fa-file-o",Statbox.stylePurpleDarker,true,
 				toPorcentaje(Double.parseDouble(resultComprobante.get(0)[2].toString()),totalComprobantes)));
-		
-		
 		
 	//	System.out.println(sqlEvento);
 		

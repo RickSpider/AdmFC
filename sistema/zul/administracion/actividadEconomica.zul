@@ -1,6 +1,6 @@
 <?page title="ActividadesEconomicas" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window title="ActividadEconomica" border="normal"
+	<window title="Actividades Económicas" border="normal"
 		viewModel="@id('vm') @init('com.admFC.sistema.administracion.ActividadEconomicaVM')"
 		vflex="1" id="Body" apply="org.zkoss.bind.BindComposer">
 

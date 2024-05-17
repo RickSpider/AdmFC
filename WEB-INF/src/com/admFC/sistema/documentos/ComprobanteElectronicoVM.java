@@ -13,6 +13,7 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.MatchMedia;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -91,6 +92,15 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		this.opEditarComprobanteElectronico = this.operacionHabilitada(ParamsLocal.OP_EDITAR_COMPROBANTEELECTRONICO);
 		this.opBorrarComprobanteElectronico = this.operacionHabilitada(ParamsLocal.OP_BORRAR_COMPROBANTEELECTRONICO);
 
+	}
+	
+	@Command
+	@NotifyChange("lComprobantesElectronicos")
+	public void refrescarCompronbantesElectronicos() {
+		
+		Notification.show("Refrescando Datos.");
+		this.cargarComprobanteElectronicos();
+		
 	}
 
 	@Command
@@ -415,6 +425,20 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 
 		this.cargarComprobanteElectronicos();
 
+	}
+	
+	@Command
+	public void uploadFile(@BindingParam("file") Media file) {
+		
+		if (file.getName().contains(".png")) {
+			
+			
+		}else {
+			
+			this.mensajeInfo("Archivo no valido.");
+			
+		}
+		
 	}
 
 	public ComprobanteElectronico getComprobanteElectronicoSelected() {

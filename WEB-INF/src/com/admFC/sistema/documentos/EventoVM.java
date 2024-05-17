@@ -81,6 +81,15 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 		this.opBorrarEvento = this.operacionHabilitada(ParamsLocal.OP_BORRAR_EVENTO);
 
 	}
+	
+	@Command
+	@NotifyChange("*")
+	public void refrescarEventos() {
+		
+		Notification.show("Refrescando Datos.");
+		this.cargarEventos();
+		
+	}
 
 	@Command
 	@NotifyChange("*")

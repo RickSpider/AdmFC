@@ -2,6 +2,16 @@
 <?component name="finder" templateURI="/doxacore/zul/component/finder.zul"?>
 
 <zk>
+
+	<style>
+        
+        .Concluido {
+            color: green;
+            
+        }
+        
+    </style>
+
 	<window title="Lote" border="normal"
 		viewModel="@id('vm') @init('com.admFC.sistema.documentos.LoteVM')"
 		vflex="1" id="Body" apply="org.zkoss.bind.BindComposer">
@@ -16,28 +26,18 @@
 
 						<tablechildren>
 
-							<label value="Contribuyente:" />
+							<label value="Contribuyente:" style="font-weight:bold"/>
 
 						</tablechildren>
 
 						<tablechildren>
 
-							<!-- <combobox id="countriesCombobox"
-								model="@load(vm.lContribuyentes)" autodrop="true"
-								selectedItem="@bind(vm.contribuyenteSelected)"
-								onChange="@command('onChangeContribuyente')">
-								<template name="model">
-									<comboitem
-										label="@load(each.nombre)" />
-								</template>
-							</combobox>  -->
-							
 							<finder finderValue="@load(vm.contribuyenteSelected.nombre)" finderModel="@init(vm.contribuyenteFinder)"/>
 
 						</tablechildren>
 
 						<tablechildren>
-							<label value="Desde:" />
+							<label value="Desde:" style="font-weight:bold" />
 						</tablechildren>
 						<tablechildren>
 							<datebox value="@bind(vm.desde)"
@@ -46,7 +46,7 @@
 						</tablechildren>
 
 						<tablechildren>
-							<label value="Hasta:" />
+							<label value="Hasta:" style="font-weight:bold" />
 						</tablechildren>
 						<tablechildren>
 							<datebox value="@bind(vm.hasta)"
@@ -151,8 +151,12 @@
 								<textbox value="@load(each[3])" tooltiptext="@load(each[3])" readonly="true"/>
 								
 							</listcell>
-							<listcell label="@load(each[4])"
-								tooltiptext="@load(each[4])" />
+							<listcell 
+								tooltiptext="@load(each[4])" >
+								
+								<label value="@load(each[4])" sclass="@load(each[4])"/>
+								
+							</listcell>
 							<listcell label="@load(each[5])"
 								tooltiptext="@load(each[5])" />
 					
@@ -203,4 +207,6 @@
 		</hlayout>
 
 	</window>
+	
+	
 </zk>
