@@ -624,18 +624,21 @@
 				<space height="10px" />
 
 			</tablechildren>
-
+			
 			<tablechildren>
 
-				<label value="Habilitado:" />
+				<label value="Redondeo SEDECO:" />
 
 			</tablechildren>
 			<tablechildren>
 
 				<checkbox
-					checked="@bind(vm.contribuyenteSelected.habilitado)" mold="switch" />
+					checked="@bind(vm.contribuyenteSelected.redondeo)" mold="switch" />
 
 			</tablechildren>
+			
+
+			
 
 
 			<tablechildren>
@@ -651,12 +654,19 @@
 
 			</tablechildren>
 
-
 			<tablechildren>
 
-				<label value="Regenerar Pass WS:" />
+				<label value="Habilitado:" />
 
 			</tablechildren>
+			<tablechildren>
+
+				<checkbox
+					checked="@bind(vm.contribuyenteSelected.habilitado)" mold="switch" />
+
+			</tablechildren>
+		
+
 			<tablechildren>
 
 				<button label="Regenerar" iconSclass="z-icon-refresh "

@@ -72,8 +72,10 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				"    COALESCE(SUM(CASE WHEN ce.estado like '%Rechazado%' THEN 1 ELSE 0 END),0) AS rechazados,\n" + 
 				"    COALESCE(SUM(CASE WHEN ce.estado isnull OR ce.estado = '' OR ce.estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
 				"FROM comprobanteselectronicos ce \n" +
+				"join contribuyentes c on c.contribuyenteid = ce.contribuyenteid \n"+
 				"--##NOMASTER## \n"+
 				"WHERE ce.creado BETWEEN '"+sdf.format(desde)+"' AND '"+sdf.format(hasta)+"' \n"+
+				"and c.habilitado = true \n"+
 				"--##USUARIO## \n"+
 				"--##CONTRIBUYENTE## \n"+
 				";";
@@ -83,8 +85,10 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				"    COALESCE(SUM(CASE WHEN e.estado like '%Rechazado%' THEN 1 ELSE 0 END),0) AS rechazados,\n" + 
 				"    COALESCE(SUM(CASE WHEN e.estado isnull OR estado = '' OR e.estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
 				"FROM eventos e\n"+
+				"join contribuyentes c on c.contribuyenteid = e.contribuyenteid \n"+
 				"--##NOMASTER## \n"+
 				"WHERE fecha BETWEEN '"+sdf.format(desde)+"' AND '"+sdf.format(hasta)+"' \n"+
+				"and c.habilitado = true \n"+
 				"--##USUARIO## \n"+
 				"--##CONTRIBUYENTE## \n"+
 				";";
@@ -166,7 +170,8 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		
 		String sqlContribuyente = "Select c.contribuyenteid as id, c.nombre as contribuyente, (c.ruc||'-'||c.dv) as ruc, ambiente as ambiente from contribuyentes c \n"
 				+ "--left join contribuyentesusuarios cu on cu.contribuyenteid = c.contribuyenteid \n"  
-				+ "--where cu.usuarioid = ?1 \n"
+				+ "where c.habilitado = true \n "
+				+ "-- and cu.usuarioid = ?1 \n"
 				+ "order by c.contribuyenteid asc;";
 		
 		//String sqlContribuyente  = this.um.getSql("contribuyente/listaContribuyentes.sql");

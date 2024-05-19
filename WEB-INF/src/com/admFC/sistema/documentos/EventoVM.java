@@ -293,7 +293,9 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 
 		String sqlContribuyente = "Select c.contribuyenteid as id, c.nombre as contribuyente, (c.ruc||'-'||c.dv) as ruc, ambiente as ambiente from contribuyentes c \n"
 				+ "--left join contribuyentesusuarios cu on cu.contribuyenteid = c.contribuyenteid \n"
-				+ "--where cu.usuarioid = ?1 \n" + "order by c.contribuyenteid asc;";
+				+ "where c.habilitado = true \n "
+				+ "-- and cu.usuarioid = ?1 \n" 
+				+ "order by c.contribuyenteid asc;";
 
 		// String sqlContribuyente =
 		// this.um.getSql("contribuyente/listaContribuyentes.sql");

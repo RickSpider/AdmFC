@@ -368,7 +368,8 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 
 		String sqlContribuyente = "Select c.contribuyenteid as id, c.nombre as contribuyente, (c.ruc||'-'||c.dv) as ruc, ambiente as ambiente from contribuyentes c \n"
 				+ "--left join contribuyentesusuarios cu on cu.contribuyenteid = c.contribuyenteid \n"
-				+ "--where cu.usuarioid = ?1 and c.habilitado = true \n" 
+				+ "where c.habilitado = true \n "
+				+ "-- and cu.usuarioid = ?1 \n" 
 				+ "order by c.contribuyenteid asc;";
 
 		// String sqlContribuyente =

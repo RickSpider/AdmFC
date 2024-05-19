@@ -119,7 +119,7 @@ public class Contribuyente extends Modelo implements Serializable {
     private List<ContribuyenteContacto> contactos = new ArrayList<ContribuyenteContacto>();
     
     @Column(columnDefinition = "boolean default true", name="habilitado")
-    private boolean habilitado;
+    private boolean habilitado = true;
     
   
     /**
@@ -136,6 +136,9 @@ public class Contribuyente extends Modelo implements Serializable {
     public String getAmbiente() {
         return ambiente;
     }
+    
+    @Column(columnDefinition = "boolean default true", name="redondeo")
+    private boolean redondeo = true;
     
  //Seccion mail server
     
@@ -452,10 +455,12 @@ public class Contribuyente extends Modelo implements Serializable {
 		this.localidad = localidad;
 	}
 
-	
+	public boolean isRedondeo() {
+		return redondeo;
+	}
 
-
-	
-    
+	public void setRedondeo(boolean redondeo) {
+		this.redondeo = redondeo;
+	} 
     
 }
