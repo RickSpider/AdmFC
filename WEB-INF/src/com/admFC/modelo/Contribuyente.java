@@ -94,7 +94,7 @@ public class Contribuyente extends Modelo implements Serializable {
     PROD = produccion
     DEV = desarrollo
      */
-    private String ambiente;
+    private String ambiente = "DEV";
     @Column(columnDefinition = "boolean default true", name="sololote")
     private boolean soloLote;
     

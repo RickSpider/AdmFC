@@ -239,11 +239,20 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 	@Command
 	@NotifyChange("lEventos")
 	public void enviarEventos() throws IOException {
+		
+		if (this.contribuyenteSelected == null) {
+			this.mensajeError("Selecciona un contribuyente para iniciar el envio de comprobantes.");
+			return;
+		}
+		
+		Contribuyente c = new Contribuyente();
+		c.setContribuyenteid(this.contribuyenteSelected.getContribuyenteid());
+		c.setPass(this.contribuyenteSelected.getPass());
 
 		HttpConexion conn = new HttpConexion();
 		String link = this.getSistemaPropiedad("SERVIDOR_FC").getValor()
 				+ this.getSistemaPropiedad("ENVIO_EVENTO").getValor();
-		ResultRest rr = conn.consumirREST(link, HttpConexion.GET, "");
+		ResultRest rr = conn.consumirREST(link, HttpConexion.POST, new Gson().toJson(c));
 
 		Notification.show("Respuesta de servidor:\n Code:" + rr.getCode() + "\n Mensaje: " + rr.getMensaje());
 
