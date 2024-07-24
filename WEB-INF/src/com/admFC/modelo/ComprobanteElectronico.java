@@ -64,6 +64,9 @@ public class ComprobanteElectronico extends Modelo implements Serializable {
     @Column(name = "envioporlote", columnDefinition = "boolean default false")
     private boolean envioPorLote = false;
     
+    @Column(columnDefinition = "boolean default true", name = "enviaralerta")
+    private boolean enviarAlerta = true;
+    
     @ManyToOne
     @JoinColumn(name = "loteid")
     private Lote lote;
@@ -215,6 +218,14 @@ public class ComprobanteElectronico extends Modelo implements Serializable {
 
 	public void setEnlaceQR(String enlaceQR) {
 		this.enlaceQR = enlaceQR;
+	}
+
+	public boolean isEnviarAlerta() {
+		return enviarAlerta;
+	}
+
+	public void setEnviarAlerta(boolean enviarAlerta) {
+		this.enviarAlerta = enviarAlerta;
 	}
     
     

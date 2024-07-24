@@ -135,6 +135,8 @@
 			
 			</tablechildren>
 			
+			
+			
 			<tablechildren >
 			
 				<label value= "XML:" />
@@ -162,6 +164,18 @@
 					rows="1"
 					constraint="no empty: Es campo obligatorio." 
 					readonly="true"/>
+			
+			</tablechildren>
+			
+			<tablechildren>
+			
+				<label value= "Enviar Alerta:" />
+			
+			</tablechildren>
+			<tablechildren>
+
+				<checkbox checked="@bind(vm.comprobanteElectronicoSelected.enviarAlerta)" mold="switch"
+				disabled="@load(vm.camposBloqueados)"/>
 			
 			</tablechildren>
 		
