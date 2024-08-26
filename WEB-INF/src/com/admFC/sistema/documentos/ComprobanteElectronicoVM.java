@@ -204,9 +204,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 
 		this.comprobanteElectronicoSelected = null;
 
-		this.cargarComprobanteElectronicos();
-
-		this.modal.detach();
+		
 
 		this.auditoria.setUsuario(this.getCurrentUser().getAccount());
 
@@ -223,6 +221,10 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		}
 
 		this.reg.saveObject(this.auditoria, "SYSTEM");
+		
+		this.modal.detach();
+		this.cargarComprobanteElectronicos();
+		this.filtrarComprobanteElectronico();
 
 	}
 

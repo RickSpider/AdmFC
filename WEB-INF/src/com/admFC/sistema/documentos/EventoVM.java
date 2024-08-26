@@ -198,7 +198,7 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 
 		this.eventoSelected = null;
 
-		this.cargarEventos();
+		
 
 		this.modal.detach();
 
@@ -217,6 +217,9 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 		}
 
 		this.reg.saveObject(this.auditoria, "SYSTEM");
+		
+		this.cargarEventos();
+		this.filtrarEvento();
 
 	}
 

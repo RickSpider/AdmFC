@@ -201,6 +201,9 @@ public class LoteVM extends TemplateViewModelLocal {
 		}
 
 		this.reg.saveObject(this.auditoria, "SYSTEM");
+		
+		this.cargarLotes();
+		this.filtrarLote();
 
 	}
 

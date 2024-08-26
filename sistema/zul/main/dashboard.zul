@@ -10,41 +10,52 @@
 
 		<h:h6>FILTRO DE DATOS</h:h6>
 		<h:hr class="hr" />
-		<h:div>	
-			
-			<tablelayout columns="6">
-			
+		<h:div>
+
+			<tablelayout columns="7">
+
 				<tablechildren>
-					<label value="Contribuyente: " style="font-weight: bold; "/>
+					<label value="Contribuyente: "
+						style="font-weight: bold; " />
 				</tablechildren>
 				<tablechildren width="160px">
-					<finder finderValue="@load(vm.contribuyenteSelected.nombre)" finderModel="@init(vm.contribuyenteFinder)"/>
+					<finder
+						finderValue="@load(vm.contribuyenteSelected.nombre)"
+						finderModel="@init(vm.contribuyenteFinder)" />
 				</tablechildren>
-				
+
 				<tablechildren>
-					<label value="Desde: " style="font-weight: bold; "/>
+					<label value="Desde: " style="font-weight: bold; " />
 				</tablechildren>
 				<tablechildren width="160px">
 					<datebox value="@bind(vm.desde)"
-								format="dd/MM/yyyy HH:mm:ss" onChange="@command('onChangeFiltroFechas')"
-								width="150px"/>
+						format="dd/MM/yyyy HH:mm:ss"
+						onChange="@command('onChangeFiltroFechas')" width="150px" />
 				</tablechildren>
-				
+
 				<tablechildren>
-					<label value="Hasta: " style="font-weight: bold; "/>
+					<label value="Hasta: " style="font-weight: bold; " />
 				</tablechildren>
 				<tablechildren width="160px">
 					<datebox value="@bind(vm.hasta)"
-								format="dd/MM/yyyy HH:mm:ss" onChange="@command('onChangeFiltroFechas')"
-								width="150px"/>
+						format="dd/MM/yyyy HH:mm:ss"
+						onChange="@command('onChangeFiltroFechas')" width="150px" />
 				</tablechildren>
-			
+
+				<tablechildren>
+
+					<button label="Refrescar" class="doxa-button-orange"
+						iconSclass=" z-icon-refresh "
+						onClick="@command('refrescarDatos')" />
+
+				</tablechildren>
+
 			</tablelayout>
-			
+
 		</h:div>
-		
-		<space width="50px"/>
-		
+
+		<space width="50px" />
+
 
 		<h:h6>COMPROBANTES ELECTRONICOS</h:h6>
 		<h:hr class="hr" />
@@ -54,15 +65,15 @@
 				<statBox statBlock="@init(each)" />
 			</forEach>
 		</h:div>
-		
+
 		<h:h6>EVENTOS</h:h6>
 		<h:hr class="hr" />
-		
+
 		<h:div sclass="row">
 			<forEach items="@init(vm.lStatsEventos)">
 				<statBox statBlock="@init(each)" />
 			</forEach>
 		</h:div>
-		
+
 	</window>
 </zk>

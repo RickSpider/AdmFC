@@ -157,6 +157,15 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void refrescarDatos() {
+		
+		this.cargarDatos();
+		Notification.show("Refrescando Datos.");
+		
+	}
+	
 	public void onClickXXX() {
 		
 		Notification.show("*********");
