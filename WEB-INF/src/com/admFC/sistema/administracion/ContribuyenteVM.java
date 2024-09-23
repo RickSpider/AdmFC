@@ -71,8 +71,9 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	@Init(superclass = true)
 	public void initContribuyenteVM() {
 
-		cargarContribuyentes();
+		
 		inicializarFiltros();
+		cargarContribuyentes();
 
 	}
 
@@ -105,6 +106,8 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 		this.lContribuyentes = this.reg.sqlNativo(sql);
 		this.lContribuyentesOri = this.lContribuyentes;
+		
+		this.filtrarContribuyente();
 
 	}
 
@@ -230,7 +233,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 		this.contribuyenteSelected = null;
 
-		this.cargarContribuyentes();
+		
 
 		this.modal.detach();
 
@@ -249,6 +252,8 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		}
 
 		this.reg.saveObject(this.auditoria, "SYSTEM");
+		
+		this.cargarContribuyentes();
 
 	}
 

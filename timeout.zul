@@ -9,7 +9,7 @@
 			el tiempo o se ha reiniciado el servidor, debe volver a
 			iniciar sesión.
 
-			<a href="/doxacore/zul/login/login.zul"
+			<a href="/"
 				label="[Iniciar sesión]" autodisable="self" />
 
 		</vbox>

@@ -39,8 +39,9 @@ public class ActividadEconomicaVM extends TemplateViewModelLocal{
 	@Init(superclass = true)
 	public void initActividadEconomicaVM() {
 
-		cargarActividadesEconomicas();
+		
 		inicializarFiltros();
+		cargarActividadesEconomicas();
 
 	}
 
@@ -66,7 +67,7 @@ public class ActividadEconomicaVM extends TemplateViewModelLocal{
 		
 		this.lActividadesEconomicas = this.reg.sqlNativo(sql);
 		this.lActividadesEconomicasOri = this.lActividadesEconomicas;
-		
+		this.filtrarActividadEconomica();
 	}
 	
 	private String filtroColumns[];
@@ -143,8 +144,6 @@ public class ActividadEconomicaVM extends TemplateViewModelLocal{
 		
 		this.actividadEconomicaSelected = null;
 
-		this.cargarActividadesEconomicas();
-
 		this.modal.detach();
 		
 		this.auditoria.setUsuario(this.getCurrentUser().getAccount());
@@ -162,7 +161,7 @@ public class ActividadEconomicaVM extends TemplateViewModelLocal{
 		}
 		
 		this.reg.saveObject(this.auditoria, "SYSTEM");
-		
+		this.cargarActividadesEconomicas();
 	}
 	
 	

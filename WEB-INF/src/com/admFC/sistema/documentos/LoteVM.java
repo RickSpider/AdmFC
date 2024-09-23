@@ -58,9 +58,10 @@ public class LoteVM extends TemplateViewModelLocal {
 		
 		hasta = this.um.modificarHorasMinutosSegundos(this.desde, 23, 59, 59, 999);
 
-		cargarLotes();
+		
 		inicializarFiltros();
 		inicializarFinders();
+		cargarLotes();
 	}
 
 	@AfterCompose(superclass = true)
@@ -102,8 +103,11 @@ public class LoteVM extends TemplateViewModelLocal {
 
 			this.lLotes = this.reg.sqlNativo(sql);
 			this.lLotesOri = this.lLotes;
+			
+			this.filtrarLote();
 
 		}
+		
 
 	}
 

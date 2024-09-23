@@ -71,9 +71,10 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 
 		}*/
 
-		cargarComprobanteElectronicos();
+		
 		inicializarFiltros();
 		inicializarFinders();
+		cargarComprobanteElectronicos();
 
 	}
 	
@@ -123,8 +124,12 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 
 			this.lComprobantesElectronicos = this.reg.sqlNativo(sql);
 			this.lComprobantesElectronicosOri = this.lComprobantesElectronicos;
+			
+			this.filtrarComprobanteElectronico();
 
 		}
+		
+		
 
 	}
 
@@ -224,7 +229,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		
 		this.modal.detach();
 		this.cargarComprobanteElectronicos();
-		this.filtrarComprobanteElectronico();
+		
 
 	}
 

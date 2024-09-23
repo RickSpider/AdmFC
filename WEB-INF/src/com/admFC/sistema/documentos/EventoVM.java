@@ -62,9 +62,10 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 		
 		hasta = this.um.modificarHorasMinutosSegundos(this.desde, 23, 59, 59, 999);
 
-		cargarEventos();
+		
 		inicializarFiltros();
 		inicializarFinders();
+		cargarEventos();
 
 	}
 
@@ -118,8 +119,12 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 
 			this.lEventos = this.reg.sqlNativo(sql);
 			this.lEventosOri = this.lEventos;
+			
+			this.filtrarEvento();
 
 		}
+		
+		
 
 	}
 
