@@ -99,6 +99,8 @@
 							hflex="min" />
 						<listheader label="Contribuyente" align="center"
 							hflex="min" />
+						<listheader label="Creado" align="center"
+							hflex="min" />
 						<listheader label="Fecha" align="center"
 							hflex="min" />
 						<listheader label="CDC" align="center" width="360px"/>
@@ -192,6 +194,12 @@
 								onChange="@command('filtrarEvento')" hflex="1" />
 						</auxheader>
 						
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[11])"
+								instant="true"
+								onChange="@command('filtrarEvento')" hflex="1" />
+						</auxheader>
+						
 
 						<auxheader />
 
@@ -208,28 +216,34 @@
 								tooltiptext="@load(each[1])" />
 							<listcell label="@load(each[2])"
 								tooltiptext="@load(each[2])" />
+								
+							<listcell label="@load(each[3])"
+								tooltiptext="@load(each[3])" />
+								
 							<listcell >
 								
-								<textbox value="@load(each[3])" tooltiptext="@load(each[2])" readonly="true" width="350px"/>
+								<textbox value="@load(each[4])" tooltiptext="@load(each[4])" readonly="true" width="350px"/>
 							
 							</listcell>
-							<listcell label="@load(each[4])"
-								tooltiptext="@load(each[4])" />
 							<listcell label="@load(each[5])"
 								tooltiptext="@load(each[5])" />
 							<listcell label="@load(each[6])"
 								tooltiptext="@load(each[6])" />
 							<listcell label="@load(each[7])"
 								tooltiptext="@load(each[7])" />
-							<listcell tooltiptext="@load(each[8])" >
 								
-								<label value="@load(each[8])"  sclass="@load(each[8])"/>
+							<listcell label="@load(each[8])"
+								tooltiptext="@load(each[8])" />
+							
+							<listcell tooltiptext="@load(each[9])" >
+								
+								<label value="@load(each[9])"  sclass="@load(each[9])"/>
 								
 							</listcell>
-							<listcell label="@load(each[9])"
-								tooltiptext="@load(each[9])" />
 							<listcell label="@load(each[10])"
 								tooltiptext="@load(each[10])" />
+							<listcell label="@load(each[11])"
+								tooltiptext="@load(each[11])" />
 							
 							
 				

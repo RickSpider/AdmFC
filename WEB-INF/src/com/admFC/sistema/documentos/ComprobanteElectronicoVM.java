@@ -2,6 +2,7 @@ package com.admFC.sistema.documentos;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,7 @@ import com.admFC.util.conexionRest.ResultRest;
 import com.doxacore.components.finder.FinderInterface;
 import com.doxacore.components.finder.FinderModel;
 import com.doxacore.modelo.Auditoria;
+import com.doxacore.report.ReportExcel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -347,14 +349,14 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 
 	//seccion responsive
 	private boolean visibleResponsive = true;
-	private int colResponsive = 6;
+	private int colResponsive = 7;
 	
 	@MatchMedia("all and (min-width: 958px)")
 	@NotifyChange({ "collapsed", "includeSclass", "visibleResponsive", "colResponsive" })
 	public void beWide() {
 
 		this.visibleResponsive = true;
-		this.colResponsive = 6;
+		this.colResponsive = 7;
 	}
 
 	@MatchMedia("all and (max-width: 957px)")
@@ -447,6 +449,82 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 			
 		}
 		
+	}
+	
+	@Command
+	public void exportarExcel() {
+		
+		if(this.contribuyenteSelected == null) {
+			
+			this.mensajeInfo("Debes seleccionar un contribuyente.");
+			
+			return;
+			
+		}
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+		List<String[]> titulos = new ArrayList<String[]>();
+		
+		
+		String[] t1 = {"Comprobantes Electronicos"};
+		String[] t2 = {this.contribuyenteSelected.getNombre()};
+		String[] t3 = {"Fecha Desde:", sdf.format(this.desde)};
+		String[] t4 = {"Fecha Hasta:", sdf.format(this.hasta)};
+		String[] espacioBlanco = {""};
+
+		titulos.add(t1);
+		titulos.add(t2);
+		titulos.add(espacioBlanco);
+		titulos.add(t3);
+		titulos.add(t4);
+		titulos.add(espacioBlanco);
+		
+		List<String[]> headersDatos = new ArrayList<String[]>();
+		String [] hd1 =  {"ID","CREADO","CDC", "NUMERO", "ENVIO POR LOTE", "ENVIADO LOTE", "ENVIADO", "LOTE Nº", "ESTADO", "RESPUESTA" ,"TIPO COMPROBANTE","AMBIENTE"};
+		headersDatos.add(hd1);
+		
+		/*String sql = this.um.getSql("comprobanteElectronico/listaComprobantesElectronicos.sql")
+				.replace("?1", sdf.format(desde)).replace("?2", sdf.format(hasta))
+				.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
+		
+		List<Object[]> datos = this.reg.sqlNativo(sql);*/
+		
+		List<Object[]> detalles = new ArrayList<>();
+		
+		for (Object[] ox : this.lComprobantesElectronicos) {
+			
+			Object[] o = new Object[12];
+			
+				
+			o[0] = ox[0].toString();
+			o[1] = ox[1].toString();
+			o[2] = ox[3].toString();
+			o[3] = ox[4].toString();
+			o[4] = ox[5].toString();
+			o[5] = ox[6].toString();
+			o[6] = ox[7].toString();
+			
+			o[7] = "";
+			if (ox[8]!=null) {
+				
+				o[7] = ox[8].toString();
+			}
+			
+			
+			o[8] = ox[9].toString();
+			o[9] = "";
+			if (ox[13] != null) {
+				o[9] = ox[13].toString();
+			}
+			o[10] = ox[10].toString();
+			o[11] = ox[12].toString();
+			
+			
+			detalles.add(o);
+		}
+		
+		ReportExcel re = new ReportExcel("CE_"+this.contribuyenteSelected.getNombre().trim().replaceAll("\\s+", "").replace(".", "").replace(",", ""));
+		re.descargar(titulos, headersDatos, detalles);
 	}
 
 	public ComprobanteElectronico getComprobanteElectronicoSelected() {

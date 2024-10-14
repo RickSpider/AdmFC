@@ -24,49 +24,54 @@
 			<vlayout hflex="1" vflex="1">
 
 				<hbox hflex="1">
+					
+					<hbox pack="start" hflex="1">
+						<tablelayout columns="@load(vm.colResponsive)">
+	
+							<tablechildren>
+	
+								<label value="Contribuyente:"
+									style="font-weight:bold" />
+	
+							</tablechildren>
+	
+							<tablechildren>
+	
+								<finder
+									finderValue="@load(vm.contribuyenteSelected.nombre)"
+									finderModel="@init(vm.contribuyenteFinder)" />
+	
+							</tablechildren>
+	
+							<tablechildren>
+								<label value="Desde:"
+									style="font-weight:bold" />
+							</tablechildren>
+							<tablechildren>
+								<datebox value="@bind(vm.desde)"
+									format="dd/MM/yyyy HH:mm:ss"
+									onChange="@command('onChangeFiltroFechas')" width="150px" />
+							</tablechildren>
+	
+							<tablechildren>
+								<label value="Hasta:"
+									style="font-weight:bold" />
+							</tablechildren>
+							<tablechildren>
+								<datebox value="@bind(vm.hasta)"
+									format="dd/MM/yyyy HH:mm:ss"
+									onChange="@command('onChangeFiltroFechas')" width="150px" />
+							</tablechildren>
+							
+							<tablechildren>
+								<toolbarbutton image="/doxacore/img/icoExcel22x20.png" tooltiptext="Exportar a Excel"
+								onClick="@command('exportarExcel')" />								
+												
+							</tablechildren>
+	
+						</tablelayout>
 
-					<tablelayout columns="@load(vm.colResponsive)">
-
-						<tablechildren>
-
-							<label value="Contribuyente:"
-								style="font-weight:bold" />
-
-						</tablechildren>
-
-						<tablechildren>
-
-							<finder
-								finderValue="@load(vm.contribuyenteSelected.nombre)"
-								finderModel="@init(vm.contribuyenteFinder)" />
-
-						</tablechildren>
-
-						<tablechildren>
-							<label value="Desde:"
-								style="font-weight:bold" />
-						</tablechildren>
-						<tablechildren>
-							<datebox value="@bind(vm.desde)"
-								format="dd/MM/yyyy HH:mm:ss"
-								onChange="@command('onChangeFiltroFechas')" width="150px" />
-						</tablechildren>
-
-						<tablechildren>
-							<label value="Hasta:"
-								style="font-weight:bold" />
-						</tablechildren>
-						<tablechildren>
-							<datebox value="@bind(vm.hasta)"
-								format="dd/MM/yyyy HH:mm:ss"
-								onChange="@command('onChangeFiltroFechas')" width="150px" />
-						</tablechildren>
-
-
-
-
-					</tablelayout>
-
+					</hbox>
 					<hbox pack="end" hflex="1">
 
 						<tablelayout columns="4"
@@ -146,6 +151,8 @@
 
 						<listheader hflex="min" align="center"
 							visible="@load(vm.visibleResponsive)" />
+							 
+						
 						<listheader label="ID" align="center"
 							hflex="min" />
 
@@ -183,7 +190,8 @@
 
 
 						<listheader align="center" hflex="min" />
-
+							
+						
 
 					</listhead>
 
@@ -191,7 +199,9 @@
 					<auxhead>
 
 						<auxheader />
-						<auxheader />
+						
+						<auxheader/>
+							
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[1])"
 								instant="true"
@@ -258,6 +268,7 @@
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
 
+						<auxheader/>
 
 					</auxhead>
 
