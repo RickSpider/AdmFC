@@ -14,7 +14,7 @@
 
 			<tablelayout columns="7">
 
-				<tablechildren>
+				<!-- <tablechildren>
 					<label value="Contribuyente: "
 						style="font-weight: bold; " />
 				</tablechildren>
@@ -22,7 +22,7 @@
 					<finder
 						finderValue="@load(vm.contribuyenteSelected.nombre)"
 						finderModel="@init(vm.contribuyenteFinder)" />
-				</tablechildren>
+				</tablechildren> -->
 
 				<tablechildren>
 					<label value="Desde: " style="font-weight: bold; " />
@@ -74,6 +74,58 @@
 				<statBox statBlock="@init(each)" />
 			</forEach>
 		</h:div>
+		
+		<h:hr class="hr" />
+		
+	
+			<vbox vflex="1" >
+			
+				<listbox emptyMessage="lista vacía..." mold="paging"
+						autopaging="true" hflex="1" vflex="1"
+						model="@load(vm.listaDetallada)">
+				
+					<auxhead>
+					
+						<auxheader/>
+						<auxheader label="Comprobantes" colspan="3"  align="center" style="font-weight:bold"/>
+						<auxheader label="Eventos" colspan="3" align="center"  style="font-weight:bold"/>
+					
+					</auxhead>
+				
+					<listhead>
+						
+						<listheader label="Contribuyente" align="center"/>
+						
+						<listheader label="Aprobados" align="center"/>
+						<listheader label="Rechazados" align="center"/>
+						<listheader label="Pendientes" align="center"/>
+						
+						<listheader label="Aprobados" align="center"/>
+						<listheader label="Rechazados" align="center"/>
+						<listheader label="Pendiente" align="center"/>
+						
+					</listhead>
+					
+					<template name="model">
+	
+						<listitem>
+						
+							<listcell label="@load(each[0])" style="text-align: Left"/>
+							<listcell label="@load(each[1])" />
+							<listcell label="@load(each[2])" />
+							<listcell label="@load(each[3])" />
+							<listcell label="@load(each[4])" />
+							<listcell label="@load(each[5])" />
+							<listcell label="@load(each[6])" />
+						
+						</listitem>
+				
+					</template>
+				
+				</listbox>
+			
+			</vbox>
+	
 
 	</window>
 </zk>

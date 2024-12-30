@@ -3,7 +3,6 @@ package com.admFC.sistema.documentos;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +24,6 @@ import org.zkoss.zul.Window;
 
 import com.admFC.modelo.ComprobanteElectronico;
 import com.admFC.modelo.Contribuyente;
-import com.admFC.modelo.Evento;
 import com.admFC.util.ParamsLocal;
 import com.admFC.util.TemplateViewModelLocal;
 import com.admFC.util.conexionRest.HttpConexion;
@@ -33,7 +31,7 @@ import com.admFC.util.conexionRest.ResultRest;
 import com.doxacore.components.finder.FinderInterface;
 import com.doxacore.components.finder.FinderModel;
 import com.doxacore.modelo.Auditoria;
-import com.doxacore.report.ReportExcel;
+import com.doxacore.report.ReportBigExcel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -523,7 +521,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 			detalles.add(o);
 		}
 		
-		ReportExcel re = new ReportExcel("CE_"+this.contribuyenteSelected.getNombre().trim().replaceAll("\\s+", "").replace(".", "").replace(",", ""));
+		ReportBigExcel re = new ReportBigExcel("CE_"+this.contribuyenteSelected.getNombre().trim().replaceAll("\\s+", "").replace(".", "").replace(",", ""));
 		re.descargar(titulos, headersDatos, detalles);
 	}
 

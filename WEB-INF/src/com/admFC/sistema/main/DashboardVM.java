@@ -1,7 +1,7 @@
 package com.admFC.sistema.main;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +25,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 	
 	private ListModelList<Statbox> lStatsComprobantes = new ListModelList<Statbox>();	
 	private ListModelList<Statbox> lStatsEventos = new ListModelList<Statbox>();
+	private List<Object[]> listaDetallada;
 	private Contribuyente contribuyenteSelected;
 	private String titulo="DashboardVM";
 	private Date desde = new Date();
@@ -68,9 +69,11 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		this.lStatsEventos.clear();	 
 		
 		String sqlComprobante = "SELECT \n" + 
+				"-- ##CONTRIBUYENTEID## \n"+
 				"    COALESCE(SUM(CASE WHEN ce.estado like '%Aprobado%' THEN 1 ELSE 0 END),0) AS aprobados,\n" + 
 				"    COALESCE(SUM(CASE WHEN ce.estado like '%Rechazado%' THEN 1 ELSE 0 END),0) AS rechazados,\n" + 
 				"    COALESCE(SUM(CASE WHEN ce.estado isnull OR ce.estado = '' OR ce.estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
+				"	--##CONTRIBUYENTEN## \n"+	
 				"FROM comprobanteselectronicos ce \n" +
 				"join contribuyentes c on c.contribuyenteid = ce.contribuyenteid \n"+
 				"--##NOMASTER## \n"+
@@ -78,12 +81,16 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				"and c.habilitado = true \n"+
 				"--##USUARIO## \n"+
 				"--##CONTRIBUYENTE## \n"+
+				"--##GROUP## \n" +	
+				"--##ORDER## \n"+	
 				";";
 		
 		String sqlEvento = "SELECT \n" + 
+				"-- ##CONTRIBUYENTEID## \n"+
 				"    COALESCE(SUM(CASE WHEN e.estado like '%Aprobado%' THEN 1 ELSE 0 END),0) AS aprobados,\n" + 
 				"    COALESCE(SUM(CASE WHEN e.estado like '%Rechazado%' THEN 1 ELSE 0 END),0) AS rechazados,\n" + 
 				"    COALESCE(SUM(CASE WHEN e.estado isnull OR estado = '' OR e.estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
+				"	--##CONTRIBUYENTEN## \n"+	
 				"FROM eventos e\n"+
 				"join contribuyentes c on c.contribuyenteid = e.contribuyenteid \n"+
 				"--##NOMASTER## \n"+
@@ -91,9 +98,11 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				"and c.habilitado = true \n"+
 				"--##USUARIO## \n"+
 				"--##CONTRIBUYENTE## \n"+
+				"--##GROUP## \n" +	
+				"--##ORDER## \n"+	
 				";";
 		
-		Usuario user = this.getCurrentUser();
+		//Usuario user = this.getCurrentUser();
 		
 		if (!this.isUserRolMaster()) {
 			
@@ -139,6 +148,57 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		lStatsEventos.add(new Statbox("3","PENDIENTE/SIN ESTADO",resultEvento.get(0)[2].toString(),"fa-file-o",Statbox.stylePurpleDarker,true,
 				toPorcentaje(Double.parseDouble(resultEvento.get(0)[2].toString()),totalEventos)));
 		
+		
+		sqlComprobante = sqlComprobante.replace("-- ##CONTRIBUYENTEID##", "c.contribuyenteid,")
+				.replace("--##GROUP##", "group by c.contribuyenteid")
+				.replace("--##ORDER##", "order by c.contribuyenteid asc")
+				.replace("--##CONTRIBUYENTEN##", ", c.nombre");
+		
+		sqlEvento = sqlEvento.replace("-- ##CONTRIBUYENTEID##", "c.contribuyenteid,")
+				.replace("--##GROUP##", "group by c.contribuyenteid")
+				.replace("--##ORDER##", "order by c.contribuyenteid asc")
+				.replace("--##CONTRIBUYENTEN##", ", c.nombre");
+		
+		resultComprobante = this.reg.sqlNativo(sqlComprobante);
+		resultEvento = this.reg.sqlNativo(sqlEvento);
+		
+		//System.out.println(resultComprobante);
+		
+		this.listaDetallada = new ArrayList<Object[]>();
+		
+		for (Object[] x : resultComprobante) {
+			
+			Object[] o = new Object[7];
+			
+			o[0] = x[4];
+			o[1] = x[1];
+			o[2] = x[2];
+			o[3] = x[3];
+			o[4] = 0;
+			o[5] = 0;
+			o[6] = 0;
+			
+			for (Object[] y : resultEvento) {
+				
+				if (y[0].toString().compareTo(x[0].toString()) ==0 ) {
+					
+					o[4] = y[1];
+					o[5] = y[2];
+					o[6] = y[3];
+					
+					break;
+					
+				}
+				
+			}
+			
+			
+			
+			this.listaDetallada.add(o);
+			
+		}
+		
+
 	}
 	
 	private double toPorcentaje(double parcial, double total) {
@@ -300,6 +360,14 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 
 	public void setlContribuyentes(List<Object[]> lContribuyentes) {
 		this.lContribuyentes = lContribuyentes;
+	}
+
+	public List<Object[]> getListaDetallada() {
+		return listaDetallada;
+	}
+
+	public void setListaDetallada(List<Object[]> listaDetallada) {
+		this.listaDetallada = listaDetallada;
 	}
 	
 	
