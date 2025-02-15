@@ -19,7 +19,6 @@ import com.admFC.util.TemplateViewModelLocal;
 import com.doxacore.components.Statbox;
 import com.doxacore.components.finder.FinderInterface;
 import com.doxacore.components.finder.FinderModel;
-import com.doxacore.modelo.Usuario;
 
 public class DashboardVM extends TemplateViewModelLocal implements FinderInterface {
 	
