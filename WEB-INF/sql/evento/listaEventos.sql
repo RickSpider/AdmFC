@@ -15,6 +15,6 @@ e.ambiente
 
 from Eventos e
 left join contribuyentes c on c.contribuyenteid = e.contribuyenteid
-WHERE e.creado BETWEEN '?1' AND '?2'
+WHERE e.fecha BETWEEN '?1' AND '?2'
 AND c.contribuyenteid = ?3
 order by eventoid desc;

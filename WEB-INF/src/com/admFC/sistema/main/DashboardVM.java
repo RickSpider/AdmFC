@@ -25,6 +25,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 	private ListModelList<Statbox> lStatsComprobantes = new ListModelList<Statbox>();	
 	private ListModelList<Statbox> lStatsEventos = new ListModelList<Statbox>();
 	private List<Object[]> listaDetallada;
+	private List<Object[]> listaDetalladaOri;
 	private Contribuyente contribuyenteSelected;
 	private String titulo="DashboardVM";
 	private Date desde = new Date();
@@ -39,7 +40,9 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		
 		desde = this.um.modificarHorasMinutosSegundos(new Date(), 0,0,0,0);
 		hasta = this.um.modificarHorasMinutosSegundos(this.desde, 23, 59, 59, 999);
-
+		
+		
+		this.inicializarFiltros();
 		cargarDatos();
 		
 		inicializarFinders();
@@ -56,6 +59,28 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 	protected void inicializarOperaciones() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private String filtroColumns[];
+
+	private void inicializarFiltros() {
+
+		this.filtroColumns = new String[7];
+
+		for (int i = 0; i < this.filtroColumns.length; i++) {
+
+			this.filtroColumns[i] = "";
+
+		}
+
+	}
+	
+	@Command
+	@NotifyChange("listaDetallada")
+	public void filtrarContribuyente() {
+
+		this.listaDetallada = this.filtrarListaObject(this.filtroColumns, this.listaDetalladaOri);
+
 	}
 	
 	
@@ -170,20 +195,20 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 			Object[] o = new Object[7];
 			
 			o[0] = x[4];
-			o[1] = x[1];
-			o[2] = x[2];
-			o[3] = x[3];
-			o[4] = 0;
-			o[5] = 0;
-			o[6] = 0;
+			o[1] = ((Long) x[1] == 0) ? "" : x[1];
+			o[2] = ((Long) x[2] == 0) ? "" : x[2];
+			o[3] = ((Long) x[3] == 0) ? "" : x[3];
+			o[4] = "";
+			o[5] = "";
+			o[6] = "";
 			
 			for (Object[] y : resultEvento) {
 				
 				if (y[0].toString().compareTo(x[0].toString()) ==0 ) {
 					
-					o[4] = y[1];
-					o[5] = y[2];
-					o[6] = y[3];
+					o[4] = ((Long) y[1] == 0) ? "" : y[1];
+					o[5] = ((Long) y[2] == 0) ? "" : y[2];
+					o[6] = ((Long) y[3] == 0) ? "" : y[3];
 					
 					break;
 					
@@ -197,6 +222,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 			
 		}
 		
+		this.listaDetalladaOri = this.listaDetallada;
 
 	}
 	
@@ -367,6 +393,14 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 
 	public void setListaDetallada(List<Object[]> listaDetallada) {
 		this.listaDetallada = listaDetallada;
+	}
+
+	public String[] getFiltroColumns() {
+		return filtroColumns;
+	}
+
+	public void setFiltroColumns(String[] filtroColumns) {
+		this.filtroColumns = filtroColumns;
 	}
 	
 	

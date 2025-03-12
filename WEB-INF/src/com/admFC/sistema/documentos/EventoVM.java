@@ -2,7 +2,6 @@ package com.admFC.sistema.documentos;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +28,6 @@ import com.admFC.util.conexionRest.ResultRest;
 import com.doxacore.components.finder.FinderInterface;
 import com.doxacore.components.finder.FinderModel;
 import com.doxacore.modelo.Auditoria;
-import com.doxacore.modelo.Rol;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -113,9 +111,9 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 					.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
 			;
 
-			// System.out.println("==================SQL EVENTOS=====================");
-			// System.out.println(sql);
-			// System.out.println("==================================================");
+			System.out.println("==================SQL EVENTOS=====================");
+			System.out.println(sql);
+			System.out.println("==================================================");
 
 			this.lEventos = this.reg.sqlNativo(sql);
 			this.lEventosOri = this.lEventos;
