@@ -103,7 +103,7 @@
 						<auxheader />
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[1])"
-								instant="true"
+								onOK="@command('filtrarLote')"
 								onChange="@command('filtrarLote')" hflex="1" />
 						</auxheader>
 
@@ -115,19 +115,19 @@
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[3])"
-								instant="true"
+								onOK="@command('filtrarLote')"
 								onChange="@command('filtrarLote')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[4])"
-								instant="true"
+								onOK="@command('filtrarLote')"
 								onChange="@command('filtrarLote')" hflex="1" />
 						</auxheader>
 						
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[5])"
-								instant="true"
+								onOK="@command('filtrarLote')"
 								onChange="@command('filtrarLote')" hflex="1" />
 						</auxheader>
 

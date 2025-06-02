@@ -166,6 +166,9 @@ public class Contribuyente extends Modelo implements Serializable {
     @Column(name="smtpstarttls", columnDefinition = "boolean default false" )
     private boolean smtpstarttls;
     
+    
+    @Column(columnDefinition = "boolean default false", name="ctrlduplicado")
+    private boolean ctrlDuplicado;
 
 
     public String getPass() {
@@ -461,6 +464,16 @@ public class Contribuyente extends Modelo implements Serializable {
 
 	public void setRedondeo(boolean redondeo) {
 		this.redondeo = redondeo;
+	}
+
+	public boolean isCtrlDuplicado() {
+		return ctrlDuplicado;
+	}
+
+	public void setCtrlDuplicado(boolean ctrlDuplicado) {
+		this.ctrlDuplicado = ctrlDuplicado;
 	} 
+	
+	
     
 }

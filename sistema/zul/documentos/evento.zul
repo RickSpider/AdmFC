@@ -56,11 +56,9 @@
 						<tablechildren>
 							<datebox value="@bind(vm.hasta)"
 								format="dd/MM/yyyy HH:mm:ss" onChange="@command('onChangeFiltroFechas')"
+								
 								width="150px" />
 						</tablechildren>
-
-
-
 
 					</tablelayout>
 
@@ -97,15 +95,15 @@
 						<listheader hflex="min" align="center" />
 						<listheader label="ID" align="center"
 							hflex="min" />
-						<listheader label="Contribuyente" align="center"
-							hflex="min" />
+						<!-- <listheader label="Contribuyente" align="center"
+							hflex="min" /> -->
 						<listheader label="Creado" align="center"
 							hflex="min" />
 						<listheader label="Fecha" align="center"
 							hflex="min" />
-						<listheader label="CDC" align="center" width="360px"/>
-						<listheader label="Timbrado" align="center" />
-						<listheader label="Intervalo" align="center" hflex="min"/>
+						<listheader label="CDC / INTERVALO" align="center" width="330px"/>
+						<!-- <listheader label="Timbrado" align="center" hflex="min"/>
+						<listheader label="Intervalo" align="center" hflex="min"/> -->
 
 						<listheader label="Motivo" align="center"
 							hflex="min" />
@@ -116,7 +114,9 @@
 						<listheader label="Estado" align="center"
 							hflex="min" />
 
-						<listheader label="Mensaje" align="center"
+						<listheader label="Mensaje" align="center"  hflex="min"/>
+							
+						<listheader label="Tipo Comprobante" align="center"
 							hflex="min" />
 							
 						<listheader label="Ambiente" align="center"
@@ -134,72 +134,58 @@
 						<auxheader />
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[1])"
-								instant="true"
+								onOK="@command('filtrarEvento')"
 								onChange="@command('filtrarEvento')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[2])"
-								instant="true"
+								onOK="@command('filtrarComprobanteElectronico')"
 								onChange="@command('filtrarEvento')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[3])"
-								instant="true"
+								onOK="@command('filtrarEvento')"
 								onChange="@command('filtrarEvento')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[4])"
-								instant="true"
+								onOK="@command('filtrarEvento')"
 								onChange="@command('filtrarEvento')" hflex="1" />
 						</auxheader>
 
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[5])"
-								instant="true"
+								onOK="@command('filtrarEvento')"
 								onChange="@command('filtrarEvento')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[6])"
-								instant="true"
+								onOK="@command('filtrarEvento')"
 								onChange="@command('filtrarEvento')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[7])"
-								instant="true"
+								onOK="@command('filtrarEvento')"
 								onChange="@command('filtrarEvento')" hflex="1" />
 						</auxheader>
 						
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[8])"
-								instant="true"
+								onOK="@command('filtrarEvento')"
 								onChange="@command('filtrarEvento')" hflex="1" />
 						</auxheader>
 						
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[9])"
-								instant="true"
+								onOK="@command('filtrarEvento')"
 								onChange="@command('filtrarEvento')" hflex="1" />
 						</auxheader>
-						
-						
-						<auxheader>
-							<textbox value="@bind(vm.filtroColumns[10])"
-								instant="true"
-								onChange="@command('filtrarEvento')" hflex="1" />
-						</auxheader>
-						
-						<auxheader>
-							<textbox value="@bind(vm.filtroColumns[11])"
-								instant="true"
-								onChange="@command('filtrarEvento')" hflex="1" />
-						</auxheader>
-						
 
 						<auxheader />
 
@@ -217,36 +203,28 @@
 							<listcell label="@load(each[2])"
 								tooltiptext="@load(each[2])" />
 								
-							<listcell label="@load(each[3])"
-								tooltiptext="@load(each[3])" />
+							<listcell tooltiptext="@load(each[3])" >
 								
-							<listcell >
-								
-								<textbox value="@load(each[4])" tooltiptext="@load(each[4])" readonly="true" width="350px"/>
-							
-							</listcell>
-							<listcell label="@load(each[5])"
-								tooltiptext="@load(each[5])" />
-							<listcell label="@load(each[6])"
-								tooltiptext="@load(each[6])" />
-							<listcell label="@load(each[7])"
-								tooltiptext="@load(each[7])" />
-								
-							<listcell label="@load(each[8])"
-								tooltiptext="@load(each[8])" />
-							
-							<listcell tooltiptext="@load(each[9])" >
-								
-								<label value="@load(each[9])"  sclass="@load(each[9])"/>
+								<textbox value="@load(each[3])" tooltiptext="@load(each[3])" readonly="true" width="320px"/>
 								
 							</listcell>
-							<listcell label="@load(each[10])"
-								tooltiptext="@load(each[10])" />
-							<listcell label="@load(each[11])"
-								tooltiptext="@load(each[11])" />
+								
+							<listcell label="@load(each[4])" tooltiptext="@load(each[4])"/>
+								
+								
+							<listcell label="@load(each[5])" tooltiptext="@load(each[5])" />
 							
+							<listcell tooltiptext="@load(each[6])" >
 							
-				
+								<label value="@load(each[6])"  sclass="@load(each[6])"/>
+								
+							</listcell>
+								
+							<listcell label="@load(each[7])" tooltiptext="@load(each[7])" />
+								
+							<listcell label="@load(each[8])" tooltiptext="@load(each[8])" />
+							
+							<listcell label="@load(each[9])" tooltiptext="@load(each[9])" />
 
 							<listcell>
 								<hlayout>

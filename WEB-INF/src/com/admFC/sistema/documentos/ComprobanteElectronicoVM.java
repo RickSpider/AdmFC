@@ -62,6 +62,9 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		
 		
 		hasta = this.um.modificarHorasMinutosSegundos(this.desde, 23, 59, 59, 999);
+		
+		System.out.println(new SimpleDateFormat("dd/MM/YYYY hh:mm:ss").format(new Date()));
+		System.out.println(new SimpleDateFormat("dd/MM/YYYY hh:mm:ss").format(desde));
 
 	/*	lContribuyentes = this.getContribuyentesPorUsuario();
 

@@ -86,13 +86,16 @@
 				
 					<auxhead>
 					
-						<auxheader label="Contribuyente" align="center" style="font-weight:bold"/>
+						
+						<auxheader label="Contribuyente" colspan="2" align="center" style="font-weight:bold"/>
 						<auxheader label="Comprobantes" colspan="3"  align="center" class="bg-black-darker" style="font-weight:bold"/>
 						<auxheader label="Eventos" colspan="3" align="center" class="bg-orange-darker" style="font-weight:bold"/>
 					
 					</auxhead>
 				
 					<listhead>
+						
+						<listheader hflex="min"/>
 						
 						<listheader >
 						
@@ -116,6 +119,7 @@
 	
 						<listitem>
 						
+							<listcell label="@load(each[7])" style="text-align: center;font-weight:bold" />
 							<listcell label="@load(each[0])" style="text-align: Left" />
 							<listcell label="@load(each[1])" class="bg-green-lighter" style="font-weight:bold"/>
 							<listcell label="@load(each[2])" class="bg-red-lighter" style="font-weight:bold"/>

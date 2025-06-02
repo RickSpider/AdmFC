@@ -27,7 +27,7 @@
 			<tablechildren>
 
 				<textbox
-					value="@load(vm.contribuyenteSelected.ambiente) @save(vm.contribuyenteSelected.ambiente, before='guardar')"
+					value="@bind(vm.contribuyenteSelected.ambiente)"
 					width="150px" constraint="no empty: Es campo obligatorio." />
 
 			</tablechildren>
@@ -420,7 +420,7 @@
 
 				<textbox
 					value="@bind(vm.contribuyenteSelected.passkey)"
-					width="150px" constraint="no empty: Es campo obligatorio." />
+					type="password" width="150px" />
 
 			</tablechildren>
 
@@ -434,7 +434,7 @@
 
 				<textbox
 					value="@load(vm.contribuyenteSelected.pathkey) @save(vm.contribuyenteSelected.pathkey, before='guardar')"
-					width="150px" constraint="no empty: Es campo obligatorio." readonly="true"/>
+					width="150px" readonly="true"/>
 
 				<button iconSclass="z-icon-cloud-upload" tooltiptext="Subir Archivo"
 					upload="true,maxsize=300"
@@ -468,7 +468,7 @@
 			<tablechildren>
 
 				<textbox
-					value="@load(vm.contribuyenteSelected.csc) @save(vm.contribuyenteSelected.csc, before='guardar')"
+					value="@bind(vm.contribuyenteSelected.csc)"
 					width="150px" constraint="no empty: Es campo obligatorio." />
 
 			</tablechildren>
@@ -482,7 +482,7 @@
 			<tablechildren>
 
 				<textbox
-					value="@load(vm.contribuyenteSelected.cscid) @save(vm.contribuyenteSelected.cscid, before='guardar')"
+					value="@bind(vm.contribuyenteSelected.cscid)"
 					width="150px" constraint="no empty: Es campo obligatorio." />
 
 			</tablechildren>
@@ -653,6 +653,26 @@
 					hflex="1" rows="2" readonly="true" />
 
 			</tablechildren>
+			
+			<tablechildren>
+
+				<label value="Control Duplicado:" />
+
+			</tablechildren>
+			<tablechildren>
+
+				<checkbox
+					checked="@bind(vm.contribuyenteSelected.ctrlDuplicado)" mold="switch" />
+
+			</tablechildren>
+			
+			
+			<tablechildren>
+
+				<button label="Regenerar" iconSclass="z-icon-refresh "
+					onClick="@command('regenerarPass')" />
+
+			</tablechildren>
 
 			<tablechildren>
 
@@ -667,12 +687,6 @@
 			</tablechildren>
 		
 
-			<tablechildren>
-
-				<button label="Regenerar" iconSclass="z-icon-refresh "
-					onClick="@command('regenerarPass')" />
-
-			</tablechildren>
 
 		</tablelayout>
 

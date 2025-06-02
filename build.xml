@@ -1,0 +1,37 @@
+<project name="zk-compile" default="compile" basedir=".">
+
+    <!-- Rutas básicas -->
+    <property name="src.dir"     value="WEB-INF/src"/>
+    <property name="classes.dir" value="WEB-INF/classes"/>
+    <property name="lib.dir"     value="WEB-INF/lib"/>
+
+    <!-- Crear carpeta de salida -->
+    <target name="init">
+        <mkdir dir="${classes.dir}"/>
+    </target>
+    
+     <!-- Limpiar -->
+    <target name="clean">
+        <delete dir="${classes.dir}"/>
+    </target>
+    
+
+    <!-- Compilar clases Java -->
+    <target name="compile" depends="init, copy-hbm">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false">
+            <classpath>
+                <fileset dir="${lib.dir}" includes="**/*.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    
+	<target name="copy-hbm" description="Copy hibernate files">
+		<mkdir dir="${classes.dir}" />
+		<copy todir="${classes.dir}" >
+			<fileset dir="${src.dir}" includes="**/*.xml" />
+		</copy>
+	</target>
+    
+
+</project>

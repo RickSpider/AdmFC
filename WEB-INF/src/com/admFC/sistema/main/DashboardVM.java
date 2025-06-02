@@ -176,7 +176,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		sqlComprobante = sqlComprobante.replace("-- ##CONTRIBUYENTEID##", "c.contribuyenteid,")
 				.replace("--##GROUP##", "group by c.contribuyenteid")
 				.replace("--##ORDER##", "order by c.contribuyenteid asc")
-				.replace("--##CONTRIBUYENTEN##", ", c.nombre");
+				.replace("--##CONTRIBUYENTEN##", ", c.nombre, c.ambiente");
 		
 		sqlEvento = sqlEvento.replace("-- ##CONTRIBUYENTEID##", "c.contribuyenteid,")
 				.replace("--##GROUP##", "group by c.contribuyenteid")
@@ -192,7 +192,8 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		
 		for (Object[] x : resultComprobante) {
 			
-			Object[] o = new Object[7];
+			Object[] o = new Object[8];
+			
 			
 			o[0] = x[4];
 			o[1] = ((Long) x[1] == 0) ? "" : x[1];
@@ -201,6 +202,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 			o[4] = "";
 			o[5] = "";
 			o[6] = "";
+			o[7] = x[5];
 			
 			for (Object[] y : resultEvento) {
 				

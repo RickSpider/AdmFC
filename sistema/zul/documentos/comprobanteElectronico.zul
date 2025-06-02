@@ -49,7 +49,7 @@
 							</tablechildren>
 							<tablechildren>
 								<datebox value="@bind(vm.desde)"
-									format="dd/MM/yyyy HH:mm:ss"
+									format="dd/MM/yyyy HH:mm:ss"									
 									onChange="@command('onChangeFiltroFechas')" width="150px" />
 							</tablechildren>
 	
@@ -59,7 +59,7 @@
 							</tablechildren>
 							<tablechildren>
 								<datebox value="@bind(vm.hasta)"
-									format="dd/MM/yyyy HH:mm:ss"
+									format="dd/MM/yyyy HH:mm:ss"									
 									onChange="@command('onChangeFiltroFechas')" width="150px" />
 							</tablechildren>
 							
@@ -204,68 +204,70 @@
 							
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[1])"
-								instant="true"
+								onOK="@command('filtrarComprobanteElectronico')"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[2])"
-								instant="true"
+								onOK="@command('filtrarComprobanteElectronico')"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[3])"
-								instant="true"
+								onOK="@command('filtrarComprobanteElectronico')"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[4])"
-								instant="true"
+								onOK="@command('filtrarComprobanteElectronico')"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
 
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[5])"
-								instant="true"
+								onOK="@command('filtrarComprobanteElectronico')"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[6])"
-								instant="true"
+								onOK="@command('filtrarComprobanteElectronico')"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[7])"
-								instant="true"
+								onOK="@command('filtrarComprobanteElectronico')"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[8])"
-								instant="true"
+								onOK="@command('filtrarComprobanteElectronico')"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[9])"
-								instant="true"
+							onOK="@command('filtrarComprobanteElectronico')"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[10])"
-								instant="true"
-								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
+								onOK="@command('filtrarComprobanteElectronico')"
+								onChange="@command('filtrarComprobanteElectronico')" hflex="1" 
+								/>
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[12])"
-								instant="true"
-								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
+								
+								onChange="@command('filtrarComprobanteElectronico')" hflex="1" 
+								onOK="@command('filtrarComprobanteElectronico')"/>
 						</auxheader>
 
 						<auxheader/>
