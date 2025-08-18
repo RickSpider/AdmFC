@@ -48,7 +48,7 @@ public class ComprobanteElectronico extends Modelo implements Serializable {
     private String xml;
       
     private String cdc;
-
+    private String timbrado;
     private String numero;
     private double total;
     
@@ -76,7 +76,7 @@ public class ComprobanteElectronico extends Modelo implements Serializable {
   
     @ManyToOne
     @JoinColumn(name = "tipocomprobanteelectronicoid")
-   private TipoComprobanteElectronico tipoComprobanteElectronico;
+    private TipoComprobanteElectronico tipoComprobanteElectronico;
     
     //Seccion evento
     
@@ -87,6 +87,8 @@ public class ComprobanteElectronico extends Modelo implements Serializable {
     
     @Column(name = "enlaceqr", columnDefinition = "text")   
     private String enlaceQR;
+    
+    private String ambiente;
 
     public Long getId() {
         return id;
@@ -226,6 +228,22 @@ public class ComprobanteElectronico extends Modelo implements Serializable {
 
 	public void setEnviarAlerta(boolean enviarAlerta) {
 		this.enviarAlerta = enviarAlerta;
+	}
+
+	public String getTimbrado() {
+		return timbrado;
+	}
+
+	public void setTimbrado(String timbrado) {
+		this.timbrado = timbrado;
+	}
+
+	public String getAmbiente() {
+		return ambiente;
+	}
+
+	public void setAmbiente(String ambiente) {
+		this.ambiente = ambiente;
 	}
     
     

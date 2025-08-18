@@ -18,7 +18,7 @@
 
     <!-- Compilar clases Java -->
     <target name="compile" depends="init, copy-hbm">
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false" >
             <classpath>
                 <fileset dir="${lib.dir}" includes="**/*.jar"/>
             </classpath>

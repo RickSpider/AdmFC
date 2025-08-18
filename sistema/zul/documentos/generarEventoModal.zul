@@ -1,0 +1,165 @@
+<?page title="eventoModal" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Crear Evento" border="normal"
+		position="center,center" closable="true" mode="modal"
+		action="show: slideDown;hide: slideUp">
+
+		<space height="10px" />
+
+		<vbox>
+
+			<hbox>
+				<label value="Nota:" style="font-weight:bold" />
+				Los cambios hechos quedan exclusivamente bajo
+				responsabilidad del operador.
+			</hbox>
+
+			<space height="10px" />
+
+			<tablelayout columns="2">
+
+				<tablechildren>
+
+					<label value="Tipo de Evento:" style="font-weight:bold"/>
+
+				</tablechildren>
+
+				<tablechildren>
+
+					<radiogroup id="rg"  
+						onCheck="@command('onChangeRg', index=self.selectedIndex)" 
+						/>
+					<radio id="ra1" label="Cancelacion" radiogroup="rg"
+						checked="true" />
+					<radio id="ra2" label="Inutilizacion"
+						radiogroup="rg" />
+
+				</tablechildren>
+
+			</tablelayout>
+
+			<tablelayout id="cancelacion" visible="@load(vm.visibleCancelacion)" columns="2">
+
+				
+				
+				<tablechildren>
+
+					<label value="CDC:" style="font-weight:bold"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<textbox value="@load(vm.eventoSelected.cdc)" readonly="true" width="350px"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<label value="Horas Transcurridas:" style="font-weight:bold"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<longbox value="@bind(vm.tiempoTranscurrido)" width="100px" readonly="true"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<label value="Motivo:" style="font-weight:bold"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<textbox value="@bind(vm.eventoSelected.motivo)" width="350px"/>
+
+				</tablechildren>
+
+
+
+			</tablelayout>
+
+			<tablelayout id="inutilizacion" visible="@load(vm.visibleInutilizacion)" columns="2">
+			
+				<tablechildren>
+
+					<label value="Timbrado:" style="font-weight:bold"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<textbox value="@load(vm.eventoSelected.timbrado)" readonly="true" width="350px"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<label value="Establecimiento:" style="font-weight:bold"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<textbox value="@load(vm.eventoSelected.establecimiento)" readonly="true" width="350px"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<label value="Punto Expedicion:" style="font-weight:bold"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<textbox value="@load(vm.eventoSelected.puntoExpedicion)" readonly="true" width="350px"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<label value="Numeracion:" style="font-weight:bold"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<textbox value="@load(vm.eventoSelected.numeroIni)" readonly="true" width="350px"/>
+
+				</tablechildren>
+				
+			
+				<tablechildren>
+
+					<label value="Motivo:" style="font-weight:bold"/>
+
+				</tablechildren>
+				
+				<tablechildren>
+
+					<textbox value="@load(vm.eventoSelected.motivo)" width="350px"/>
+
+				</tablechildren>
+				
+			</tablelayout>
+
+
+		</vbox>
+
+		<space height="10px" />
+
+		<hlayout>
+
+			<button label="Aceptar" onClick="@command('aceptarEventoConfirmacion')" />
+
+		</hlayout>
+
+
+
+
+	</window>
+</zk>

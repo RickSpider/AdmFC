@@ -97,7 +97,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				"    COALESCE(SUM(CASE WHEN ce.estado like '%Aprobado%' THEN 1 ELSE 0 END),0) AS aprobados,\n" + 
 				"    COALESCE(SUM(CASE WHEN ce.estado like '%Rechazado%' THEN 1 ELSE 0 END),0) AS rechazados,\n" + 
 				"    COALESCE(SUM(CASE WHEN ce.estado isnull OR ce.estado = '' OR ce.estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
-				"	--##CONTRIBUYENTEN## \n"+	
+				"	--##CONTRIBUYENTEN## \n"+
 				"FROM comprobanteselectronicos ce \n" +
 				"join contribuyentes c on c.contribuyenteid = ce.contribuyenteid \n"+
 				"--##NOMASTER## \n"+
@@ -144,7 +144,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 			sqlEvento = sqlEvento.replace("--##CONTRIBUYENTE##", "AND e.contribuyenteid = "+this.contribuyenteSelected.getContribuyenteid()+" ");
 		}
 		
-		System.out.println(sqlComprobante);
+		//System.out.println(sqlComprobante);
 		
 		List<Object[]> resultComprobante = this.reg.sqlNativo(sqlComprobante);
 		
@@ -177,11 +177,14 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				.replace("--##GROUP##", "group by c.contribuyenteid")
 				.replace("--##ORDER##", "order by c.contribuyenteid asc")
 				.replace("--##CONTRIBUYENTEN##", ", c.nombre, c.ambiente");
+			
 		
 		sqlEvento = sqlEvento.replace("-- ##CONTRIBUYENTEID##", "c.contribuyenteid,")
 				.replace("--##GROUP##", "group by c.contribuyenteid")
 				.replace("--##ORDER##", "order by c.contribuyenteid asc")
 				.replace("--##CONTRIBUYENTEN##", ", c.nombre");
+		
+		System.out.println(sqlComprobante);
 		
 		resultComprobante = this.reg.sqlNativo(sqlComprobante);
 		resultEvento = this.reg.sqlNativo(sqlEvento);

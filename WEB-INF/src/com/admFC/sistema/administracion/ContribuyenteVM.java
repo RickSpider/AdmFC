@@ -3,6 +3,7 @@ package com.admFC.sistema.administracion;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,6 +28,7 @@ import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.util.Notification;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Window;
 
 import com.admFC.modelo.ActividadEconomica;
@@ -782,6 +784,28 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 			System.out.println(e);
 		}
 
+	}
+	
+	@Command
+	public void descargarPFX () throws FileNotFoundException {
+		
+		
+		File archivo = new File(this.contribuyenteSelected.getPathkey());
+		
+		if (archivo.exists() && archivo.isFile()) {
+            InputStream is = new FileInputStream(archivo);
+            // El navegador sabrá que es gzip y descargará
+            Filedownload.save(is, "application/x-pkcs12", archivo.getName());
+        } else {
+            // Podrías mostrar un mensaje con Clients.showNotification
+        	
+        	Notification.show("Error al descargar la firma");
+        	
+            throw new RuntimeException("Archivo no encontrado: " + archivo.getAbsolutePath());
+            
+        }
+		
+		
 	}
 
 	public Contribuyente getContribuyenteSelected() {

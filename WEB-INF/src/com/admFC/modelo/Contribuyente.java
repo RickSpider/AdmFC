@@ -96,7 +96,7 @@ public class Contribuyente extends Modelo implements Serializable {
      */
     private String ambiente = "DEV";
     @Column(columnDefinition = "boolean default true", name="sololote")
-    private boolean soloLote;
+    private boolean soloLote = true;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date vencimientokey;
@@ -169,6 +169,10 @@ public class Contribuyente extends Modelo implements Serializable {
     
     @Column(columnDefinition = "boolean default false", name="ctrlduplicado")
     private boolean ctrlDuplicado;
+    
+    
+    @Column(columnDefinition = "boolean default false", name="guardarjson")
+    private boolean guardarJson;
 
 
     public String getPass() {
@@ -472,7 +476,16 @@ public class Contribuyente extends Modelo implements Serializable {
 
 	public void setCtrlDuplicado(boolean ctrlDuplicado) {
 		this.ctrlDuplicado = ctrlDuplicado;
+	}
+
+	public boolean isGuardarJson() {
+		return guardarJson;
+	}
+
+	public void setGuardarJson(boolean guardarJson) {
+		this.guardarJson = guardarJson;
 	} 
+	
 	
 	
     

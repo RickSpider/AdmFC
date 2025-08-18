@@ -24,6 +24,7 @@ import org.zkoss.zul.Window;
 
 import com.admFC.modelo.ComprobanteElectronico;
 import com.admFC.modelo.Contribuyente;
+import com.admFC.modelo.Evento;
 import com.admFC.util.ParamsLocal;
 import com.admFC.util.TemplateViewModelLocal;
 import com.admFC.util.conexionRest.HttpConexion;
@@ -299,6 +300,152 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 
 		Notification.show("Respuesta de servidor:\n Code:" + rr.getCode() + "\n Mensaje: " + rr.getMensaje());
 
+	}
+	
+	private Evento eventoSelected;
+	private int rdIndex = 0;
+	private boolean visibleCancelacion = true;
+	private boolean visibleInutilizacion = false;
+	private long tiempoTranscurrido;
+	
+	@Command
+	public void modalGenerarEvento(@BindingParam("comprobanteElectronicoid") long comprobanteElectronicoid) {
+		
+		this.comprobanteElectronicoSelected = this.reg.getObjectById(ComprobanteElectronico.class.getName(),
+				comprobanteElectronicoid);
+		
+		if (this.comprobanteElectronicoSelected.getEvento() != null) {
+			
+			this.mensajeInfo("El Comprobante Eletronico ya tiene un evento asociado.");
+			
+			return;
+			
+		}
+		
+		this.eventoSelected = new Evento();
+		this.eventoSelected.setFecha(new Date());
+		this.eventoSelected.setCdc(this.comprobanteElectronicoSelected.getCdc());
+		this.eventoSelected.setAmbiente(this.comprobanteElectronicoSelected.getAmbiente());
+		this.eventoSelected.setTipoComprobanteElectronico(this.comprobanteElectronicoSelected.getTipoComprobanteElectronico());
+		this.eventoSelected.setContribuyente(this.comprobanteElectronicoSelected.getContribuyente());
+		this.eventoSelected.setMotivo("Cancelacion de CDC");
+		this.eventoSelected.setEnviado(false);
+		
+		this.tiempoTranscurrido = (new Date().getTime() - this.comprobanteElectronicoSelected.getCreado().getTime())/(1000*60*60);
+		
+		
+		modal = (Window) Executions.createComponents("/sistema/zul/documentos/generarEventoModal.zul",
+				this.mainComponent, null);
+		Selectors.wireComponents(modal, this, false);
+		modal.doModal();
+
+		
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onChangeRg(@BindingParam("index") int index) {
+		
+		this.rdIndex = index;
+		
+		this.eventoSelected = new Evento();
+		
+		this.visibleCancelacion = false;
+		this.visibleInutilizacion = false;
+		
+		if (this.rdIndex == 0) {
+			
+			
+			this.eventoSelected.setCdc(this.comprobanteElectronicoSelected.getCdc());
+			this.eventoSelected.setMotivo("Cancelacion de CDC");			
+			this.visibleCancelacion = true;
+			
+			
+			
+		}else if (this.rdIndex == 1){
+			
+					
+			this.eventoSelected.setTimbrado(this.comprobanteElectronicoSelected.getTimbrado());			
+			String [] arrayNum = this.comprobanteElectronicoSelected.getNumero().split("-");
+			this.eventoSelected.setEstablecimiento(arrayNum[0]);
+			this.eventoSelected.setPuntoExpedicion(arrayNum[1]);
+			this.eventoSelected.setNumeroIni(arrayNum[2]);
+			this.eventoSelected.setNumeroFin(arrayNum[2]);
+			this.eventoSelected.setMotivo("Inutilizacion de Numeracion");
+			this.visibleInutilizacion = true;
+			
+		}
+		
+		
+		this.eventoSelected.setContribuyente(this.comprobanteElectronicoSelected.getContribuyente());
+		this.eventoSelected.setEnviado(false);
+		this.eventoSelected.setTipoComprobanteElectronico(this.comprobanteElectronicoSelected.getTipoComprobanteElectronico());	
+		this.eventoSelected.setFecha(new Date());
+		this.eventoSelected.setAmbiente(this.comprobanteElectronicoSelected.getAmbiente());
+	
+		
+	}
+	
+	
+	
+	@Command
+	public void aceptarEventoConfirmacion() {
+		
+		
+		if (this.comprobanteElectronicoSelected.getEvento() != null) {
+			
+			this.mensajeError("El comprobante ya posee un evento");
+			
+			return;
+			
+		}
+		
+		if (this.rdIndex == 1){
+			
+			if (this.rdIndex == 1) {
+				
+				if (this.eventoSelected.getTimbrado() == null) {
+					
+					this.mensajeError("El evento no posee timbrado");
+					
+					return;
+					
+				}			
+				
+			}
+			
+		}
+
+	
+		
+		EventListener event = new EventListener() {
+
+			@Override
+			public void onEvent(Event evt) throws Exception {
+
+				if (evt.getName().equals(Messagebox.ON_YES)) {
+
+					generarEvento(eventoSelected);
+
+				}
+
+			}
+
+		};
+		
+		this.mensajeEliminar("Se generara el envento al Comprobante Electronico, continuar?", event);
+		
+		
+	}
+	
+	private void generarEvento(Evento e) {
+		
+		this.save(e);
+		
+		BindUtils.postNotifyChange(null, null, this, "lComprobantesElectronicos");
+		
+		modal.detach();
+		
 	}
 
 	@Command
@@ -647,5 +794,77 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 	public void setColResponsive(int colResponsive) {
 		this.colResponsive = colResponsive;
 	}
+
+
+
+
+	public Evento getEventoSelected() {
+		return eventoSelected;
+	}
+
+
+
+
+	public void setEventoSelected(Evento eventoSelected) {
+		this.eventoSelected = eventoSelected;
+	}
+
+
+
+
+	public int getRdIndex() {
+		return rdIndex;
+	}
+
+
+
+
+	public void setRdIndex(int rdIndex) {
+		this.rdIndex = rdIndex;
+	}
+
+
+
+
+	public boolean isVisibleCancelacion() {
+		return visibleCancelacion;
+	}
+
+
+
+
+	public void setVisibleCancelacion(boolean visibleCancelacion) {
+		this.visibleCancelacion = visibleCancelacion;
+	}
+
+
+
+
+	public boolean isVisibleInutilizacion() {
+		return visibleInutilizacion;
+	}
+
+
+
+
+	public void setVisibleInutilizacion(boolean visibleInutilizacion) {
+		this.visibleInutilizacion = visibleInutilizacion;
+	}
+
+
+
+
+	public long getTiempoTranscurrido() {
+		return tiempoTranscurrido;
+	}
+
+
+
+
+	public void setTiempoTranscurrido(long tiempoTranscurrido) {
+		this.tiempoTranscurrido = tiempoTranscurrido;
+	}
+	
+	
 
 }

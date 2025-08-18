@@ -45,7 +45,7 @@ public class Evento extends Modelo implements Serializable {
     @Column(columnDefinition = "boolean default false")
     private boolean enviado;
     
-    private String estado;
+    private String estado = "Pendiente";
     
     @Column(columnDefinition="text")
     private String respuesta;
