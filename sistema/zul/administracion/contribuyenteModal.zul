@@ -443,7 +443,7 @@
 							<tablechildren>
 
 								<textbox
-									value="@bind(vm.contribuyenteSelected.passkey)" type="password"
+									value="@bind(vm.contribuyenteSelected.passkey)" 
 									width="150px" />
 
 							</tablechildren>
