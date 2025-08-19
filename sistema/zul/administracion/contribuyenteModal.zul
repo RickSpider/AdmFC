@@ -2,7 +2,7 @@
 <zk>
 	<window title="Contribuyente Crear/Ver/Editar" border="normal"
 		position="center,center" closable="true" mode="modal"
-		action="show: slideDown;hide: slideUp">
+		action="show: slideDown;hide: slideUp" width="900px">
 
 
 		<vlayout>
@@ -617,7 +617,7 @@
 							<listbox emptyMessage="lista vacía..."
 								mold="paging"
 								model="@load(vm.contribuyenteSelected.actividades)"
-								checkmark="true" width="800px" height="200px">
+								checkmark="true"  height="200px">
 
 								<listhead>
 
