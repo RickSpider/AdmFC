@@ -128,7 +128,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		
 		//Usuario user = this.getCurrentUser();
 		
-		if (!this.isUserRolMaster()) {
+		if (!this.isUserRolMaster() && !this.isUserRolAdmin()) {
 			
 			sqlComprobante = sqlComprobante.replace("--##NOMASTER##", " JOIN contribuyentesusuarios cu on cu.contribuyenteid = ce.contribuyenteid ")
 					.replace("--##USUARIO##", "AND cu.usuarioid = "+this.getCurrentUser().getUsuarioid() +" \n" );
@@ -275,7 +275,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		
 		//String sqlContribuyente  = this.um.getSql("contribuyente/listaContribuyentes.sql");
 
-		if (!this.isUserRolMaster()) {
+		if (!this.isUserRolMaster() && !this.isUserRolAdmin()) {
 
 			sqlContribuyente = sqlContribuyente.replace("--", "").replace("?1", this.getCurrentUser().getUsuarioid() + "");
 

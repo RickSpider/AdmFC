@@ -98,7 +98,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 		String sql = this.um.getSql("contribuyente/listaContribuyentes.sql");
 
-		if (!this.isUserRolMaster()) {
+		if (!this.isUserRolMaster() && !this.isUserRolAdmin()) {
 
 			sql = sql.replace("--", "").replace("?1", this.getCurrentUser().getUsuarioid() + "");
 
@@ -156,6 +156,11 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 		this.nombre = "";
 		this.email = "";
+		
+		this.buscarTipoContribuyente = "";
+		this.buscarTipoTransaccion = "";
+		this.buscarTipoImpuesto = "";
+		this.buscarDistrito = "";
 
 		if (contribuyenteid != -1) {
 
@@ -165,10 +170,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 			this.editar = true;
 			this.contribuyenteSelected = this.reg.getObjectById(Contribuyente.class.getName(), contribuyenteid);
 
-			this.buscarTipoContribuyente = "";
-			this.buscarTipoTransaccion = "";
-			this.buscarTipoImpuesto = "";
-			this.buscarDistrito = "";
+			
 
 			if (this.contribuyenteSelected.getLocalidad() != null) {
 
@@ -233,14 +235,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 			this.guardarCert();
 			
 		}
-		
-		this.contribuyenteSelected = null;
 
-		
-
-		this.modal.detach();
-
-		this.auditoria.setUsuario(this.getCurrentUser().getAccount());
 
 		if (editar) {
 
@@ -249,10 +244,25 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 			this.editar = false;
 
 		} else {
+			
+			if (!this.isUserRolMaster() && !this.isUserRolAdmin()) {
+				
+				ContribuyenteUsuario cu = new ContribuyenteUsuario();
+				
+				cu.setContribuyente(contribuyenteSelected);
+				cu.setUsuario(this.getCurrentUser());
+				
+			}
 
 			this.auditoria.setSentencia("INSERT");
 			Notification.show("El Contribuyente fue agregado.");
 		}
+		
+		this.contribuyenteSelected = null;
+
+		this.modal.detach();
+
+		this.auditoria.setUsuario(this.getCurrentUser().getAccount());
 
 		this.reg.saveObject(this.auditoria, "SYSTEM");
 		

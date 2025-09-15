@@ -1,10 +1,13 @@
 package com.admFC.sistema.documentos;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -141,7 +144,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 
 	private void inicializarFiltros() {
 
-		this.filtroColumns = new String[13];
+		this.filtroColumns = new String[15];
 
 		for (int i = 0; i < this.filtroColumns.length; i++) {
 
@@ -532,7 +535,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		// String sqlContribuyente =
 		// this.um.getSql("contribuyente/listaContribuyentes.sql");
 
-		if (!this.isUserRolMaster()) {
+		if (!this.isUserRolMaster() && !this.isUserRolAdmin()) {
 
 			sqlContribuyente = sqlContribuyente.replace("--", "").replace("?1",
 					this.getCurrentUser().getUsuarioid() + "");
@@ -610,6 +613,10 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 			
 		}
 		
+		DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale("es", "ES"));
+		dfs.setDecimalSeparator('.');
+		DecimalFormat df = new DecimalFormat("#,##0.##",dfs);
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
 		List<String[]> titulos = new ArrayList<String[]>();
 		
@@ -628,7 +635,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		titulos.add(espacioBlanco);
 		
 		List<String[]> headersDatos = new ArrayList<String[]>();
-		String [] hd1 =  {"ID","CREADO","CDC", "NUMERO", "ENVIO POR LOTE", "ENVIADO LOTE", "ENVIADO", "LOTE Nº", "ESTADO", "RESPUESTA" ,"TIPO COMPROBANTE","AMBIENTE"};
+		String [] hd1 =  {"ID","CREADO","CDC", "NUMERO", "ENVIO POR LOTE", "ENVIADO LOTE", "ENVIADO", "LOTE Nº", "ESTADO", "RESPUESTA" ,"TIPO COMPROBANTE","AMBIENTE","TOTAL"};
 		headersDatos.add(hd1);
 		
 		/*String sql = this.um.getSql("comprobanteElectronico/listaComprobantesElectronicos.sql")
@@ -641,7 +648,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		
 		for (Object[] ox : this.lComprobantesElectronicos) {
 			
-			Object[] o = new Object[12];
+			Object[] o = new Object[13];
 			
 				
 			o[0] = ox[0].toString();
@@ -666,6 +673,10 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 			}
 			o[10] = ox[10].toString();
 			o[11] = ox[12].toString();
+			
+			
+			
+			o[12] = df.format((Double)ox[14]);
 			
 			
 			detalles.add(o);

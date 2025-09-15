@@ -165,6 +165,9 @@
 
 						<listheader label="Numero" align="center"
 							hflex="min" />
+							
+						<listheader label="Total" align="center"
+							hflex="min" />
 
 
 						<listheader label="EnvioPorlote" align="center"
@@ -226,12 +229,19 @@
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
 
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[14])"
+								onOK="@command('filtrarComprobanteElectronico')"
+								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
+						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[5])"
 								onOK="@command('filtrarComprobanteElectronico')"
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" />
 						</auxheader>
+						
+						
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[6])"
@@ -269,6 +279,8 @@
 								onChange="@command('filtrarComprobanteElectronico')" hflex="1" 
 								onOK="@command('filtrarComprobanteElectronico')"/>
 						</auxheader>
+						
+						
 
 						<auxheader/>
 
@@ -295,9 +307,18 @@
 								<textbox value="@load(each[4])"
 									tooltiptext="@load(each[4])" readonly="true" hflex="1" />
 
+
 							</listcell>
+							
+							<listcell >
+								<doublebox format="#,###" value="@load(each[14])" 
+								style="font-weight: bold; text-align:right;" readonly="true"/>
+							</listcell>
+							
 							<listcell label="@load(each[5])"
 								tooltiptext="@load(each[5])" />
+							
+							
 							<listcell label="@load(each[6])"
 								tooltiptext="@load(each[6])" />
 							<listcell label="@load(each[7])"
