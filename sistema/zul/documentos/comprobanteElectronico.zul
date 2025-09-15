@@ -167,7 +167,7 @@
 							hflex="min" />
 							
 						<listheader label="Total" align="center"
-							hflex="min" />
+							hflex="min" visible = "false"/>
 
 
 						<listheader label="EnvioPorlote" align="center"
