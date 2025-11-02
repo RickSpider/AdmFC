@@ -1,9 +1,12 @@
 package com.admFC.sistema.main;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -19,6 +22,7 @@ import com.admFC.util.TemplateViewModelLocal;
 import com.doxacore.components.Statbox;
 import com.doxacore.components.finder.FinderInterface;
 import com.doxacore.components.finder.FinderModel;
+import com.doxacore.report.ReportBigExcel;
 
 public class DashboardVM extends TemplateViewModelLocal implements FinderInterface {
 	
@@ -65,7 +69,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 
 	private void inicializarFiltros() {
 
-		this.filtroColumns = new String[7];
+		this.filtroColumns = new String[9];
 
 		for (int i = 0; i < this.filtroColumns.length; i++) {
 
@@ -98,8 +102,10 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				"    COALESCE(SUM(CASE WHEN ce.estado like '%Rechazado%' THEN 1 ELSE 0 END),0) AS rechazados,\n" + 
 				"    COALESCE(SUM(CASE WHEN ce.estado isnull OR ce.estado = '' OR ce.estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
 				"	--##CONTRIBUYENTEN## \n"+
+				"	--##ETIQUETAS## \n"+
 				"FROM comprobanteselectronicos ce \n" +
 				"join contribuyentes c on c.contribuyenteid = ce.contribuyenteid \n"+
+				"--##JOINETIQUETAS## \n"+
 				"--##NOMASTER## \n"+
 				"WHERE ce.creado BETWEEN '"+sdf.format(desde)+"' AND '"+sdf.format(hasta)+"' \n"+
 				"and c.habilitado = true \n"+
@@ -176,7 +182,10 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		sqlComprobante = sqlComprobante.replace("-- ##CONTRIBUYENTEID##", "c.contribuyenteid,")
 				.replace("--##GROUP##", "group by c.contribuyenteid")
 				.replace("--##ORDER##", "order by c.contribuyenteid asc")
-				.replace("--##CONTRIBUYENTEN##", ", c.nombre, c.ambiente");
+				.replace("--##CONTRIBUYENTEN##", ", c.nombre, c.ambiente")
+				.replace("--##ETIQUETAS##", ", COALESCE(STRING_AGG(DISTINCT t.tipo, ', '), '') AS etiquetas \n")
+				.replace("--##JOINETIQUETAS##", "left join contribuyentesetiquetas ceti on ceti.contribuyenteid = c.contribuyenteid \n"
+						+ "left join tipos t on t.tipoid = ceti.etiquetaid\n");
 			
 		
 		sqlEvento = sqlEvento.replace("-- ##CONTRIBUYENTEID##", "c.contribuyenteid,")
@@ -195,7 +204,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		
 		for (Object[] x : resultComprobante) {
 			
-			Object[] o = new Object[8];
+			Object[] o = new Object[9];
 			
 			
 			o[0] = x[4];
@@ -206,6 +215,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 			o[5] = "";
 			o[6] = "";
 			o[7] = x[5];
+			o[8] = x[6];
 			
 			for (Object[] y : resultEvento) {
 				
@@ -326,7 +336,65 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 		
 	}
 
-	
+	@Command
+	public void exportarExcel() {
+		
+		/*if(this.contribuyenteSelected == null) {
+			
+			this.mensajeInfo("Debes seleccionar un contribuyente.");
+			
+			return;
+			
+		}*/
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+		List<String[]> titulos = new ArrayList<String[]>();
+		
+		DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale("es", "ES"));
+		dfs.setDecimalSeparator('.');
+		DecimalFormat df = new DecimalFormat("#,##0.##",dfs);
+		
+		String[] t1 = {"Reporte Detallado de Cantidades"};
+		
+		String[] t3 = {"Fecha Desde:", sdf.format(this.desde)};
+		String[] t4 = {"Fecha Hasta:", sdf.format(this.hasta)};
+		String[] espacioBlanco = {""};
+
+		titulos.add(t1);
+		
+		titulos.add(espacioBlanco);
+		titulos.add(t3);
+		titulos.add(t4);
+		titulos.add(espacioBlanco);
+		
+		List<String[]> headersDatos = new ArrayList<String[]>();
+		String [] hd1 =  {"AMBIENTE", "CONTRIBUYENTE", "ETIQUETAS","COMP. APROBADOS", "COMP. RECHAZADOS","COMP. PENDIENTES","EVENTOS APROBADOS", "EVENTOS RECHAZADOS", "EVENTOS PENDIENTES" };
+		headersDatos.add(hd1);
+		
+		List<Object[]> detalles = new ArrayList<>();
+		
+		for (Object[] ox : this.listaDetallada) {
+			
+			Object[] o = new Object[9];
+			
+				
+			o[0] = ox[7].toString();
+			o[1] = ox[0].toString();
+			o[2] = ox[8].toString();
+			o[3] = df.format(Double.parseDouble((ox[1] == null || ox[1].toString().trim().isEmpty()) ? "0" : ox[1].toString()));
+			o[4] = df.format(Double.parseDouble((ox[2] == null || ox[2].toString().trim().isEmpty()) ? "0" : ox[2].toString()));
+			o[5] = df.format(Double.parseDouble((ox[3] == null || ox[3].toString().trim().isEmpty()) ? "0" : ox[3].toString()));
+			o[6] = df.format(Double.parseDouble((ox[4] == null || ox[4].toString().trim().isEmpty()) ? "0" : ox[4].toString()));
+			o[7] = df.format(Double.parseDouble((ox[5] == null || ox[5].toString().trim().isEmpty()) ? "0" : ox[5].toString()));
+			o[8] = df.format(Double.parseDouble((ox[6] == null || ox[6].toString().trim().isEmpty()) ? "0" : ox[6].toString()));
+			
+			detalles.add(o);
+		}
+		
+		ReportBigExcel re = new ReportBigExcel("TOTAL_CE");
+		re.descargar(titulos, headersDatos, detalles);
+	}
 	
 	public String getTitulo() {
 		return titulo;

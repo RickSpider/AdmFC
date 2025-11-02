@@ -85,9 +85,16 @@
 						model="@load(vm.listaDetallada)">
 				
 					<auxhead>
-					
 						
-						<auxheader label="Contribuyente" colspan="2" align="center" style="font-weight:bold"/>
+						<auxheader align="center">
+						
+							<toolbarbutton image="/doxacore/img/icoExcel22x20.png" tooltiptext="Exportar a Excel"
+									onClick="@command('exportarExcel')" />	
+						
+						</auxheader>
+						
+						<auxheader label="Contribuyente"  align="center" style="font-weight:bold"/>
+						<auxheader label="Etiquetas"  align="center" style="font-weight:bold"/>
 						<auxheader label="Comprobantes" colspan="3"  align="center" class="bg-black-darker" style="font-weight:bold"/>
 						<auxheader label="Eventos" colspan="3" align="center" class="bg-orange-darker" style="font-weight:bold"/>
 					
@@ -95,12 +102,21 @@
 				
 					<listhead>
 						
-						<listheader hflex="min"/>
+						<listheader width="65px" align="center"/>
 						
 						<listheader >
 						
 							<textbox value="@bind(vm.filtroColumns[0])"
-								instant="true" onChange="@command('filtrarContribuyente')"
+								onChange="@command('filtrarContribuyente')"
+								onOK="@command('filtrarContribuyente')"
+								hflex="1" />
+						
+						</listheader>	
+						<listheader hflex="min">
+						
+							<textbox value="@bind(vm.filtroColumns[8])"
+								onChange="@command('filtrarContribuyente')"
+								onOK="@command('filtrarContribuyente')"
 								hflex="1" />
 						
 						</listheader>
@@ -121,6 +137,7 @@
 						
 							<listcell label="@load(each[7])" style="text-align: center;font-weight:bold" />
 							<listcell label="@load(each[0])" style="text-align: Left" />
+							<listcell label="@load(each[8])" style="text-align: center;font-weight:bold" />
 							<listcell label="@load(each[1])" class="bg-green-lighter" style="font-weight:bold"/>
 							<listcell label="@load(each[2])" class="bg-red-lighter" style="font-weight:bold"/>
 							<listcell label="@load(each[3])" class="bg-purple-lighter" style="font-weight:bold"/>

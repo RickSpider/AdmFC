@@ -946,6 +946,27 @@
 						iconSclass="z-icon-refresh " onClick="@command('regenerarPass')" />
 
 				</tablechildren>
+				
+				<tablechildren>
+
+					<label value="Etiquetas:" />
+
+				</tablechildren>
+				
+				<tablechildren colspan="3">
+
+					 <chosenbox hflex="1"
+	                    model="@load(vm.etiquetas)"
+	                    creatable="false"
+						selectedObjects="@bind(vm.contribuyenteSelected.etiquetas)" />
+						<template name="model">
+
+							<label value="@load(each.tipo)" />
+
+						</template>
+
+				</tablechildren>
+				
 
 
 

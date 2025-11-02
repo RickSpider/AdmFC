@@ -277,7 +277,7 @@ public class LoteVM extends TemplateViewModelLocal {
 		// String sqlContribuyente =
 		// this.um.getSql("contribuyente/listaContribuyentes.sql");
 
-		if (!this.isUserRolMaster()) {
+		if (!this.isUserRolMaster() && !this.isUserRolAdmin()) {
 
 			sqlContribuyente = sqlContribuyente.replace("--", "").replace("?1",
 					this.getCurrentUser().getUsuarioid() + "");

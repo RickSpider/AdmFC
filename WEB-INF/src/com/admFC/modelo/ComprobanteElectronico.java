@@ -6,6 +6,8 @@
 package com.admFC.modelo;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +17,8 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.doxacore.modelo.Modelo;
 
@@ -50,6 +53,12 @@ public class ComprobanteElectronico extends Modelo implements Serializable {
     private String cdc;
     private String timbrado;
     private String numero;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaCE;
+    
+    private String receptorDocNro;
+    
     private double total;
     
     @Column(columnDefinition="text")
@@ -244,6 +253,22 @@ public class ComprobanteElectronico extends Modelo implements Serializable {
 
 	public void setAmbiente(String ambiente) {
 		this.ambiente = ambiente;
+	}
+
+	public Date getFechaCE() {
+		return fechaCE;
+	}
+
+	public void setFechaCE(Date fechaCE) {
+		this.fechaCE = fechaCE;
+	}
+
+	public String getReceptorDocNro() {
+		return receptorDocNro;
+	}
+
+	public void setReceptorDocNro(String receptorDocNro) {
+		this.receptorDocNro = receptorDocNro;
 	}
     
     

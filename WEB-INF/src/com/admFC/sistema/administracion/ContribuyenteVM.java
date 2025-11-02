@@ -29,6 +29,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.util.Notification;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Window;
 
 import com.admFC.modelo.ActividadEconomica;
@@ -43,6 +44,8 @@ import com.admFC.util.ParamsLocal;
 import com.admFC.util.TemplateViewModelLocal;
 import com.doxacore.modelo.Auditoria;
 import com.doxacore.modelo.Rol;
+import com.doxacore.modelo.Tipo;
+import com.doxacore.modelo.Tipotipo;
 import com.doxacore.modelo.Usuario;
 import com.doxacore.modelo.UsuarioRol;
 import com.doxacore.util.UtilStaticMetodos;
@@ -67,6 +70,8 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	private boolean opInactivarContribuyenteUsuario;
 
 	private boolean editar = false;
+	
+	private ListModelList<Tipo> etiquetas;
 
 	@Init(superclass = true)
 	public void initContribuyenteVM() {
@@ -115,7 +120,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 	private void inicializarFiltros() {
 
-		this.filtroColumns = new String[5];
+		this.filtroColumns = new String[7];
 
 		for (int i = 0; i < this.filtroColumns.length; i++) {
 
@@ -161,6 +166,14 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		this.buscarTipoTransaccion = "";
 		this.buscarTipoImpuesto = "";
 		this.buscarDistrito = "";
+		
+		Tipotipo tt = this.reg.getObjectBySigla(Tipotipo.class.getName(), "ETIQUETA");
+		
+		
+		List<Tipo> lEtiquetas = this.reg.getAllObjectsByCondicionOrder(Tipo.class.getName(),
+				"tipotipoid = " + tt.getTipotipoid(), "tipoid asc");
+		
+		this.etiquetas = new ListModelList<Tipo>(lEtiquetas);
 
 		if (contribuyenteid != -1) {
 
@@ -196,7 +209,16 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 			}
 
+			for (Tipo t : this.contribuyenteSelected.getEtiquetas()) {
+				
+				this.etiquetas.addToSelection(t);
+			}
+			
+			
+			
 			this.auditoria.setJson(new Gson().toJson(this.contribuyenteSelected));
+			
+			
 
 		} else {
 
@@ -230,7 +252,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		}
 
 		this.contribuyenteSelected = this.save(this.contribuyenteSelected);
-		if (this.contribuyenteSelected.getPathkey() != null) {
+		if (this.contribuyenteSelected.getPathkey() != null || !this.contribuyenteSelected.getPasskey().isEmpty()) {
 		
 			this.guardarCert();
 			
@@ -817,7 +839,19 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		
 		
 	}
-
+	
+	@Command
+	@NotifyChange("lContribuyentes")
+	public void ordenar(@BindingParam("indice") int indice,
+	                    @BindingParam("asc") boolean asc) {
+	    this.lContribuyentes.sort((a, b) -> {
+	        Date d1 = (Date) ((Object[]) a)[indice];
+	        Date d2 = (Date) ((Object[]) b)[indice];
+	        int cmp = d1.compareTo(d2);
+	        return asc ? cmp : -cmp;
+	    });
+	}
+	
 	public Contribuyente getContribuyenteSelected() {
 		return contribuyenteSelected;
 	}
@@ -1000,6 +1034,14 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 	public void setBuscarDistrito(String buscarDistrito) {
 		this.buscarDistrito = buscarDistrito;
+	}
+
+	public ListModelList<Tipo> getEtiquetas() {
+		return etiquetas;
+	}
+
+	public void setEtiquetas(ListModelList<Tipo> etiquetas) {
+		this.etiquetas = etiquetas;
 	}
 
 }

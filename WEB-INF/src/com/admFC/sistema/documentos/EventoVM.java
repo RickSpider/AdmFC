@@ -312,10 +312,11 @@ public class EventoVM extends TemplateViewModelLocal implements FinderInterface 
 				+ "-- and cu.usuarioid = ?1 \n" 
 				+ "order by c.contribuyenteid asc;";
 
+
 		// String sqlContribuyente =
 		// this.um.getSql("contribuyente/listaContribuyentes.sql");
 
-		if (!this.isUserRolMaster()) {
+		if (!this.isUserRolMaster() && !this.isUserRolAdmin()) {
 
 			sqlContribuyente = sqlContribuyente.replace("--", "").replace("?1",
 					this.getCurrentUser().getUsuarioid() + "");

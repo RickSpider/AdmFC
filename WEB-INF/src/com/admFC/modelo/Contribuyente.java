@@ -29,6 +29,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.doxacore.modelo.Modelo;
+import com.doxacore.modelo.Tipo;
 
 
 /**
@@ -173,6 +174,13 @@ public class Contribuyente extends Modelo implements Serializable {
     
     @Column(columnDefinition = "boolean default false", name="guardarjson")
     private boolean guardarJson;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "contribuyentesetiquetas",
+        joinColumns = @JoinColumn(name = "contribuyenteid"),
+        inverseJoinColumns = @JoinColumn(name = "etiquetaid"))
+    private Set<Tipo> etiquetas = new HashSet<>();
 
 
     public String getPass() {
@@ -484,7 +492,17 @@ public class Contribuyente extends Modelo implements Serializable {
 
 	public void setGuardarJson(boolean guardarJson) {
 		this.guardarJson = guardarJson;
-	} 
+	}
+
+	public Set<Tipo> getEtiquetas() {
+		return etiquetas;
+	}
+
+	public void setEtiquetas(Set<Tipo> etiquetas) {
+		this.etiquetas = etiquetas;
+	}
+
+	
 	
 	
 	

@@ -28,6 +28,7 @@
 						<listheader label="RUC" align="left" />
 						<listheader label="Ambiente" align="left" />
 						<listheader label="Habilitado" align="left" />
+						<listheader label="Etiquetas" align="left" />
 						<listheader label="Vencimiento Firma" align="center" />
 
 						<listheader align="center" width="150px" />
@@ -63,6 +64,11 @@
 								instant="true" onChange="@command('filtrarContribuyente')"
 								hflex="1" />
 						</auxheader>
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[5])"
+								instant="true" onChange="@command('filtrarContribuyente')"
+								hflex="1" />
+						</auxheader>
 						<auxheader/>
 						
 
@@ -78,6 +84,7 @@
 							<listcell label="@load(each[3])" />
 							<listcell label="@load(each[4])" />
 							<listcell label="@load(each[5])" />
+							<listcell label="@load(each[6])" />
 
 
 							<listcell>
