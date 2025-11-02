@@ -20,7 +20,9 @@ public class ParamsLocal extends Params {
 	
 	//SIGLA TIPOTIPOS
 	
+	public static final String SIGLA_TIPOTIPO_FUNCIONARIO = "ETIQUETA";	
 	
+	//OPERACIONES
 	public static final String OP_CREAR_COMPROBANTEELECTRONICO = "CrearComprobanteElectronico";
 	public static final String OP_EDITAR_COMPROBANTEELECTRONICO = "EditarComprobanteElectronico";
 	public static final String OP_BORRAR_COMPROBANTEELECTRONICO = "BorrarComprobanteElectronico";
