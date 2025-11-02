@@ -3,15 +3,6 @@
 
 <zk>
 
-	<style>
-        
-        .Concluido {
-            color: green;
-            
-        }
-        
-    </style>
-
 	<window title="Lote" border="normal"
 		viewModel="@id('vm') @init('com.admFC.sistema.documentos.LoteVM')"
 		vflex="1" id="Body" apply="org.zkoss.bind.BindComposer">
@@ -154,11 +145,20 @@
 							<listcell 
 								tooltiptext="@load(each[4])" >
 								
-								<label value="@load(each[4])" sclass="@load(each[4])"/>
+								<label value="@load(each[4])"
+											       sclass="@load(
+											           each[4].toString() eq 'Concluido' ? 'badge badge-pill badge-success' :
+											           each[4].toString() eq 'Rechazado' ? 'badge badge-pill badge-danger' :
+											           'badge badge-pill badge-info'
+											       )"/>
 								
 							</listcell>
-							<listcell label="@load(each[5])"
-								tooltiptext="@load(each[5])" />
+							<listcell tooltiptext="@load(each[5])" >
+								
+								<label value="@load(each[5])"
+       									sclass="@load(each[5].toString() eq 'PROD' ? 'badge badge-success' : 'badge badge-info')"/>
+								
+								</listcell>
 					
 				
 

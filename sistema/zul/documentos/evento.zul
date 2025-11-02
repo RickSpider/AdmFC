@@ -4,19 +4,6 @@
 
 <zk>
 
-	<style>
-        .Aprobado {
-            
-            color: green;
-            
-        }
-        
-        .Rechazado{
-        
-        	color: red;
-            
-        }        
-    </style>
 	<window title="Evento" border="normal"
 		viewModel="@id('vm') @init('com.admFC.sistema.documentos.EventoVM')"
 		vflex="1" id="Body" apply="org.zkoss.bind.BindComposer">
@@ -216,7 +203,12 @@
 							
 							<listcell tooltiptext="@load(each[6])" >
 							
-								<label value="@load(each[6])"  sclass="@load(each[6])"/>
+								<label value="@load(each[6])"
+											       sclass="@load(
+											           each[6].toString() eq 'Aprobado' ? 'badge badge-pill badge-success' :
+											           each[6].toString() eq 'Rechazado' ? 'badge badge-pill badge-danger' :
+											           'badge badge-pill badge-info'
+											       )"/>
 								
 							</listcell>
 								
@@ -224,7 +216,12 @@
 								
 							<listcell label="@load(each[8])" tooltiptext="@load(each[8])" />
 							
-							<listcell label="@load(each[9])" tooltiptext="@load(each[9])" />
+							<listcell tooltiptext="@load(each[9])" >
+							
+								<label value="@load(each[9])"
+       									sclass="@load(each[9].toString() eq 'PROD' ? 'badge badge-success' : 'badge badge-info')"/>
+							
+							</listcell>
 
 							<listcell>
 								<hlayout>

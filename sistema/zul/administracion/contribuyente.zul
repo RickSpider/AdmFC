@@ -1,5 +1,6 @@
 <?page title="Contribuyentes" contentType="text/html;charset=UTF-8"?>
-<zk>
+<zk xmlns:h="http://www.w3.org/1999/xhtml">
+
 	<window title="Contribuyente" border="normal"
 		viewModel="@id('vm') @init('com.admFC.sistema.administracion.ContribuyenteVM')"
 		vflex="1" id="Body" apply="org.zkoss.bind.BindComposer">
@@ -22,14 +23,14 @@
 					<listhead>
 
 						<listheader hflex="min" align="center" />
-						<listheader label="ID" align="right"
+						<listheader label="ID" align="center"
 							hflex="min" />
-						<listheader label="Contribuyente" align="left" />
-						<listheader label="RUC" align="left" />
-						<listheader label="Ambiente" align="left" />
-						<listheader label="Habilitado" align="left" />
-						<listheader label="Etiquetas" align="left" />
-						<listheader label="Vencimiento Firma" align="center" />
+						<listheader label="Contribuyente" align="center" />
+						<listheader label="RUC" align="center" hflex="min" />
+						<listheader label="Ambiente" align="center" hflex="min"/>
+						<listheader label="Estado" align="Center" hflex="min"/>
+						<listheader label="Etiquetas" align="Center" />
+						<listheader label="Vencimiento Firma" align="center" hflex="min"/>
 
 						<listheader align="center" width="150px" />
 
@@ -78,12 +79,22 @@
 
 						<listitem>
 							<listcell />
-							<listcell label="@load(each[0])" />
-							<listcell label="@load(each[1])" />
-							<listcell label="@load(each[2])" />
-							<listcell label="@load(each[3])" />
-							<listcell label="@load(each[4])" />
-							<listcell label="@load(each[5])" />
+							<listcell label="@load(each[0])" style="text-align: right"/>
+							<listcell label="@load(each[1])" style="text-align: Left"/>
+							<listcell label="@load(each[2])" style="text-align: Left"/>
+							<listcell >
+							
+								<label value="@load(each[3])"
+       									sclass="@load(each[3].toString() eq 'PROD' ? 'badge badge-success' : 'badge badge-info')"/>
+							
+							</listcell>
+							<listcell  >
+							
+							<label value="@load(each[4])"
+       									sclass="@load(each[4].toString() eq 'Activo' ? 'badge badge-pill badge-success' : 'badge badge-pill badge-danger')"/>
+							
+							</listcell>
+							<listcell label="@load(each[5])" style="text-align: Left"/>
 							<listcell label="@load(each[6])" />
 
 

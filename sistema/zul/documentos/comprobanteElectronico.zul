@@ -2,19 +2,7 @@
 <?component name="finder" templateURI="/doxacore/zul/component/finder.zul"?>
 
 <zk>
-	<style>
-		.Aprobado { 
-			
-			color: green; 
-			
-		 }
 
-		.Rechazado{
-
-			color: red; 
-		
-		}
-	</style>
 	<window title="Comprobante Electronico" border="normal"
 		viewModel="@id('vm') @init('com.admFC.sistema.documentos.ComprobanteElectronicoVM')"
 		vflex="1" id="Body" apply="org.zkoss.bind.BindComposer">
@@ -333,16 +321,25 @@
 
 							<listcell tooltiptext="@load(each[13])">
 
-								<label value="@load(each[9])"
-									sclass="@load(each[9])" />
+									<label value="@load(each[9])"
+											       sclass="@load(
+											           each[9].toString() eq 'Aprobado' ? 'badge badge-pill badge-success' :
+											           each[9].toString() eq 'Rechazado' ? 'badge badge-pill badge-danger' :
+											           'badge badge-pill badge-info'
+											       )"/>
 
 							</listcell>
 
 							<listcell label="@load(each[10])"
 								tooltiptext="@load(each[10])" style="text-align: Left" />
 
-							<listcell label="@load(each[12])"
-								tooltiptext="@load(each[12])" />
+							<listcell
+								tooltiptext="@load(each[12])" >
+								
+								<label value="@load(each[12])"
+       									sclass="@load(each[12].toString() eq 'PROD' ? 'badge badge-success' : 'badge badge-info')"/>
+								
+								</listcell>
 
 
 							<listcell>

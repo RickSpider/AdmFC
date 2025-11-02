@@ -3,7 +3,7 @@ c.contribuyenteid,
 c.nombre, 
 c.ruc||'-'||c.dv,  
 c.ambiente, 
-c.habilitado,
+case when c.habilitado = true then 'Activo' else 'inactivo' end as estadoHabilitado,
 COALESCE(STRING_AGG(t.tipo, ', ' ORDER BY ce.etiquetaid), '') AS etiquetas,
 c.vencimientokey
 from contribuyentes c
