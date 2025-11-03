@@ -1,13 +1,22 @@
 package com.admFC.sistema.documentos;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -21,6 +30,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zk.ui.util.Notification;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
@@ -38,6 +48,8 @@ import com.doxacore.modelo.Auditoria;
 import com.doxacore.report.ReportBigExcel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.io.StringReader;
 
 public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements FinderInterface {
 
@@ -685,6 +697,66 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		ReportBigExcel re = new ReportBigExcel("CE_"+this.contribuyenteSelected.getNombre().trim().replaceAll("\\s+", "").replace(".", "").replace(",", ""));
 		re.descargar(titulos, headersDatos, detalles);
 	}
+	
+	 private void openInNewTabPost(String url, Map<String, String> params) {
+	        StringBuilder js = new StringBuilder();
+	        js.append("var f=document.createElement('form');");
+	        js.append("f.method='POST';");
+	        js.append("f.action='").append(url).append("';");
+	        js.append("f.target='_blank';");
+
+	        for (Map.Entry<String, String> entry : params.entrySet()) {
+	            js.append("var i=document.createElement('input');");
+	            js.append("i.type='hidden';");
+	            js.append("i.name='").append(entry.getKey()).append("';");
+	            js.append("i.value='").append(entry.getValue()
+	                    .replace("\\", "\\\\")
+	                    .replace("'", "\\'")
+	                    .replace("\r", "")
+	                    .replace("\n", "\\n"))
+	                    .append("';");
+	            js.append("f.appendChild(i);");
+	        }
+
+	        js.append("document.body.appendChild(f); f.submit(); document.body.removeChild(f);");
+
+	        Clients.evalJavaScript(js.toString());
+	    }
+	 
+	 
+	 @Command
+	 public void verXml() {
+		 	
+		 
+		 
+	        String prettyXml = prettyPrintXml(this.comprobanteElectronicoSelected.getXml());
+	        
+	        prettyXml = prettyXml.replace("&", "&amp;")
+	                  .replace("<", "&lt;")
+	                  .replace(">", "&gt;")
+	                  .replace("\"", "&quot;")
+	                  .replace("'", "&apos;");
+	        
+	        Map<String, String> params = new HashMap<>();
+	        params.put("xml", prettyXml);
+
+	        this.openInNewTabPost("sistema/zul/documentos/xmlviewer.zul", params);
+	    }
+
+	    private String prettyPrintXml(String xml) {
+	        try {
+	            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+	            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+	            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+	            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+	            StreamSource source = new StreamSource(new StringReader(xml));
+	            StringWriter writer = new StringWriter();
+	            transformer.transform(source, new StreamResult(writer));
+	            return writer.toString();
+	        } catch (Exception e) {
+	            return xml;
+	        }
+	    }
 
 	public ComprobanteElectronico getComprobanteElectronicoSelected() {
 		return comprobanteElectronicoSelected;

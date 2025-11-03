@@ -143,13 +143,16 @@
 			
 			</tablechildren>
 			<tablechildren  colspan="3">
-
-				<textbox value="@load(vm.comprobanteElectronicoSelected.xml) @save(vm.comprobanteElectronicoSelected.xml, before='guardar')"
-					width="450px"
-					rows="10"
-					constraint="no empty: Es campo obligatorio." 
-					readonly="@load(vm.camposBloqueados)"/>
-			
+				<vlayout>
+					<textbox value="@load(vm.comprobanteElectronicoSelected.xml) @save(vm.comprobanteElectronicoSelected.xml, before='guardar')"
+						width="450px"
+						rows="10"
+						constraint="no empty: Es campo obligatorio." 
+						readonly="@load(vm.camposBloqueados)"/>
+						
+					<button label="Pretty XML"
+       					 onClick="@command('verXml')" hflex="1"/>
+				</vlayout>
 			</tablechildren>
 			
 			<tablechildren >

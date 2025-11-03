@@ -1,0 +1,162 @@
+<?page title="XML del Documento Electrónico" contentType="text/html;charset=UTF-8"?>
+<window apply="org.zkoss.bind.BindComposer"
+        viewModel="@id('vm') @init('com.admFC.sistema.documentos.XmlViewerPageVM')"
+        border="none" width="100%" xmlns:n="native">
+
+    <n:html>
+        <n:head>
+            <n:meta charset="UTF-8"/>
+            <n:meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <n:title>XML del Documento Electrónico</n:title>
+            <!-- Bootstrap 4 CSS -->
+            <n:link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"/>
+            <!-- Font Awesome -->
+            <n:link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+            
+            <n:link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css"/>
+		    <n:script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></n:script>
+		    <n:script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-markup.min.js"></n:script>
+            
+            <n:style>
+                <![CDATA[
+                /* todo tu CSS intacto */
+                * { margin:0; padding:0; box-sizing:border-box; }
+                body {
+                    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+                    min-height: 100vh;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    padding: 30px 15px;
+                }
+                .container-custom { max-width: 1100px; margin: 0 auto; }
+                .header-section { text-align: center; margin-bottom: 40px; animation: slideDown 0.6s ease-out; }
+                .header-section h1 { font-size: 2.5rem; font-weight: 700; color: #1a237e; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); }
+                .header-section p { font-size: 1.1rem; color: #555; font-weight: 300; }
+                .xml-card { background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); overflow: hidden; margin-bottom: 30px; animation: slideUp 0.6s ease-out; }
+                .xml-card-header { background: linear-gradient(135deg,#1976d2 0%,#5e35b1 100%); padding:20px; color:white; }
+                .xml-card-header h2 { font-size:1.3rem; font-weight:600; margin:0; }
+                .xml-card-body { padding:30px; }
+                .xml-display {  border-radius:10px; padding:20px; margin-bottom:20px; overflow-x:auto; border:1px solid #333; }
+                .xml-display pre { color:#4ec9b0; font-family:'Courier New',monospace; font-size:0.95rem; line-height:1.6; margin:0; white-space:pre-wrap; word-wrap:break-word; }
+                .xml-tag { color:#569cd6; } .xml-attr { color:#9cdcfe; } .xml-value { color:#ce9178; }
+                .btn-group-custom { display:flex; gap:15px; justify-content:center; flex-wrap:wrap; }
+                .btn-custom { padding:12px 25px; font-size:1rem; font-weight:600; border:none; border-radius:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; gap:8px; }
+                .btn-copy { background:linear-gradient(135deg,#1976d2 0%,#1565c0 100%); color:white; }
+                .btn-copy:hover { background:linear-gradient(135deg,#1565c0 0%,#0d47a1 100%); transform:translateY(-2px); box-shadow:0 5px 20px rgba(25,118,210,0.4); color:white; text-decoration:none; }
+                .btn-download { background:linear-gradient(135deg,#7b1fa2 0%,#5e35b1 100%); color:white; }
+                .btn-download:hover { background:linear-gradient(135deg,#5e35b1 0%,#4527a0 100%); transform:translateY(-2px); box-shadow:0 5px 20px rgba(123,31,162,0.4); color:white; text-decoration:none; }
+                .info-section { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; margin-top:30px; }
+                .info-card { background:white; border-radius:12px; padding:25px; text-align:center; box-shadow:0 5px 20px rgba(0,0,0,0.1); transition:all 0.3s ease; border-top:4px solid #1976d2; }
+                .info-card:nth-child(2){ border-top-color:#7b1fa2;} .info-card:nth-child(3){ border-top-color:#388e3c;}
+                .info-card:hover{ transform:translateY(-5px); box-shadow:0 10px 30px rgba(0,0,0,0.15);}
+                .info-card-icon{ font-size:2.5rem; margin-bottom:15px; color:#1976d2;}
+                .info-card:nth-child(2) .info-card-icon{color:#7b1fa2;} .info-card:nth-child(3) .info-card-icon{color:#388e3c;}
+                .info-card h3{ font-size:1.2rem; font-weight:600; color:#1a237e; margin-bottom:10px;}
+                .info-card p{ color:#666; font-size:0.95rem; line-height:1.5;}
+                .toast-notification{ position:fixed; top:20px; right:20px; background:#4caf50; color:white; padding:15px 25px; border-radius:8px; box-shadow:0 5px 20px rgba(0,0,0,0.2); display:none; z-index:1000; animation:slideInRight 0.3s ease-out;}
+                .toast-notification.show{display:block;}
+                @keyframes slideDown{from{opacity:0;transform:translateY(-30px);}to{opacity:1;transform:translateY(0);}}
+                @keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+                @keyframes slideInRight{from{opacity:0;transform:translateX(100px);}to{opacity:1;transform:translateX(0);}}
+                @media(max-width:768px){
+                    .header-section h1{font-size:1.8rem;}
+                    .xml-card-body{padding:20px;}
+                    .xml-display pre{font-size:0.85rem;}
+                    .btn-group-custom{flex-direction:column;}
+                    .btn-custom{width:100%;justify-content:center;}
+                }
+                ]]>
+            </n:style>
+        </n:head>
+
+        <n:body>
+            <n:div class="container-custom">
+                <!-- Header -->
+                <n:div class="header-section">
+                    <n:h1>XML del Documento Electrónico</n:h1>
+                    <n:p>Visualización clara y estructurada de tu documento XML</n:p>
+                </n:div>
+
+                <!-- Main Card -->
+                <n:div class="xml-card">
+                    <n:div class="xml-card-header">
+                        <n:h2><n:i class="fas fa-file-code"></n:i> Contenido del XML</n:h2>
+                    </n:div>
+                    <n:div class="xml-card-body">
+                        <n:div class="xml-display">
+                            <n:pre id="xmlContent"><n:code class="language-markup">${vm.prettyXml}</n:code></n:pre>
+                        </n:div>
+
+                        <!-- Action Buttons -->
+                        <n:div class="btn-group-custom">
+                            <n:button class="btn-custom btn-copy" onclick="copyXml()">
+                                <n:i class="fas fa-copy"></n:i> Copiar XML
+                            </n:button>
+                            <n:button class="btn-custom btn-download" onclick="downloadXml()">
+                                <n:i class="fas fa-download"></n:i> Descargar XML
+                            </n:button>
+                        </n:div>
+                    </n:div>
+                </n:div>
+
+                <!-- Info Section -->
+                <n:div class="info-section">
+                    <n:div class="info-card">
+                        <n:div class="info-card-icon"><n:i class="fas fa-file-alt"></n:i></n:div>
+                        <n:h3>Visualización Clara</n:h3>
+                        <n:p>Formato legible con sintaxis resaltada para mejor comprensión</n:p>
+                    </n:div>
+                    <n:div class="info-card">
+                        <n:div class="info-card-icon"><n:i class="fas fa-bolt"></n:i></n:div>
+                        <n:h3>Rápido y Responsivo</n:h3>
+                        <n:p>Funciona perfectamente en todos los dispositivos y navegadores</n:p>
+                    </n:div>
+                    <n:div class="info-card">
+                        <n:div class="info-card-icon"><n:i class="fas fa-lock"></n:i></n:div>
+                        <n:h3>Seguro</n:h3>
+                        <n:p>Procesamiento local, sin envío de datos a servidores externos</n:p>
+                    </n:div>
+                </n:div>
+            </n:div>
+
+            <!-- Toast Notification -->
+            <n:div class="toast-notification" id="toast"></n:div>
+
+            <!-- JS -->
+            <n:script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></n:script>
+            <n:script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></n:script>
+            <n:script>
+                <![CDATA[
+                function copyXml() {
+                    const xmlContent = document.getElementById('xmlContent').innerText;
+                    navigator.clipboard.writeText(xmlContent).then(() => {
+                        showToast('¡XML copiado al portapapeles!');
+                    }).catch(err => {
+                        console.error('Error al copiar:', err);
+                        showToast('Error al copiar el XML', 'error');
+                    });
+                }
+
+                function downloadXml() {
+                    const xmlContent = document.getElementById('xmlContent').innerText;
+                    const element = document.createElement('a');
+                    const file = new Blob([xmlContent], { type: 'application/xml' });
+                    element.href = URL.createObjectURL(file);
+                    element.download = 'documento.xml';
+                    document.body.appendChild(element);
+                    element.click();
+                    document.body.removeChild(element);
+                    showToast('¡Archivo XML descargado!');
+                }
+
+                function showToast(message, type = 'success') {
+                    const toast = document.getElementById('toast');
+                    toast.textContent = message;
+                    toast.style.background = type === 'success' ? '#4caf50' : '#f44336';
+                    toast.classList.add('show');
+                    setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                }
+                ]]>
+            </n:script>
+        </n:body>
+    </n:html>
+</window>
