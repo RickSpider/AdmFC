@@ -105,7 +105,6 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				"	--##ETIQUETAS## \n"+
 				"FROM comprobanteselectronicos ce \n" +
 				"join contribuyentes c on c.contribuyenteid = ce.contribuyenteid \n"+
-				"--##JOINETIQUETAS## \n"+
 				"--##NOMASTER## \n"+
 				"WHERE ce.creado BETWEEN '"+sdf.format(desde)+"' AND '"+sdf.format(hasta)+"' \n"+
 				"and c.habilitado = true \n"+
@@ -183,9 +182,12 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				.replace("--##GROUP##", "group by c.contribuyenteid")
 				.replace("--##ORDER##", "order by c.contribuyenteid asc")
 				.replace("--##CONTRIBUYENTEN##", ", c.nombre, c.ambiente")
-				.replace("--##ETIQUETAS##", ", COALESCE(STRING_AGG(DISTINCT t.tipo, ', '), '') AS etiquetas \n")
-				.replace("--##JOINETIQUETAS##", "left join contribuyentesetiquetas ceti on ceti.contribuyenteid = c.contribuyenteid \n"
-						+ "left join tipos t on t.tipoid = ceti.etiquetaid\n");
+				.replace("--##ETIQUETAS##", " , (SELECT STRING_AGG(DISTINCT t.tipo, ', ')\n"
+						+ "     FROM contribuyentesetiquetas ceti\n"
+						+ "     JOIN tipos t ON t.tipoid = ceti.etiquetaid\n"
+						+ "     WHERE ceti.contribuyenteid = c.contribuyenteid\n"
+						+ "    ) AS etiquetas \n");
+				
 			
 		
 		sqlEvento = sqlEvento.replace("-- ##CONTRIBUYENTEID##", "c.contribuyenteid,")
