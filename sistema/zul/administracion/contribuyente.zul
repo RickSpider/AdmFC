@@ -111,7 +111,7 @@
 										disabled="@load(!vm.opEditarContribuyente)" />
 									<button iconSclass="z-icon-trash-o"
 										class="doxa-button-red"
-										onClick="@command('borrarContribuyenteConfirmacion', contribuyente=each[0])"
+										onClick="@command('borrarContribuyenteConfirmacion', contribuyenteid=each[0])"
 										tooltiptext="Borrar"
 										disabled="@load(!vm.opBorrarContribuyente)" />
 

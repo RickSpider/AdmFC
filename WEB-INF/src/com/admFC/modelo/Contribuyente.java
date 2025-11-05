@@ -82,7 +82,7 @@ public class Contribuyente extends Modelo implements Serializable {
     @JoinColumn(name = "tipoimpuestoid")
     private TipoImpuesto tipoImpuesto;
 
-    @ManyToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
             name = "contribuyentesactividades",
             joinColumns = @JoinColumn(name = "contribuyenteid"),
@@ -115,7 +115,7 @@ public class Contribuyente extends Modelo implements Serializable {
     private String csc;
        
     //OneToMany Unidireccional
-    @OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL, orphanRemoval = true )
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true )
     @JoinColumn(name="contribuyenteid", nullable = false)
     private List<ContribuyenteContacto> contactos = new ArrayList<ContribuyenteContacto>();
     

@@ -26,13 +26,17 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.util.Notification;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 import com.admFC.modelo.ActividadEconomica;
+import com.admFC.modelo.ComprobanteElectronico;
 import com.admFC.modelo.Contribuyente;
 import com.admFC.modelo.ContribuyenteContacto;
 import com.admFC.modelo.ContribuyenteUsuario;
@@ -412,6 +416,8 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 		this.nombre = "";
 		this.email = "";
+		
+		
 
 	}
 
@@ -851,6 +857,68 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	        return asc ? cmp : -cmp;
 	    });
 	}
+	
+	
+	@Command
+	public void borrarContribuyenteConfirmacion(@BindingParam("contribuyenteid") long id) {
+
+		if (!this.opBorrarContribuyente)
+			return;
+		
+		List<Object[]> comprobantes = this.reg.sqlNativo("select contribuyenteid, count(*) from comprobanteselectronicos\r\n"
+				+ "where contribuyenteid = "+id+"\r\n"
+				+ "group by contribuyenteid;");
+		
+		//System.out.println("tamaño de comprobantes ----> "+comprobantes.size());
+		
+		if (comprobantes != null && comprobantes.size() > 0) {
+			
+			
+			this.mensajeError("El contribuyente ya posee comprobantes electronicos, no se puede borrar.");
+			return;
+			
+		}
+
+		Contribuyente c = this.reg.getObjectById(Contribuyente.class.getName(), id);
+		
+		
+
+		EventListener event = new EventListener() {
+
+			@Override
+			public void onEvent(Event evt) throws Exception {
+
+				if (evt.getName().equals(Messagebox.ON_YES)) {
+
+					borrar(c);
+
+				}
+
+			}
+
+		};
+
+		this.mensajeEliminar("El Contribuyente sera borrado permanentemente. \n Continuar?", event);
+
+	}
+	
+	
+	private void borrar(Contribuyente c) {
+
+		this.reg.sqlNativoVoid("Delete from contribuyentesactividades where contribuyenteid = "+c.getContribuyenteid()+";");
+		this.reg.sqlNativoVoid("Delete from contribuyentescontactos where contribuyenteid = "+c.getContribuyenteid()+";");
+		this.reg.sqlNativoVoid("Delete from ContribuyentesUsuarios where contribuyenteid = "+c.getContribuyenteid()+";");
+		this.reg.sqlNativoVoid("Delete from contribuyentesetiquetas where contribuyenteid = "+c.getContribuyenteid()+";");
+		
+		
+		this.reg.deleteObject(c);
+
+		this.cargarContribuyentes();
+		BindUtils.postNotifyChange(null, null, this, "lContribuyentes");
+		
+		Notification.show("Contribuyente Borrado.");
+	}
+	
 	
 	public Contribuyente getContribuyenteSelected() {
 		return contribuyenteSelected;
