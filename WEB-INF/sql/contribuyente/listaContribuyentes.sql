@@ -1,7 +1,7 @@
 Select 
 c.contribuyenteid,  
-c.nombre, 
 c.ruc||'-'||c.dv,  
+c.nombre, 
 c.ambiente, 
 case when c.habilitado = true then 'Activo' else 'inactivo' end as estadoHabilitado,
 COALESCE(STRING_AGG(t.tipo, ', ' ORDER BY ce.etiquetaid), '') AS etiquetas,

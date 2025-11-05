@@ -25,8 +25,9 @@
 						<listheader hflex="min" align="center" />
 						<listheader label="ID" align="center"
 							hflex="min" />
-						<listheader label="Contribuyente" align="center" />
 						<listheader label="RUC" align="center" hflex="min" />
+						<listheader label="Contribuyente" align="center" />
+						
 						<listheader label="Ambiente" align="center" hflex="min"/>
 						<listheader label="Estado" align="Center" hflex="min"/>
 						<listheader label="Etiquetas" align="Center" />
