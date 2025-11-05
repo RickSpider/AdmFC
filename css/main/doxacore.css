@@ -1,0 +1,45 @@
+.doxa-button-orange, .doxa-button-orange:active, .doxa-button-orange:focus
+	{
+	background: orange;
+}
+
+.doxa-button-orange:hover {
+	background: #ffc14e;
+}
+
+.doxa-button-red, .doxa-button-red:active, .doxa-button-red:focus {
+	background: red;
+}
+
+.doxa-button-red:hover {
+	background: #ff8a8a;
+}
+
+.doxa-button-green, .doxa-button-green:active, .doxa-button-green:focus{
+	background: green;
+}
+
+.doxa-button-green:hover {
+	background: #27cf6e;
+}
+
+.doxa-button-violet, .doxa-button-violet:active, .doxa-button-violet:focus{
+	background: #8000ff;
+}
+
+.doxa-button-violet:hover {
+	background: #ce9dff;
+}
+
+.doxa-button-round {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+}
+
+.doxa-image-round {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	overflow: hidden;
+}
