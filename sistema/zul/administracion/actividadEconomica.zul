@@ -40,13 +40,13 @@
 						
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[1])"
-								instant="true" onChange="@command('filtrarActividadEconomica')"
+								onChange="@command('filtrarActividadEconomica')"
 								hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[2])"
-								instant="true" onChange="@command('filtrarActividadEconomica')"
+								onChange="@command('filtrarActividadEconomica')"
 								hflex="1" />
 						</auxheader>
 						

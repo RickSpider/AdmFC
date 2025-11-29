@@ -45,30 +45,30 @@
 						<auxheader />
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[1])"
-								instant="true" onChange="@command('filtrarContribuyente')"
+								onChange="@command('filtrarContribuyente')"
 								hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[2])"
-								instant="true" onChange="@command('filtrarContribuyente')"
+								onChange="@command('filtrarContribuyente')"
 								hflex="1" />
 						</auxheader>
 
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[3])"
-								instant="true" onChange="@command('filtrarContribuyente')"
+								onChange="@command('filtrarContribuyente')"
 								hflex="1" />
 						</auxheader>
 						
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[4])"
-								instant="true" onChange="@command('filtrarContribuyente')"
+								onChange="@command('filtrarContribuyente')"
 								hflex="1" />
 						</auxheader>
 						<auxheader>
 							<textbox value="@bind(vm.filtroColumns[5])"
-								instant="true" onChange="@command('filtrarContribuyente')"
+								onChange="@command('filtrarContribuyente')"
 								hflex="1" />
 						</auxheader>
 						<auxheader/>

@@ -50,14 +50,14 @@
 
 					</tablelayout>
 
-					<hbox pack="end" hflex="1">
+					<!--  <hbox pack="end" hflex="1">
 
 						<button label="Agregar"
 							iconSclass=" z-icon-plus"
 							onClick="@command('modalLoteAgregar')"
 							disabled="@load(!vm.opCrearLote)" />
 
-					</hbox>
+					</hbox> -->
 
 				</hbox>
 

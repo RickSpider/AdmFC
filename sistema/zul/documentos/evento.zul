@@ -64,10 +64,10 @@
 							onClick="@command('enviarEventos')"
 							 />
 
-						<button label="Agregar"
+						<!--  <button label="Agregar"
 							iconSclass=" z-icon-plus"
 							onClick="@command('modalEventoAgregar')"
-							disabled="@load(!vm.opCrearEvento)" />
+							disabled="@load(!vm.opCrearEvento)" /> -->
 
 					</hbox>
 
