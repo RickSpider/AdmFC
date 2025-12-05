@@ -627,7 +627,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		
 		DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale("es", "ES"));
 		dfs.setDecimalSeparator('.');
-		DecimalFormat df = new DecimalFormat("#,##0.##",dfs);
+		DecimalFormat df = new DecimalFormat("###0.##",dfs);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
 		List<String[]> titulos = new ArrayList<String[]>();
@@ -663,7 +663,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 			Object[] o = new Object[13];
 			
 				
-			o[0] = ox[0].toString();
+			o[0] = ox[0];
 			o[1] = ox[1].toString();
 			o[2] = ox[3].toString();
 			o[3] = ox[4].toString();
@@ -688,7 +688,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 			
 			
 			
-			o[12] = df.format((Double)ox[14]);
+			o[12] =ox[14];
 			
 			
 			detalles.add(o);

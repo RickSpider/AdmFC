@@ -2,6 +2,7 @@ package com.admFC.sistema.administracion;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,6 +19,9 @@ import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
@@ -55,10 +59,13 @@ import com.doxacore.modelo.UsuarioRol;
 import com.doxacore.util.UtilStaticMetodos;
 import com.google.gson.Gson;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ContribuyenteVM extends TemplateViewModelLocal {
 
@@ -917,6 +924,91 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		BindUtils.postNotifyChange(null, null, this, "lContribuyentes");
 		
 		Notification.show("Contribuyente Borrado.");
+	}
+	
+	
+	//upload pdf
+	
+	private Media pdfFile;
+	
+	@Command
+	public void uploadFilePDF(@BindingParam("file") Media file) throws IOException {
+
+	//	System.out.println("formato:" + file.getName());
+
+		if (!file.getName().contains(".pdf")) {
+
+			this.mensajeInfo("Archivo no valido.");
+			this.pdfFile = null;
+
+		} 
+		
+		pdfFile = file;     
+		
+		/*InputStream is = file.getStreamData();
+		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] buf = new byte[8192];
+        int r;
+        while ((r = is.read(buf)) != -1) out.write(buf, 0, r);
+        */
+		
+		PDDocument document = Loader.loadPDF(file.getByteData());
+		
+		PDFTextStripper stripper = new PDFTextStripper();
+		
+		 stripper.setSortByPosition(true);
+	     stripper.setLineSeparator(" ");   // reemplaza saltos de línea por espacio
+	     stripper.setParagraphEnd("");     // evita saltos de párrafo
+		
+	    String pdf = stripper.getText(document);
+	    
+	    
+	    System.out.println(pdf);
+	        
+	    procesarPdf(pdf);
+	        
+	    
+		
+		BindUtils.postNotifyChange(null, null, this.contribuyenteSelected, "*");
+
+	}
+	
+	
+	private void procesarPdf(String text) {
+		
+		 // RUC + DV
+		
+		if (text.contains("PERSONA FÍSICA")) {
+			
+			System.out.println("es fisico");
+			
+			  Pattern pRuc = Pattern.compile("(RUC Actual.*?)(\\d+)[\\s\\n]+(\\d+)", Pattern.DOTALL);
+		        Matcher mRuc = pRuc.matcher(text);
+		        if (mRuc.find()) {
+		           this.contribuyenteSelected.setRuc(mRuc.group(2).trim());
+		           this.contribuyenteSelected.setDv(mRuc.group(3).trim()); 
+		        }
+		}else if (text.contains("PERSONA JURÍDICA")) {
+			
+			System.out.println("es Juridico");
+			
+			Pattern rucPattern = Pattern.compile(
+	                "RUC Actual.*?(\\d{6,9})\\s+(\\d)",
+	                Pattern.CASE_INSENSITIVE
+	        );
+	        Matcher rucMatcher = rucPattern.matcher(text);
+
+	       
+	        if (rucMatcher.find()) {
+	            this.contribuyenteSelected.setRuc(rucMatcher.group(1).trim());
+	            this.contribuyenteSelected.setRuc(rucMatcher.group(2).trim());
+	        }
+			
+		}
+		
+      
+		
 	}
 	
 	
