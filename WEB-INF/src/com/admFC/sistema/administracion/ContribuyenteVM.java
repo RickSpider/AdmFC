@@ -2,7 +2,7 @@ package com.admFC.sistema.administracion;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,9 +19,7 @@ import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.pdfbox.Loader;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
+
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
@@ -40,7 +38,6 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 import com.admFC.modelo.ActividadEconomica;
-import com.admFC.modelo.ComprobanteElectronico;
 import com.admFC.modelo.Contribuyente;
 import com.admFC.modelo.ContribuyenteContacto;
 import com.admFC.modelo.ContribuyenteUsuario;
@@ -59,7 +56,6 @@ import com.doxacore.modelo.UsuarioRol;
 import com.doxacore.util.UtilStaticMetodos;
 import com.google.gson.Gson;
 
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -928,7 +924,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	
 	
 	//upload pdf
-	
+	/*
 	private Media pdfFile;
 	
 	@Command
@@ -945,13 +941,13 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		
 		pdfFile = file;     
 		
-		/*InputStream is = file.getStreamData();
+		//InputStream is = file.getStreamData();
 		
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] buf = new byte[8192];
-        int r;
-        while ((r = is.read(buf)) != -1) out.write(buf, 0, r);
-        */
+		//ByteArrayOutputStream out = new ByteArrayOutputStream();
+        //byte[] buf = new byte[8192];
+        //int r;
+        //while ((r = is.read(buf)) != -1) out.write(buf, 0, r);
+        
 		
 		PDDocument document = Loader.loadPDF(file.getByteData());
 		
@@ -972,7 +968,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		
 		BindUtils.postNotifyChange(null, null, this.contribuyenteSelected, "*");
 
-	}
+	}*/
 	
 	
 	private void procesarPdf(String text) {

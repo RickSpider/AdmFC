@@ -56,9 +56,9 @@
 									value="@load(vm.contribuyenteSelected.nombre) @save(vm.contribuyenteSelected.nombre, before='guardar')"
 									width="150px" constraint="no empty: Es campo obligatorio." />
 									
-									<button iconSclass="z-icon-cloud-upload"
+								<!-- 	<button iconSclass="z-icon-cloud-upload"
 									tooltiptext="Subir Archivo" upload="true,maxsize=300"
-									onUpload="@command('uploadFilePDF', file=event.media)" />
+									onUpload="@command('uploadFilePDF', file=event.media)" />  -->
 
 							</tablechildren>
 
