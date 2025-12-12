@@ -5,7 +5,7 @@ c.nombre,
 c.ambiente, 
 case when c.habilitado = true then 'Activo' else 'Inactivo' end as estadoHabilitado,
 COALESCE(STRING_AGG(t.tipo, ', ' ORDER BY ce.etiquetaid), '') AS etiquetas,
-c.vencimientokey
+TO_CHAR(c.vencimientokey, 'DD/MM/YYYY') AS vencimientokey
 from contribuyentes c
 left join contribuyentesetiquetas ce on ce.contribuyenteid = c.contribuyenteid
 left join tipos t on t.tipoid = ce.etiquetaid

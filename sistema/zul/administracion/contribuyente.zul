@@ -76,6 +76,13 @@
 								onOK="@command('filtrarContribuyente')"
 								hflex="1" />
 						</auxheader>
+						
+						<auxheader>
+							<textbox value="@bind(vm.filtroColumns[6])"
+								onChange="@command('filtrarContribuyente')"
+								onOK="@command('filtrarContribuyente')"
+								hflex="1" />
+						</auxheader>
 						<auxheader/>
 						
 
