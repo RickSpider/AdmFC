@@ -18,6 +18,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
@@ -50,6 +51,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.StringReader;
+
+
 
 public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements FinderInterface {
 
@@ -757,6 +760,23 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 	            return xml;
 	        }
 	    }
+	    
+	
+	 
+	    @Command
+		 public void verKude(@BindingParam("dato") Long id) {
+			 	
+			 ComprobanteElectronico ce = this.reg.getObjectById(ComprobanteElectronico.class.getName(), id);
+			 
+		        String prettyXml = prettyPrintXml(ce.getXml());
+
+		        Map<String, String> params = new HashMap<>();
+		        params.put("xml", prettyXml);
+		        params.put("contribuyente", ce.getContribuyente().getContribuyenteid()+"");
+
+		        this.openInNewTabPost("sistema/zul/documentos/kudeViewer.zul", params);
+		    }
+	
 
 	public ComprobanteElectronico getComprobanteElectronicoSelected() {
 		return comprobanteElectronicoSelected;

@@ -2,9 +2,22 @@
 <zk>
 	<window title="Contribuyente Crear/Ver/Editar" border="normal"
 		position="center,center" closable="true" mode="modal"
-		action="show: slideDown;hide: slideUp" width="900px">
+		action="show: slideDown;hide: slideUp" width="1150px">
 
-
+		
+		<style>
+		
+			.photo { 
+		    border: 3px dashed #e6e6e6; 
+		    border-radius: 10px;
+		    width: 180px; 
+		    height: 180px;
+		    position: absolute; 
+		    overflow: hidden;
+		}
+		
+		</style>
+		
 		<vlayout>
 
 
@@ -17,530 +30,550 @@
 				</tabs>
 				<tabpanels>
 					<tabpanel>
-						<tablelayout columns="6">
+						
+						<hlayout hflex="1">
+	
+							<tablelayout hflex="1" columns="6">
 
-							<tablechildren>
-
-								<label value="ID:" />
-
-							</tablechildren>
-							<tablechildren>
-
-								<textbox
-									value="@bind(vm.contribuyenteSelected.contribuyenteid)"
-									width="75px" readonly="true" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="Ambiente:" />
-
-							</tablechildren>
-							<tablechildren>
-
-								<textbox
-									value="@bind(vm.contribuyenteSelected.ambiente)" width="150px"
-									constraint="no empty: Es campo obligatorio." />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="Contribuyente:" />
-
-							</tablechildren>
-							<tablechildren>
-
-								<textbox
-									value="@load(vm.contribuyenteSelected.nombre) @save(vm.contribuyenteSelected.nombre, before='guardar')"
-									width="150px" constraint="no empty: Es campo obligatorio." />
+								<tablechildren>
+	
+									<label value="ID:" />
+	
+								</tablechildren>
+								<tablechildren>
+	
+									<textbox
+										value="@bind(vm.contribuyenteSelected.contribuyenteid)"
+										width="75px" readonly="true" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="Ambiente:" />
+	
+								</tablechildren>
+								<tablechildren>
+	
+									<textbox
+										value="@bind(vm.contribuyenteSelected.ambiente)" width="150px"
+										constraint="no empty: Es campo obligatorio." />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="Contribuyente:" />
+	
+								</tablechildren>
+								<tablechildren>
+	
+									<textbox
+										value="@load(vm.contribuyenteSelected.nombre) @save(vm.contribuyenteSelected.nombre, before='guardar')"
+										width="150px" constraint="no empty: Es campo obligatorio." />
+										
+									<button iconSclass="z-icon-cloud-upload"
+										tooltiptext="Subir Constancia de Ruc" upload="true,maxsize=300,accept=.pdf"
+										onUpload="@command('uploadFilePDF', file=event.media)" visible="@load(!vm.editar)"/>  
+	
+								</tablechildren>
+	
+	
+								<tablechildren>
+	
+									<label value="Nombre Fantacia:" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<textbox
+										value="@bind(vm.contribuyenteSelected.nombreFantacia)"
+										width="150px" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="Ruc:" />
+	
+								</tablechildren>
+								<tablechildren>
+	
+									<textbox
+										value="@bind(vm.contribuyenteSelected.ruc)" width="150px"
+										constraint="no empty: Es campo obligatorio." />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="DV:" />
+	
+								</tablechildren>
+	
+	
+	
+								<tablechildren>
+	
+									<textbox
+										value="@load(vm.contribuyenteSelected.dv) @save(vm.contribuyenteSelected.dv, before='guardar')"
+										width="50px" constraint="no empty: Es campo obligatorio." />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="Tipo Contribuyente:" />
+	
+								</tablechildren>
+								<tablechildren>
+	
+									<bandbox id="bd"
+										value="@load(vm.buscarTipoContribuyente) @save(vm.buscarTipoContribuyente, before='guardar')"
+										constraint="no empty: Es campo obligatorio." mold="rounded"
+										autodrop="true" width="150px"
+										
+										readonly="true">
+										<bandpopup>
+	
+											<vbox>
+	
+												<hbox>
+	
+													<label value="Buscar:" />
+	
+													<textbox instant="true"
+														value="@bind(vm.buscarTipoContribuyente)"
+														onChange="@command('filtrarTipoContribuyenteBuscar')" />
+	
+												</hbox>
+	
+												<listbox height="250px"
+													width="450px" mold="paging" autopaging="true"
+													onSelect="bd.close()"
+													model="@load(vm.lTiposContribuyentesBuscar)">
+	
+													<listhead>
+														<listheader
+															label="Codigo Sifen" hflex="min" />
+														<listheader
+															label="Tipo Contribuyente" />
+	
+													</listhead>
+	
+													<template
+														name="model">
+	
+														<listitem
+															onClick="@command('onSelectTipoContribuyente', id = each[0])">
+	
+															<listcell
+																label="@load(each[1])" />
+	
+															<listcell
+																label="@load(each[2])" tooltiptext="@load(each[2])" />
+	
+	
+														</listitem>
+	
+													</template>
+													<listitem />
+												</listbox>
+	
+											</vbox>
+										</bandpopup>
+									</bandbox>
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="Tipo Transacción:" />
+	
+								</tablechildren>
+								<tablechildren>
+	
+									<bandbox id="bd1"
+										value="@load(vm.buscarTipoTransaccion) @save(vm.buscarTipoTransaccion, before='guardar')"
+										constraint="no empty: Es campo obligatorio." mold="rounded"
+										autodrop="true" width="150px"
 									
-								<!-- 	<button iconSclass="z-icon-cloud-upload"
-									tooltiptext="Subir Archivo" upload="true,maxsize=300"
-									onUpload="@command('uploadFilePDF', file=event.media)" />  -->
-
-							</tablechildren>
-
-
-							<tablechildren>
-
-								<label value="Nombre Fantacia:" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<textbox
-									value="@bind(vm.contribuyenteSelected.nombreFantacia)"
-									width="150px" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="Ruc:" />
-
-							</tablechildren>
-							<tablechildren>
-
-								<textbox
-									value="@bind(vm.contribuyenteSelected.ruc)" width="150px"
-									constraint="no empty: Es campo obligatorio." />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="DV:" />
-
-							</tablechildren>
-
-
-
-							<tablechildren>
-
-								<textbox
-									value="@load(vm.contribuyenteSelected.dv) @save(vm.contribuyenteSelected.dv, before='guardar')"
-									width="50px" constraint="no empty: Es campo obligatorio." />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="Tipo Contribuyente:" />
-
-							</tablechildren>
-							<tablechildren>
-
-								<bandbox id="bd"
-									value="@load(vm.buscarTipoContribuyente) @save(vm.buscarTipoContribuyente, before='guardar')"
-									constraint="no empty: Es campo obligatorio." mold="rounded"
-									autodrop="true" width="150px"
-									onOpen="@command('generarListaTiposContribuyentes')"
-									readonly="true">
-									<bandpopup>
-
-										<vbox>
-
-											<hbox>
-
-												<label value="Buscar:" />
-
-												<textbox instant="true"
-													value="@bind(vm.buscarTipoContribuyente)"
-													onChange="@command('filtrarTipoContribuyenteBuscar')" />
-
-											</hbox>
-
-											<listbox height="250px"
-												width="450px" mold="paging" autopaging="true"
-												onSelect="bd.close()"
-												model="@load(vm.lTiposContribuyentesBuscar)">
-
-												<listhead>
-													<listheader
-														label="Codigo Sifen" hflex="min" />
-													<listheader
-														label="Tipo Contribuyente" />
-
-												</listhead>
-
-												<template
-													name="model">
-
-													<listitem
-														onClick="@command('onSelectTipoContribuyente', id = each[0])">
-
-														<listcell
-															label="@load(each[1])" />
-
-														<listcell
-															label="@load(each[2])" tooltiptext="@load(each[2])" />
-
-
-													</listitem>
-
-												</template>
-												<listitem />
-											</listbox>
-
-										</vbox>
-									</bandpopup>
-								</bandbox>
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="Tipo Transacción:" />
-
-							</tablechildren>
-							<tablechildren>
-
-								<bandbox id="bd1"
-									value="@load(vm.buscarTipoTransaccion) @save(vm.buscarTipoTransaccion, before='guardar')"
-									constraint="no empty: Es campo obligatorio." mold="rounded"
-									autodrop="true" width="150px"
-									onOpen="@command('generarListaTiposTransacciones')"
-									readonly="true">
-									<bandpopup>
-
-										<vbox>
-
-											<hbox>
-
-												<label value="Buscar:" />
-
-												<textbox instant="true"
-													value="@bind(vm.buscarTipoTransaccion)"
-													onChange="@command('filtrarTipoTransaccionBuscar')" />
-
-											</hbox>
-
-											<listbox height="250px"
-												width="450px" mold="paging" autopaging="true"
-												onSelect="bd1.close()"
-												model="@load(vm.lTiposTransaccionesBuscar)">
-
-												<listhead>
-													<listheader
-														label="Codigo Sifen" hflex="min" />
-													<listheader
-														label="Tipo Contribuyente" />
-
-												</listhead>
-
-												<template
-													name="model">
-
-													<listitem
-														onClick="@command('onSelectTipoTransaccion', id = each[0])">
-
-														<listcell
-															label="@load(each[1])" />
-
-														<listcell
-															label="@load(each[2])" tooltiptext="@load(each[2])" />
-
-
-													</listitem>
-
-												</template>
-												<listitem />
-											</listbox>
-
-										</vbox>
-									</bandpopup>
-								</bandbox>
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="Tipo Impuesto:" />
-
-							</tablechildren>
-							<tablechildren>
-
-								<bandbox id="bd2"
-									value="@load(vm.buscarTipoImpuesto) @save(vm.buscarTipoImpuesto, before='guardar')"
-									constraint="no empty: Es campo obligatorio." mold="rounded"
-									autodrop="true" width="150px"
-									onOpen="@command('generarListaTiposImpuestos')"
-									readonly="true">
-									<bandpopup>
-
-										<vbox>
-
-											<hbox>
-
-												<label value="Buscar:" />
-
-												<textbox instant="true"
-													value="@bind(vm.buscarTipoImpuesto)"
-													onChange="@command('filtrarTipoImpuestoBuscar')" />
-
-											</hbox>
-
-											<listbox height="250px"
-												width="450px" mold="paging" autopaging="true"
-												onSelect="bd2.close()"
-												model="@load(vm.lTiposImpuestosBuscar)">
-
-												<listhead>
-													<listheader
-														label="Codigo Sifen" hflex="min" />
-													<listheader
-														label="Tipo Contribuyente" />
-
-												</listhead>
-
-												<template
-													name="model">
-
-													<listitem
-														onClick="@command('onSelectTipoImpuesto', id = each[0])">
-
-														<listcell
-															label="@load(each[1])" />
-
-														<listcell
-															label="@load(each[2])" tooltiptext="@load(each[2])" />
-
-
-													</listitem>
-
-												</template>
-												<listitem />
-											</listbox>
-
-										</vbox>
-									</bandpopup>
-								</bandbox>
-
-							</tablechildren>
-
-
-							<tablechildren>
-
-								<label value="Direccion:" />
-
-							</tablechildren>
-
-							<tablechildren colspan="3">
-
-								<textbox
-									value="@load(vm.contribuyenteSelected.direccion) @save(vm.contribuyenteSelected.direccion, before='guardar')"
-									constraint="no empty: Es campo obligatorio." hflex="1" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="Nro.:" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<textbox
-									value="@bind(vm.contribuyenteSelected.numCasa)" width="150px" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="Localidad:" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<bandbox id="bd4"
-									value="@load(vm.buscarDistrito) @save(vm.buscarDistrito, before='guardar')"
-									constraint="no empty: Es campo obligatorio." mold="rounded"
-									autodrop="true" width="150px"
-									onOpen="@command('generarListaDistritos')" readonly="true">
-									<bandpopup>
-
-										<vbox>
-
-											<hbox>
-
-												<label value="Buscar:" />
-
-												<textbox instant="true"
-													value="@bind(vm.buscarDistrito)"
-													onChange="@command('filtrarDistritoBuscar')" />
-
-											</hbox>
-
-											<listbox height="250px"
-												width="450px" mold="paging" autopaging="true"
-												onSelect="bd4.close()" model="@load(vm.lDistritosBuscar)">
-
-												<listhead>
-													<listheader
-														label="Codigo Sifen" hflex="min" />
-													<listheader
-														label="localidad" />
-													<listheader
-														label="Distrito" />
-													<listheader
-														label="Departamento" />
-
-												</listhead>
-
-												<template
-													name="model">
-
-													<listitem
-														onClick="@command('onSelectDistrito', id = each[0])">
-
-														<listcell
-															label="@load(each[1])" />
-
-														<listcell
-															label="@load(each[2])" tooltiptext="@load(each[2])" />
-
-														<listcell
-															label="@load(each[3])" tooltiptext="@load(each[3])" />
-
-														<listcell
-															label="@load(each[4])" tooltiptext="@load(each[4])" />
-
-
-													</listitem>
-
-												</template>
-												<listitem />
-											</listbox>
-
-										</vbox>
-									</bandpopup>
-								</bandbox>
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="Telefono:" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<textbox
-									value="@load(vm.contribuyenteSelected.telefono) @save(vm.contribuyenteSelected.telefono, before='guardar')"
-									width="150px" constraint="no empty: Es campo obligatorio." />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="Email:" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<textbox
-									value="@load(vm.contribuyenteSelected.email) @save(vm.contribuyenteSelected.email, before='guardar')"
-									width="150px" constraint="no empty: Es campo obligatorio." />
-
-							</tablechildren>
-
-
-							<tablechildren colspan="6">
-
-								<space height="10px" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="PassKey:" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<textbox
-									value="@bind(vm.contribuyenteSelected.passkey)" 
-									width="150px" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="PathKey:" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<textbox
-									value="@load(vm.contribuyenteSelected.pathkey) @save(vm.contribuyenteSelected.pathkey, before='guardar')"
-									width="150px" readonly="true" />
-
-								<button iconSclass="z-icon-cloud-upload"
-									tooltiptext="Subir Firma" upload="true,maxsize=300"
-									onUpload="@command('uploadFile', file=event.media)" />
+										readonly="true">
+										<bandpopup>
+	
+											<vbox>
+	
+												<hbox>
+	
+													<label value="Buscar:" />
+	
+													<textbox instant="true"
+														value="@bind(vm.buscarTipoTransaccion)"
+														onChange="@command('filtrarTipoTransaccionBuscar')" />
+	
+												</hbox>
+	
+												<listbox height="250px"
+													width="450px" mold="paging" autopaging="true"
+													onSelect="bd1.close()"
+													model="@load(vm.lTiposTransaccionesBuscar)">
+	
+													<listhead>
+														<listheader
+															label="Codigo Sifen" hflex="min" />
+														<listheader
+															label="Tipo Contribuyente" />
+	
+													</listhead>
+	
+													<template
+														name="model">
+	
+														<listitem
+															onClick="@command('onSelectTipoTransaccion', id = each[0])">
+	
+															<listcell
+																label="@load(each[1])" />
+	
+															<listcell
+																label="@load(each[2])" tooltiptext="@load(each[2])" />
+	
+	
+														</listitem>
+	
+													</template>
+													<listitem />
+												</listbox>
+	
+											</vbox>
+										</bandpopup>
+									</bandbox>
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="Tipo Impuesto:" />
+	
+								</tablechildren>
+								<tablechildren>
+	
+									<bandbox id="bd2"
+										value="@load(vm.buscarTipoImpuesto) @save(vm.buscarTipoImpuesto, before='guardar')"
+										constraint="no empty: Es campo obligatorio." mold="rounded"
+										autodrop="true" width="150px"
 									
-								<button iconSclass="z-icon-cloud-download"
-									tooltiptext="Descargar Firma"
-									onClick="@command('descargarPFX')"/>
+										readonly="true">
+										<bandpopup>
+	
+											<vbox>
+	
+												<hbox>
+	
+													<label value="Buscar:" />
+	
+													<textbox instant="true"
+														value="@bind(vm.buscarTipoImpuesto)"
+														onChange="@command('filtrarTipoImpuestoBuscar')" />
+	
+												</hbox>
+	
+												<listbox height="250px"
+													width="450px" mold="paging" autopaging="true"
+													onSelect="bd2.close()"
+													model="@load(vm.lTiposImpuestosBuscar)">
+	
+													<listhead>
+														<listheader
+															label="Codigo Sifen" hflex="min" />
+														<listheader
+															label="Tipo Contribuyente" />
+	
+													</listhead>
+	
+													<template
+														name="model">
+	
+														<listitem
+															onClick="@command('onSelectTipoImpuesto', id = each[0])">
+	
+															<listcell
+																label="@load(each[1])" />
+	
+															<listcell
+																label="@load(each[2])" tooltiptext="@load(each[2])" />
+	
+	
+														</listitem>
+	
+													</template>
+													<listitem />
+												</listbox>
+	
+											</vbox>
+										</bandpopup>
+									</bandbox>
+	
+								</tablechildren>
+	
+	
+								<tablechildren>
+	
+									<label value="Direccion:" />
+	
+								</tablechildren>
+	
+								<tablechildren colspan="3">
+	
+									<textbox
+										value="@load(vm.contribuyenteSelected.direccion) @save(vm.contribuyenteSelected.direccion, before='guardar')"
+										constraint="no empty: Es campo obligatorio." hflex="1" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="Nro.:" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<textbox
+										value="@bind(vm.contribuyenteSelected.numCasa)" width="150px" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="Localidad:" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<bandbox id="bd4"
+										value="@load(vm.buscarDistrito) @save(vm.buscarDistrito, before='guardar')"
+										constraint="no empty: Es campo obligatorio." mold="rounded"
+										autodrop="true" width="150px" tooltiptext=""
+									
+										readonly="true">
+										<bandpopup>
+	
+											<vbox>
+	
+												<hbox>
+	
+													<label value="Buscar:" />
+	
+													<textbox instant="true"
+														value="@bind(vm.buscarDistrito)"
+														onChange="@command('filtrarDistritoBuscar')" />
+	
+												</hbox>
+	
+												<listbox height="250px"
+													width="450px" mold="paging" autopaging="true"
+													onSelect="bd4.close()" model="@load(vm.lDistritosBuscar)">
+	
+													<listhead>
+														<listheader
+															label="Codigo Sifen" hflex="min" />
+														<listheader
+															label="localidad" />
+														<listheader
+															label="Distrito" />
+														<listheader
+															label="Departamento" />
+	
+													</listhead>
+	
+													<template
+														name="model">
+	
+														<listitem
+															onClick="@command('onSelectDistrito', id = each[0])">
+	
+															<listcell
+																label="@load(each[1])" />
+	
+															<listcell
+																label="@load(each[2])" tooltiptext="@load(each[2])" />
+	
+															<listcell
+																label="@load(each[3])" tooltiptext="@load(each[3])" />
+	
+															<listcell
+																label="@load(each[4])" tooltiptext="@load(each[4])" />
+	
+	
+														</listitem>
+	
+													</template>
+													<listitem />
+												</listbox>
+	
+											</vbox>
+										</bandpopup>
+									</bandbox>
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="Telefono:" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<textbox
+										value="@load(vm.contribuyenteSelected.telefono) @save(vm.contribuyenteSelected.telefono, before='guardar')"
+										width="150px" constraint="no empty: Es campo obligatorio." />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="Email:" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<textbox
+										value="@load(vm.contribuyenteSelected.email) @save(vm.contribuyenteSelected.email, before='guardar')"
+										width="150px" constraint="no empty: Es campo obligatorio." />
+	
+								</tablechildren>
+	
+	
+								<tablechildren colspan="6">
+	
+									<space height="10px" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="PassKey:" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<textbox
+										value="@bind(vm.contribuyenteSelected.passkey)" 
+										width="150px" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="PathKey:" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<textbox
+										value="@load(vm.contribuyenteSelected.pathkey) @save(vm.contribuyenteSelected.pathkey, before='guardar')"
+										width="150px" readonly="true" />
+	
+									<button iconSclass="z-icon-cloud-upload"
+										tooltiptext="Subir Firma" upload="true,maxsize=300,multiple=false,accept=.pfx"
+										onUpload="@command('uploadFile', file=event.media)" />
+										
+									<button iconSclass="z-icon-cloud-download"
+										tooltiptext="Descargar Firma"
+										onClick="@command('descargarPFX')"/>
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="vencimiento:" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<textbox
+										value="@load(vm.contribuyenteSelected.vencimientokey)"
+										width="150px" readonly="true" />
+	
+									<button iconSclass="z-icon-refresh"
+										tooltiptext="Actualizar Vencimiento"
+										onClick="@command('refreshVencimiento')" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="CSC:" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<textbox
+										value="@bind(vm.contribuyenteSelected.csc)" width="150px"/>
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<label value="CSCID" />
+	
+								</tablechildren>
+	
+								<tablechildren>
+	
+									<textbox
+										value="@bind(vm.contribuyenteSelected.cscid)" width="150px"/>
+	
+								</tablechildren>
+	
+	
+	
+								<tablechildren>
+	
+									<label value="Solo Lote:" />
+	
+								</tablechildren>
+	
+	
+								<tablechildren>
+	
+									<checkbox
+										checked="@bind(vm.contribuyenteSelected.soloLote)"
+										mold="switch" />
+	
+								</tablechildren>
+	
+								
+	
+	
+							</tablelayout>
+	
+							<vbox hflex="min" width="200px" height="250px">
 
-							</tablechildren>
+								<vbox sclass="photo" vflex="1" hflex="1" pack="center" align="center">
+									<image id="image" content="@load(vm.logoFile)" width="100%" height="100%"/>
+								</vbox>
+	
+								<button hflex="1" iconSclass="z-icon-cloud-upload" 
+										tooltiptext="Subir Logo" upload="true,maxsize=3072,accept=.png|.jpg"
+											onUpload="@command('uploadLogo', file=event.media)" />
 
-							<tablechildren>
+							</vbox>
 
-								<label value="vencimiento:" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<textbox
-									value="@load(vm.contribuyenteSelected.vencimientokey)"
-									width="150px" readonly="true" />
-
-								<button iconSclass="z-icon-refresh"
-									tooltiptext="Actualizar Vencimiento"
-									onClick="@command('refreshVencimiento')" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="CSC:" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<textbox
-									value="@bind(vm.contribuyenteSelected.csc)" width="150px"
-									constraint="no empty: Es campo obligatorio." />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<label value="CSCID" />
-
-							</tablechildren>
-
-							<tablechildren>
-
-								<textbox
-									value="@bind(vm.contribuyenteSelected.cscid)" width="150px"
-									constraint="no empty: Es campo obligatorio." />
-
-							</tablechildren>
-
-
-
-							<tablechildren>
-
-								<label value="Solo Lote:" />
-
-							</tablechildren>
-
-
-							<tablechildren>
-
-								<checkbox
-									checked="@bind(vm.contribuyenteSelected.soloLote)"
-									mold="switch" />
-
-							</tablechildren>
-
-
-
-
-						</tablelayout>
+							<space width="10px"/>
+						
+						</hlayout>
+					
+						
 
 						<groupbox>
 
@@ -553,7 +586,7 @@
 									<bandbox id="bd3"
 										value="@load(vm.buscarActividadEconomica) @save(vm.buscarActividadEconomica, before='guardar')"
 										mold="rounded" autodrop="true" width="150px"
-										onOpen="@command('generarListaActividadesEconomicas')"
+										
 										readonly="true">
 										<bandpopup>
 
@@ -806,7 +839,7 @@
 
 							<listbox emptyMessage="lista vacía..."
 								mold="paging" model="@load(vm.contribuyenteSelected.contactos)"
-								checkmark="true" width="800px" height="200px">
+								checkmark="true" hflex="1" height="200px">
 
 								<listhead>
 
@@ -853,7 +886,17 @@
 
 						<tablelayout columns="2">
 
+							<tablechildren>
 
+								<label value="Redondeo SEDECO:" />
+			
+							</tablechildren>
+							<tablechildren>
+			
+								<checkbox
+									checked="@bind(vm.contribuyenteSelected.redondeo)" mold="switch" />
+			
+							</tablechildren>
 
 							<tablechildren>
 
@@ -881,8 +924,6 @@
 
 							</tablechildren>
 
-
-
 						</tablelayout>
 
 					</tabpanel>
@@ -894,36 +935,34 @@
 
 			<tablelayout columns="4" hflex="1">
 
-				<tablechildren>
-
-					<label value="Redondeo SEDECO:" />
-
-				</tablechildren>
-				<tablechildren>
-
-					<checkbox
-						checked="@bind(vm.contribuyenteSelected.redondeo)" mold="switch" />
-
-				</tablechildren>
-
-
-
-
+				
+				
+				
+				
 
 				<tablechildren>
-
-					<label value="Pass WS:" />
-
-				</tablechildren>
-
-				<tablechildren rowspan="2">
-
-					<textbox
-						value="@load(vm.contribuyenteSelected.pass)" rows="2"
-						readonly="true" width="550px" />
+					<vlayout>
+					
+						<label value="Pass WS:" />
+						<button label="Regenerar"
+						iconSclass="z-icon-refresh " onClick="@command('regenerarPass')" />				
+					
+					</vlayout>
+					
 
 				</tablechildren>
 				
+				
+
+				<tablechildren colspan="3">
+
+					<textbox
+						value="@load(vm.contribuyenteSelected.pass)" rows="3"
+						readonly="true" width="550px" />
+						
+						
+
+				</tablechildren>
 				
 				<tablechildren>
 
@@ -931,25 +970,18 @@
 
 				</tablechildren>
 
-				<tablechildren>
-
-
+				<tablechildren colspan="3">
 
 					<checkbox
 						checked="@bind(vm.contribuyenteSelected.habilitado)"
 						mold="switch" />
 
 				</tablechildren>
+				
+				
 
 
-
-				<tablechildren>
-
-
-					<button label="Regenerar"
-						iconSclass="z-icon-refresh " onClick="@command('regenerarPass')" />
-
-				</tablechildren>
+			
 				
 				<tablechildren>
 

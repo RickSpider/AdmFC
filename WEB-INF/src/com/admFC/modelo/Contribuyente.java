@@ -181,6 +181,8 @@ public class Contribuyente extends Modelo implements Serializable {
         joinColumns = @JoinColumn(name = "contribuyenteid"),
         inverseJoinColumns = @JoinColumn(name = "etiquetaid"))
     private Set<Tipo> etiquetas = new HashSet<>();
+    
+    private byte[] logo;
 
 
     public String getPass() {
@@ -500,6 +502,14 @@ public class Contribuyente extends Modelo implements Serializable {
 
 	public void setEtiquetas(Set<Tipo> etiquetas) {
 		this.etiquetas = etiquetas;
+	}
+
+	public byte[] getLogo() {
+		return logo;
+	}
+
+	public void setLogo(byte[] logo) {
+		this.logo = logo;
 	}
 
 	

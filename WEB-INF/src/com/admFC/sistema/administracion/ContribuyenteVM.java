@@ -16,16 +16,20 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.image.AImage;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
@@ -165,6 +169,8 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 		this.auditoria = new Auditoria();
 		this.auditoria.setModulo("Contribuyente");
+		
+		this.logoFile = null;
 
 		this.nombre = "";
 		this.email = "";
@@ -181,6 +187,9 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 				"tipotipoid = " + tt.getTipotipoid(), "tipoid asc");
 		
 		this.etiquetas = new ListModelList<Tipo>(lEtiquetas);
+		
+		//this.generarSearchModels();
+		this.generarBuscadores();
 
 		if (contribuyenteid != -1) {
 
@@ -195,6 +204,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 			if (this.contribuyenteSelected.getLocalidad() != null) {
 
 				this.buscarDistrito = this.contribuyenteSelected.getLocalidad().getLocalidad();
+				//this.localidadSearchModelSelected = new LocalidadSearchModel(this.contribuyenteSelected.getLocalidad());
 
 			}
 
@@ -221,7 +231,16 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 				this.etiquetas.addToSelection(t);
 			}
 			
-			
+			if (this.contribuyenteSelected.getLogo() != null) {
+				
+				try {
+					this.logoFile = new AImage("logo.png",this.contribuyenteSelected.getLogo());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
 			
 			this.auditoria.setJson(new Gson().toJson(this.contribuyenteSelected));
 			
@@ -264,6 +283,10 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 			this.guardarCert();
 			
 		}
+		
+		/*this.contribuyenteSelected.setLocalidad(Optional.ofNullable(this.localidadSearchModelSelected)
+	            .map(LocalidadSearchModel::getLocalidadObject)
+	            .orElse(null));*/
 
 
 		if (editar) {
@@ -450,13 +473,70 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	}
 
 	// Seccion Buscadores
+	
+	/*private ListModelArray<LocalidadSearchModel> lLocalidadSearchModel;
+	private LocalidadSearchModel localidadSearchModelSelected;
+	
+	private void generarSearchModels() {
+		
+		 this.lLocalidadSearchModel = crearSearchModel(
+			        this.um.getSql("buscadores/buscarLocalidad.sql"),
+			        o -> new LocalidadSearchModel(
+			        	Long.parseLong(o[0].toString()),
+			        	o[2] == null ? "" : o[2].toString(),
+			            o[3] == null ? "" : o[2].toString(),
+			            o[4] == null ? "" : o[4].toString()
+			        )
+			    );
+		
+	}
+	
+	
+	
+	private <T> ListModelArray<T> crearSearchModel(String sql, java.util.function.Function<Object[], T> mapper) {
+	    List<Object[]> resultados = this.reg.sqlNativo(sql);
+	    List<T> lista = new ArrayList<>(resultados.size());
 
-	// distrito
+	    for (Object[] fila : resultados) {
+	        lista.add(mapper.apply(fila));
+	    }
+
+	    ListModelArray<T> modelo = new ListModelArray<>(lista);
+	    return modelo;
+	}*/
+	
+	
+	public void generarBuscadores() {
+		
+		String sql = this.um.getSql("buscadores/buscarLocalidad.sql");
+		this.lDistritosBuscar = this.reg.sqlNativo(sql);
+		this.lDistritosBuscarOri = this.lDistritosBuscar;
+		
+		String sql2 = this.um.getSql("buscadores/buscarTipoImpuesto.sql");
+		this.lTiposImpuestosBuscar = this.reg.sqlNativo(sql2);
+		this.lTiposImpuestosBuscarOri = this.lTiposImpuestosBuscar;
+		
+		String sql3 = this.um.getSql("buscadores/buscarTipoTransaccion.sql");
+		this.lTiposTransaccionesBuscar = this.reg.sqlNativo(sql3);
+		this.lTiposTransaccionesBuscarOri = this.lTiposTransaccionesBuscar;
+		
+		String sql4 = this.um.getSql("buscadores/buscarTipoContribuyente.sql");
+		this.lTiposContribuyentesBuscar = this.reg.sqlNativo(sql4);
+		this.lTiposContribuyentesBuscarOri = this.lTiposContribuyentesBuscar;
+		
+		String sql5 = this.um.getSql("buscadores/buscarActividadEconomica.sql");
+		this.lActividadesEconomicasBuscar = this.reg.sqlNativo(sql5);
+		this.lActividadesEconomicasBuscarOri = this.lActividadesEconomicasBuscar;
+
+		
+	}
+
+	//LOCALIDAD
 	private List<Object[]> lDistritosBuscarOri = null;
 	private List<Object[]> lDistritosBuscar = null;
 	private String buscarDistrito = "";
 
-	@Command
+	/*@Command
 	@NotifyChange("lDistritosBuscar")
 	public void generarListaDistritos() {
 
@@ -466,7 +546,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 		this.lDistritosBuscarOri = this.lDistritosBuscar;
 
-	}
+	}*/
 
 	@Command
 	@NotifyChange("lDistritosBuscar")
@@ -490,7 +570,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	private List<Object[]> lTiposImpuestosBuscar = null;
 	private String buscarTipoImpuesto = "";
 
-	@Command
+	/*@Command
 	@NotifyChange("lTiposImpuestosBuscar")
 	public void generarListaTiposImpuestos() {
 
@@ -500,7 +580,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 		this.lTiposImpuestosBuscarOri = this.lTiposImpuestosBuscar;
 
-	}
+	}*/
 
 	@Command
 	@NotifyChange("lTiposImpuestosBuscar")
@@ -525,7 +605,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	private List<Object[]> lTiposTransaccionesBuscar = null;
 	private String buscarTipoTransaccion = "";
 
-	@Command
+/*	@Command
 	@NotifyChange("lTiposTransaccionesBuscar")
 	public void generarListaTiposTransacciones() {
 
@@ -535,7 +615,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 		this.lTiposTransaccionesBuscarOri = this.lTiposTransaccionesBuscar;
 
-	}
+	}*/
 
 	@Command
 	@NotifyChange("lTiposTransaccionesBuscar")
@@ -560,7 +640,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	private List<Object[]> lTiposContribuyentesBuscar = null;
 	private String buscarTipoContribuyente = "";
 
-	@Command
+	/*@Command
 	@NotifyChange("lTiposContribuyentesBuscar")
 	public void generarListaTiposContribuyentes() {
 
@@ -570,7 +650,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 		this.lTiposContribuyentesBuscarOri = this.lTiposContribuyentesBuscar;
 
-	}
+	}*/
 
 	@Command
 	@NotifyChange("lTiposContribuyentesBuscar")
@@ -596,7 +676,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	private ActividadEconomica actividadEconomicaSelected = null;
 	private String buscarActividadEconomica = "";
 
-	@Command
+	/*@Command
 	@NotifyChange("lActividadesEconomicasBuscar")
 	public void generarListaActividadesEconomicas() {
 
@@ -606,7 +686,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 		this.lActividadesEconomicasBuscarOri = this.lActividadesEconomicasBuscar;
 
-	}
+	}*/
 
 	@Command
 	@NotifyChange("lActividadesEconomicasBuscar")
@@ -924,22 +1004,21 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	
 	
 	//upload pdf
-	/*
-	private Media pdfFile;
+	
+	//private Media pdfFile;
 	
 	@Command
 	public void uploadFilePDF(@BindingParam("file") Media file) throws IOException {
 
 	//	System.out.println("formato:" + file.getName());
-
 		if (!file.getName().contains(".pdf")) {
 
 			this.mensajeInfo("Archivo no valido.");
-			this.pdfFile = null;
+			//file = null;
 
 		} 
 		
-		pdfFile = file;     
+		//pdfFile = file;     
 		
 		//InputStream is = file.getStreamData();
 		
@@ -953,59 +1032,326 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		
 		PDFTextStripper stripper = new PDFTextStripper();
 		
-		 stripper.setSortByPosition(true);
-	     stripper.setLineSeparator(" ");   // reemplaza saltos de línea por espacio
-	     stripper.setParagraphEnd("");     // evita saltos de párrafo
+		stripper.setSortByPosition(true);
 		
 	    String pdf = stripper.getText(document);
-	    
-	    
+	
 	    System.out.println(pdf);
 	        
 	    procesarPdf(pdf);
-	        
-	    
-		
-		BindUtils.postNotifyChange(null, null, this.contribuyenteSelected, "*");
 
-	}*/
+		BindUtils.postNotifyChange(null, null, this, "*");
+
+	}
 	
 	
 	private void procesarPdf(String text) {
 		
 		 // RUC + DV
+		text = text.replace("\u00A0", " ");  
+		
+		this.contribuyenteSelected.setTipoTransaccion(this.reg.getObjectByCondicion(TipoTransaccion.class.getName(), "codigo_sifen = 3"));
+		this.buscarTipoTransaccion = this.contribuyenteSelected.getTipoTransaccion().getDescripcion();
+		this.contribuyenteSelected.setTipoImpuesto(this.reg.getObjectByCondicion(TipoImpuesto.class.getName(), "codigo_sifen = 1"));
+		this.buscarTipoImpuesto = this.contribuyenteSelected.getTipoImpuesto().getDescripcion();
 		
 		if (text.contains("PERSONA FÍSICA")) {
 			
-			System.out.println("es fisico");
+			this.mensajeInfo("No soportado Persona Fisica");
 			
-			  Pattern pRuc = Pattern.compile("(RUC Actual.*?)(\\d+)[\\s\\n]+(\\d+)", Pattern.DOTALL);
-		        Matcher mRuc = pRuc.matcher(text);
-		        if (mRuc.find()) {
-		           this.contribuyenteSelected.setRuc(mRuc.group(2).trim());
-		           this.contribuyenteSelected.setDv(mRuc.group(3).trim()); 
-		        }
+			return;
+			/*
+			this.contribuyenteSelected.setTipoContribuyente(this.reg.getObjectByCondicion(TipoContribuyente.class.getName(),"codigo_sifen = 1"));
+			this.buscarTipoContribuyente = this.contribuyenteSelected.getTipoContribuyente().getTipoContribuyente();
+			
+			Pattern pRuc = Pattern.compile(
+				    "RUC Actual\\s+DV\\s+RUC Anterior\\s*\\n\\s*(\\d+)\\s+(\\d+)"
+				);
+				Matcher m = pRuc.matcher(text);
+				if (m.find()) {
+				    this.contribuyenteSelected.setRuc(m.group(1));
+				    this.contribuyenteSelected.setDv(m.group(2));
+				}
+				
+				Pattern pRazon = Pattern.compile(
+						"Primer Apellido.*?\\n\\s*([A-ZÁÉÍÓÚÑ ]+)\\s+([A-ZÁÉÍÓÚÑ ]+)\\s+\\*+\\s+([A-ZÁÉÍÓÚÑ ]+)",
+						    Pattern.DOTALL
+						);
+					 m = pRazon.matcher(text);
+					if (m.find()) {
+						
+						  String primerApellido = m.group(1);
+						  String segundoApellido = m.group(2);
+						  String nombres = m.group(3);
+						
+						  this.contribuyenteSelected.setNombre(primerApellido+" "+segundoApellido+", "+nombres);
+						
+					
+					}
+					
+				Pattern pMail = Pattern.compile(
+						    "Correo Electrónico\\s+([\\w._%+-]+@[\\w.-]+\\.[A-Za-z]{2,})"
+						);
+						m = pMail.matcher(text);
+						if (m.find()) {
+							this.contribuyenteSelected.setEmail(m.group(1));
+						}
+						
+						//Dirección Teléfono Teléfono Teléfono
+						this.contribuyenteSelected.setNumCasa("0");
+						
+						Pattern pActiPri = Pattern.compile(
+								 "6-ACTIVIDAD ECONÓMICA PRINCIPAL.*?\\nCódigo\\s+Descripción\\s*\\n(\\d{5})\\s+(.+)",
+								 Pattern.DOTALL | Pattern.CASE_INSENSITIVE
+									);
+						
+						m = pActiPri.matcher(text);
+						if(m.find()) {
+							
+							String bloque = m.group(1).trim();
+							//System.out.println("Bloque pActiPri: "+bloque);
+				
+							    String[] partes = new String[3];
+							    partes[0] = m.group(1); // código
+							    partes[1] = m.group(2); // descripción
+
+							 //   System.out.println("Partes ActiPri:" +Arrays.toString(partes));
+							    
+							    for(Object[] x : this.lActividadesEconomicasBuscar) {
+							    	
+							    	if (x[1].toString().compareTo(partes[0].toString().trim()) == 0){
+
+							    		this.contribuyenteSelected.getActividades().add(this.reg.getObjectById(ActividadEconomica.class.getName(), Long.parseLong(x[0].toString())));
+							    		break;
+							    	}
+							    	
+							    }
+							}*/
+						
+			
+			
 		}else if (text.contains("PERSONA JURÍDICA")) {
 			
 			System.out.println("es Juridico");
 			
-			Pattern rucPattern = Pattern.compile(
-	                "RUC Actual.*?(\\d{6,9})\\s+(\\d)",
-	                Pattern.CASE_INSENSITIVE
-	        );
-	        Matcher rucMatcher = rucPattern.matcher(text);
+			this.contribuyenteSelected.setTipoContribuyente(this.reg.getObjectByCondicion(TipoContribuyente.class.getName(),"codigo_sifen=2"));
+			this.buscarTipoContribuyente = this.contribuyenteSelected.getTipoContribuyente().getTipoContribuyente();
+			
+			Pattern pRuc = Pattern.compile(
+				    "Número\\s+DV\\s+(\\d+)\\s+(\\d+)"
+				);
+				Matcher m = pRuc.matcher(text);
+				if (m.find()) {
+				    this.contribuyenteSelected.setRuc(m.group(1));
+				    this.contribuyenteSelected.setDv(m.group(2));
+				}
+				
+			Pattern pRazon = Pattern.compile(
+					"Razón o Denominación Social Nombre Fantasía\\s+\\n(.+)\\sCorreo",
+					    Pattern.DOTALL
+					);
+				 m = pRazon.matcher(text);
+				if (m.find()) {
+					
+					String bloque = m.group(1).trim();
+					String[] partes = bloque.split("\\s{2,}");
+					
+					this.contribuyenteSelected.setNombre(partes[0]);
+					if (!partes[1].contains("*")) {
+						this.contribuyenteSelected.setNombreFantacia(partes[1]);
+					}
+				
+				}
+				
+			Pattern pMail = Pattern.compile(
+					    "Correo Electrónico\\s+([\\w._%+-]+@[\\w.-]+\\.[A-Za-z]{2,})"
+					);
+					m = pMail.matcher(text);
+					if (m.find()) {
+						this.contribuyenteSelected.setEmail(m.group(1));
+					}
+					
+					//Dirección Teléfono Teléfono Teléfono
+					
+			Pattern pDir = Pattern.compile(
+					"(?:Dirección Teléfono línea baja Otro telef\\. línea baja Teléfono Celular Otro teléfono celular"
+					+ "|Dirección Teléfono Teléfono Teléfono)"
+					+ "\\s+\\n(.+)\\s+Cuenta Corriente",
+						    Pattern.DOTALL
+						);
+				m = pDir.matcher(text);
+						if (m.find()) {
+							String bloque = m.group(1).trim();
+							
+							//System.out.println("Bloque: "+bloque);
+							
+							 String[] partes = bloque.split("\\s{3,}");
+							
+							this.contribuyenteSelected.setDireccion(partes[0].trim());
+							for (int i = 1 ; i<=4 ; i++) {
+								
+								if (!partes[i].contains("*")) {
+									this.contribuyenteSelected.setTelefono(partes[i]);
+									break;
+								}
+								
+							}							
+						    
+						}
+			this.contribuyenteSelected.setNumCasa("0");
+			
+			Pattern pLocali = Pattern.compile(
+					 "Departamento Distrito/Ciudad Localidad/Compañía Barrio\\s*(.*?)\\s*Dirección",
+					 Pattern.DOTALL | Pattern.CASE_INSENSITIVE
+						);
+			m = pLocali.matcher(text);
+			if(m.find()) {
+				
+				String bloque = m.group(1).trim();
+				//System.out.println("Bloque locali: "+bloque);
+				String[] partes = bloque.split("\\s{3,}");
 
-	       
-	        if (rucMatcher.find()) {
-	            this.contribuyenteSelected.setRuc(rucMatcher.group(1).trim());
-	            this.contribuyenteSelected.setRuc(rucMatcher.group(2).trim());
-	        }
+				for (Object[] x : this.getlDistritosBuscar()) {
+					
+					/*l.localidadid,
+					l.codigo_sifen,
+					l.localidad,
+					di.distrito,
+					de.departamento*/
+					
+					//DEP DISTR LOCA
+					
+					if (x[2].toString().contains(partes[2].toString().trim())
+							&& x[3].toString().contains(partes[1].toString().trim())
+							&& x[4].toString().contains(partes[0].toString().trim())) {
+						
+					
+						 Localidad l = this.reg.getObjectById(Localidad.class.getName(),  Long.parseLong(x[1].toString()));
+						 
+						 this.contribuyenteSelected.setLocalidad(l);
+						 this.buscarDistrito = this.contribuyenteSelected.getLocalidad().getLocalidad();
+						 
+						 break;
+					}
+					
+					
+				} 
+
+			}
+			
+			Pattern pActiPri = Pattern.compile(
+					 "6-ACTIVIDAD ECONÓMICA PRINCIPAL.*?\\n\\s*(\\d{5}.*?\\d{2}/\\d{2}/\\d{4})\\s*7-",
+					 Pattern.DOTALL | Pattern.CASE_INSENSITIVE
+						);
+			
+			m = pActiPri.matcher(text);
+			if(m.find()) {
+				
+				String bloque = m.group(1).trim();
+				//System.out.println("Bloque pActiPri: "+bloque);
+				
+				Pattern p = Pattern.compile("(\\d{5})\\s+(.+?)\\s+(\\d{2}/\\d{2}/\\d{4})");
+				Matcher match = p.matcher(bloque);
+				if (match.find()) {
+				    String[] partes = new String[3];
+				    partes[0] = match.group(1); // código
+				    partes[1] = match.group(2); // descripción
+				    partes[2] = match.group(3); // fecha
+
+				 //   System.out.println("Partes ActiPri:" +Arrays.toString(partes));
+				    
+				    for(Object[] x : this.lActividadesEconomicasBuscar) {
+				    	
+				    	if (x[1].toString().compareTo(partes[0].toString().trim()) == 0){
+
+				    		this.contribuyenteSelected.getActividades().add(this.reg.getObjectById(ActividadEconomica.class.getName(), Long.parseLong(x[0].toString())));
+				    		break;
+				    	}
+				    	
+				    }
+				}
+			}
+			
+			Pattern pActiSec = Pattern.compile(
+					 "7-ACTIVIDADES ECONÓMICAS SECUNDARIAS.*?\\n(?:Código.*?\\n)?([\\s\\S]*?)8-\\s*SUSPENSIÓN TEMPORAL REGISTRO",
+					 Pattern.DOTALL | Pattern.CASE_INSENSITIVE
+						);
+			
+			m = pActiSec.matcher(text);
+			if(m.find()) {
+				
+				String bloque = m.group(1).trim();
+				//System.out.println("Bloque pActiSec: "+bloque);
+				
+				String [] lineas = bloque.split("\n");
+				
+				System.out.println("Lineas: \n"+Arrays.toString(lineas));
+				
+				for (String s: lineas) {
+					
+					Pattern p = Pattern.compile("(\\d{5})\\s+(.+?)\\s+(\\d{2}/\\d{2}/\\d{4})");
+					Matcher match = p.matcher(s);
+					if (match.find()) {
+					    String[] partes = new String[3];
+					    partes[0] = match.group(1); // código
+					    partes[1] = match.group(2); // descripción
+					    partes[2] = match.group(3); // fecha
+					    for(Object[] x : this.lActividadesEconomicasBuscar) {
+					    	
+					    	if (x[1].toString().compareTo(partes[0].toString().trim()) == 0){
+		
+					    		this.contribuyenteSelected.getActividades().add(this.reg.getObjectById(ActividadEconomica.class.getName(), Long.parseLong(x[0].toString())));
+					    		break;
+					    	}
+					    	
+					    }
+					}
+					
+				}
+			}
+			
+			
 			
 		}
 		
-      
 		
+		
+		
+
 	}
+	
+	private Media logoFile;
+
+	@Command
+	@NotifyChange("*")
+	public void uploadLogo(@BindingParam("file") Media file) {
+		
+		 if (file == null) {
+		        this.mensajeInfo("No se ha seleccionado ningún archivo.");
+		        return;
+		    }
+
+		 String fileName = file.getName().toLowerCase();
+		    if (!fileName.endsWith(".png") && !fileName.endsWith(".jpg") ) {
+		        this.mensajeInfo("Archivo no válido, debe ser .png o .jpg");
+		        return;
+		    }
+		    
+		    this.contribuyenteSelected.setLogo(file.getByteData());
+		    this.logoFile = file;
+
+		    this.mensajeInfo("Archivo subido correctamente.");
+
+	}
+	
+	public Media getLogoFile() {
+		return logoFile;
+	}
+
+	public void setLogoFile(Media logoFile) {
+		this.logoFile = logoFile;
+	}
+
 	
 	
 	public Contribuyente getContribuyenteSelected() {
@@ -1199,5 +1545,10 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	public void setEtiquetas(ListModelList<Tipo> etiquetas) {
 		this.etiquetas = etiquetas;
 	}
+
+	
+	
+	
+	
 
 }

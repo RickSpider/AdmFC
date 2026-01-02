@@ -344,6 +344,11 @@
 
 							<listcell>
 								<hlayout>
+								
+								<button
+										iconSclass=" z-icon-file-text  "
+										onClick="@command('verKude', dato=each[0])"
+										tooltiptext="ver KUDE PDF" />
 
 									<button
 										iconSclass=" z-icon-exchange " class="doxa-button-orange"
