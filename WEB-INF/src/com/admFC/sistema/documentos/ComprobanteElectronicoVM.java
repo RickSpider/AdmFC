@@ -729,24 +729,24 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 	 
 	 @Command
 	 public void verXml() {
-		 	
+
 		 
-		 
-	        String prettyXml = prettyPrintXml(this.comprobanteElectronicoSelected.getXml());
+	        /*String prettyXml = prettyPrintXml(this.comprobanteElectronicoSelected.getXml());
 	        
 	        prettyXml = prettyXml.replace("&", "&amp;")
 	                  .replace("<", "&lt;")
 	                  .replace(">", "&gt;")
 	                  .replace("\"", "&quot;")
-	                  .replace("'", "&apos;");
+	                  .replace("'", "&apos;");*/
 	        
 	        Map<String, String> params = new HashMap<>();
-	        params.put("xml", prettyXml);
-
+	       // params.put("xml", prettyXml);
+	        params.put("id", this.comprobanteElectronicoSelected.getId().toString());
+	        
 	        this.openInNewTabPost("sistema/zul/documentos/xmlviewer.zul", params);
 	    }
 
-	    private String prettyPrintXml(String xml) {
+	/*   private String prettyPrintXml(String xml) {
 	        try {
 	            Transformer transformer = TransformerFactory.newInstance().newTransformer();
 	            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
@@ -759,20 +759,21 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 	        } catch (Exception e) {
 	            return xml;
 	        }
-	    }
+	    }*/
 	    
 	
 	 
 	    @Command
 		 public void verKude(@BindingParam("dato") Long id) {
 			 	
-			 ComprobanteElectronico ce = this.reg.getObjectById(ComprobanteElectronico.class.getName(), id);
+			// ComprobanteElectronico ce = this.reg.getObjectById(ComprobanteElectronico.class.getName(), id);
 			 
-		        String prettyXml = prettyPrintXml(ce.getXml());
+		      //  String prettyXml = prettyPrintXml(ce.getXml());
 
 		        Map<String, String> params = new HashMap<>();
-		        params.put("xml", prettyXml);
-		        params.put("contribuyente", ce.getContribuyente().getContribuyenteid()+"");
+		        //params.put("xml", prettyXml);
+		        //params.put("contribuyente", ce.getContribuyente().getContribuyenteid()+"");
+		        params.put("id", id+"");
 
 		        this.openInNewTabPost("sistema/zul/documentos/kudeViewer.zul", params);
 		    }

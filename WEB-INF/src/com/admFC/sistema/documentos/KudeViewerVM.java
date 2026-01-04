@@ -20,6 +20,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
@@ -33,13 +34,12 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
 
+import com.admFC.modelo.ComprobanteElectronico;
 import com.admFC.modelo.Contribuyente;
 import com.doxacore.util.Register;
 import com.doxacore.util.SystemInfo;
 
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
+
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 
 public class KudeViewerVM {
@@ -55,13 +55,18 @@ public class KudeViewerVM {
         
     	// Leer los datos enviados por POST
         Map<String, String[]> params = Executions.getCurrent().getParameterMap();
-        String[] xmlData = params.get("xml");
-        xmlKude = (xmlData != null && xmlData.length > 0) ? xmlData[0] : "(Sin XML recibido)";
+      //  String[] xmlData = params.get("xml");
+       // xmlKude = (xmlData != null && xmlData.length > 0) ? xmlData[0] : "(Sin XML recibido)";
         
-    	this.createKude(Long.parseLong(params.get("contribuyente")[0]));
-    	
+        String[] id = params.get("id");
         
-       
+        if (id == null && id.length <= 0) {
+        	
+        	return;
+        }
+
+    	this.createKude(Long.parseLong(id[0].toString()));
+
     }
     
     @AfterCompose(superclass = true)
@@ -70,21 +75,39 @@ public class KudeViewerVM {
     
 	}
     
+    private String prettyPrintXml(String xml) {
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            StreamSource source = new StreamSource(new StringReader(xml));
+            StringWriter writer = new StringWriter();
+            transformer.transform(source, new StreamResult(writer));
+           
+            return writer.toString();
+        } catch (Exception e) {
+            return xml;
+        }
+    }
+    
     @Command
-    public void createKude(long cid) throws Exception {
+    public void createKude(long ceid) throws Exception {
     	
     	
+    	Register reg = new Register();
+        ComprobanteElectronico ce = reg.getObjectById(ComprobanteElectronico.class.getName(), ceid);
     	
-        String xml = this.extraerRDE(this.xmlKude).trim();
+        String xml = this.extraerRDE(prettyPrintXml(ce.getXml())).trim();
         
-        System.out.println(xml);
+       // System.out.println(xml);
        
         Map<String, Object> dataFromXML = getTipoDocumentoFromXML(xml);
         int tipoDocumento = ((Integer)dataFromXML.get("tipoDocumento")).intValue();
         this.jasperPath = SystemInfo.SISTEMA_PATH_ABSOLUTO+"/reportTemplate/";
         
-        System.out.println("jasper path del par 1 vale " + jasperPath);
-       String pathDestino = SystemInfo.SISTEMA_PATH_ABSOLUTO+"/reportTemplate/";
+      //  System.out.println("jasper path del par 1 vale " + jasperPath);
+     //  String pathDestino = SystemInfo.SISTEMA_PATH_ABSOLUTO+"/reportTemplate/";
         
        this.parametros = new HashMap<>();
        /* if (args.length > 3 && args[3] != null) {
@@ -134,12 +157,12 @@ public class KudeViewerVM {
           pathDestino = String.valueOf(pathDestino) + tipoDocumentoDescripcion + "_" + timbrado + "-" + establecimiento + "-" + punto + "-" + numero + ((serie != null) ? ("-" + serie) : "") + ".pdf";
           JasperExportManager.exportReportToPdfFile(jprint, pathDestino);*/
           
-          Register reg = new Register();
+         // Register reg = new Register();
           
-          Contribuyente c = reg.getObjectById(Contribuyente.class.getName(),cid) ;
+         // Contribuyente c = reg.getObjectById(Contribuyente.class.getName(),cid) ;
      
      	  try {
-           	parametros.put("LOGO_URL", ImageIO.read(new ByteArrayInputStream(c.getLogo())));
+           	parametros.put("LOGO_URL", ImageIO.read(new ByteArrayInputStream(ce.getContribuyente().getLogo())));
    		} catch (IOException e) {
    			// TODO Auto-generated catch block
    			e.printStackTrace();
