@@ -1147,7 +1147,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 				}
 				
 			Pattern pRazon = Pattern.compile(
-					"Razón o Denominación Social Nombre Fantasía\\s+\\n(.+)\\sCorreo",
+					"Razón o Denominación Social Nombre Fantasía\\s*\\R(.+?)\\s*Correo",
 					    Pattern.DOTALL
 					);
 				 m = pRazon.matcher(text);
@@ -1175,8 +1175,8 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 					
 			Pattern pDir = Pattern.compile(
 					"(?:Dirección Teléfono línea baja Otro telef\\. línea baja Teléfono Celular Otro teléfono celular"
-					+ "|Dirección Teléfono Teléfono Teléfono)"
-					+ "\\s+\\n(.+)\\s+Cuenta Corriente",
+							  + "|Dirección Teléfono Teléfono Teléfono)"
+							  + "\\s*\\R(.+?)\\s+Cuenta Corriente",
 						    Pattern.DOTALL
 						);
 				m = pDir.matcher(text);
