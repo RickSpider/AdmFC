@@ -18,5 +18,5 @@ from Eventos e
 left join contribuyentes c on c.contribuyenteid = e.contribuyenteid
 left join tiposcomprobanteselectronicos tce on tce.tipocomprobanteelectronicoid = e.tipocomprobanteelectronicoid 
 WHERE c.contribuyenteid = ?3
-AND e.fecha BETWEEN '?1' AND '?2' 
+AND e.creado BETWEEN '?1' AND '?2' 
 order by eventoid desc;
