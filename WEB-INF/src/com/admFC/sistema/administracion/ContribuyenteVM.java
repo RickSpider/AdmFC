@@ -1452,7 +1452,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	        }
 
 	        //return schema + "://" + host + portPart + exec.getDesktop().getRequestPath();
-	        System.out.println(schema + "://" + host + portPart + exec.getDesktop().getRequestPath());
+	        System.out.println(schema + "://" + host + portPart);
 	        return;
 	    }
 
@@ -1468,7 +1468,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 	    //return scheme + "://" + serverName + portPart2 + exec.getDesktop().getRequestPath();
 	    
-	    System.out.println(scheme + "://" + serverName + portPart2 + exec.getDesktop().getRequestPath());
+	    System.out.println(scheme + "://" + serverName + portPart2);
 	}
 	
 	public Media getLogoFile() {
