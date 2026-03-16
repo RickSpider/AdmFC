@@ -1428,7 +1428,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	    return modelo;
 	}
 	
-	@Command
+	/*@Command
 	public void generarImgQR() {
 		
 		System.out.println("===================Preprando LinkQR===================");
@@ -1469,7 +1469,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	    //return scheme + "://" + serverName + portPart2 + exec.getDesktop().getRequestPath();
 	    
 	    System.out.println(scheme + "://" + serverName + portPart2);
-	}
+	}*/
 	
 	public Media getLogoFile() {
 		return logoFile;
