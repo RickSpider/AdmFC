@@ -13,4 +13,5 @@
 <mapping class="com.admFC.modelo.TipoTransaccion" />
 <mapping class="com.admFC.modelo.UnidadMedida" />
 <mapping class="com.admFC.modelo.ContribuyenteUsuario" />
+<mapping class="com.admFC.modelo.Establecimiento" />
 

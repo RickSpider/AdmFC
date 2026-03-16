@@ -16,6 +16,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -31,12 +32,15 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.util.Notification;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.ListModelArray;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
@@ -45,10 +49,12 @@ import com.admFC.modelo.ActividadEconomica;
 import com.admFC.modelo.Contribuyente;
 import com.admFC.modelo.ContribuyenteContacto;
 import com.admFC.modelo.ContribuyenteUsuario;
+import com.admFC.modelo.Establecimiento;
 import com.admFC.modelo.Localidad;
 import com.admFC.modelo.TipoContribuyente;
 import com.admFC.modelo.TipoImpuesto;
 import com.admFC.modelo.TipoTransaccion;
+import com.admFC.searchModel.LocalidadSM;
 import com.admFC.util.ParamsLocal;
 import com.admFC.util.TemplateViewModelLocal;
 import com.doxacore.modelo.Auditoria;
@@ -83,6 +89,8 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	private boolean editar = false;
 	
 	private ListModelList<Tipo> etiquetas;
+	
+	private Establecimiento establecimientoSelected;
 
 	@Init(superclass = true)
 	public void initContribuyenteVM() {
@@ -166,9 +174,14 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 	@Command
 	public void modalContribuyente(@BindingParam("contribuyenteid") long contribuyenteid) {
+		
+		
 
 		this.auditoria = new Auditoria();
 		this.auditoria.setModulo("Contribuyente");
+		
+		this.establecimientoSelected = new Establecimiento();
+		this.localidadSMSelected = null;
 		
 		this.logoFile = null;
 
@@ -256,6 +269,15 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 				this.mainComponent, null);
 		Selectors.wireComponents(modal, this, false);
 		modal.doModal();
+		
+		 modal.addEventListener("onLater", event -> {
+		        generarSearchModels();
+		        BindUtils.postNotifyChange(null, null, this, "lLocalidadSearchModel"); 
+		        //BindUtils.postNotifyChange(null, null, this, "lDocumentoTipoSM");
+		       // Clients.clearBusy();
+		    });
+
+		 Events.echoEvent("onLater", modal, null);
 
 	}
 
@@ -1323,7 +1345,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	private Media logoFile;
 
 	@Command
-	@NotifyChange("*")
+	@NotifyChange("logoFile")
 	public void uploadLogo(@BindingParam("file") Media file) {
 		
 		 if (file == null) {
@@ -1344,6 +1366,110 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 	}
 	
+	@Command
+	public void agregarEstablecimiento() {
+		
+		if (this.establecimientoSelected.getEstablecimiento() == null
+		        || this.establecimientoSelected.getDireccion() == null
+		        || this.localidadSMSelected == null
+		        || this.establecimientoSelected.getNumCasa() == null) {
+
+			this.mensajeInfo("Tienes campos vacios.");
+			return;
+		}
+		
+		this.establecimientoSelected.setLocalidad(this.reg.getObjectById(Localidad.class.getName(), this.localidadSMSelected.getLocalidadid()));
+		this.localidadSMSelected = null;
+		
+		this.contribuyenteSelected.getEstablecimientos().add(establecimientoSelected);
+		BindUtils.postNotifyChange(null, null, this.contribuyenteSelected, "establecimientos");
+		BindUtils.postNotifyChange(null, null, this, "establecimientoSelected");
+		BindUtils.postNotifyChange(null, null, this, "loacalidadSMSelected");
+		
+		this.establecimientoSelected = new Establecimiento();
+	}
+	
+	@Command
+	@NotifyChange({ "contribuyenteSelected" })
+	public void removerEstablecimiento(@BindingParam("establecimiento") Establecimiento establecimiento) {
+
+		this.contribuyenteSelected.getEstablecimientos().remove(establecimiento);
+
+	}
+	
+
+	private ListModelArray<LocalidadSM> lLocalidadSearchModel;
+	private LocalidadSM localidadSMSelected;
+	
+	private void generarSearchModels() {
+		
+		this.lLocalidadSearchModel = this.crearSearchModel(
+				
+	        this.um.getSql("buscadores/buscarLocalidad.sql"),
+	        o -> new LocalidadSM(
+	                ((Number) o[0]).longValue(),
+	                (String) o[2],
+	                (String) o[3],
+	                (String) o[4]
+	            )
+	    );
+		
+	}
+	
+	protected <T> ListModelArray<T> crearSearchModel(String sql, java.util.function.Function<Object[], T> mapper) {
+	    List<Object[]> resultados = this.reg.sqlNativo(sql);
+	    List<T> lista = new ArrayList<>(resultados.size());
+
+	    for (Object[] fila : resultados) {
+	        lista.add(mapper.apply(fila));
+	    }
+
+	    ListModelArray<T> modelo = new ListModelArray<>(lista);
+	    return modelo;
+	}
+	
+	@Command
+	public void generarImgQR() {
+		
+		System.out.println("===================Preprando LinkQR===================");
+		
+	    Execution exec = Executions.getCurrent();
+
+	    // 1) Intentar URL detrás de proxy
+	    String proto = exec.getHeader("X-Forwarded-Proto");     // http o https
+	    String host  = exec.getHeader("X-Forwarded-Host");      // dominio.com o dominio:puerto
+	    String port  = exec.getHeader("X-Forwarded-Port");      // 80, 443, etc
+
+	    // 2) Si hay cabeceras del proxy → usarlas
+	    if (host != null) {
+	        String schema = (proto != null) ? proto : exec.getScheme();
+	        String finalPort = (port != null) ? port : "";
+
+	        // Normalizar puerto
+	        String portPart = "";
+	        if (!finalPort.isEmpty() && !finalPort.equals("80") && !finalPort.equals("443")) {
+	            portPart = ":" + finalPort;
+	        }
+
+	        //return schema + "://" + host + portPart + exec.getDesktop().getRequestPath();
+	        System.out.println(schema + "://" + host + portPart);
+	    }
+
+	    // 3) Si NO está detrás de un proxy → usar datos normales
+	    String scheme = exec.getScheme();
+	    String serverName = exec.getServerName();
+	    int serverPort = exec.getServerPort();
+
+	    String portPart2 = "";
+	    if (serverPort != 80 && serverPort != 443) {
+	        portPart2 = ":" + serverPort;
+	    }
+
+	    //return scheme + "://" + serverName + portPart2 + exec.getDesktop().getRequestPath();
+	    
+	    System.out.println(scheme + "://" + serverName + portPart2);
+	}
+	
 	public Media getLogoFile() {
 		return logoFile;
 	}
@@ -1352,8 +1478,6 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		this.logoFile = logoFile;
 	}
 
-	
-	
 	public Contribuyente getContribuyenteSelected() {
 		return contribuyenteSelected;
 	}
@@ -1546,9 +1670,29 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 		this.etiquetas = etiquetas;
 	}
 
-	
-	
-	
-	
+	public Establecimiento getEstablecimientoSelected() {
+		return establecimientoSelected;
+	}
+
+	public void setEstablecimientoSelected(Establecimiento establecimientoSelected) {
+		this.establecimientoSelected = establecimientoSelected;
+	}
+
+	public ListModelArray<LocalidadSM> getlLocalidadSearchModel() {
+		return lLocalidadSearchModel;
+	}
+
+	public void setlLocalidadSearchModel(ListModelArray<LocalidadSM> lLocalidadSearchModel) {
+		this.lLocalidadSearchModel = lLocalidadSearchModel;
+	}
+
+	public LocalidadSM getLocalidadSMSelected() {
+		return localidadSMSelected;
+	}
+
+	public void setLocalidadSMSelected(LocalidadSM localidadSMSelected) {
+		this.localidadSMSelected = localidadSMSelected;
+	}
+
 
 }

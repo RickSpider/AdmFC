@@ -1,7 +1,6 @@
 package com.admFC.sistema.documentos;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -11,13 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -49,9 +41,6 @@ import com.doxacore.modelo.Auditoria;
 import com.doxacore.report.ReportBigExcel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.io.StringReader;
-
 
 
 public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements FinderInterface {

@@ -25,6 +25,7 @@
 			<tabbox>
 				<tabs>
 					<tab label="Datos" />
+					<tab label="Establecimientos" />
 					<tab label="Notificaciones" />
 					<tab label="Config Extras" />
 				</tabs>
@@ -695,6 +696,133 @@
 
 
 
+					</tabpanel>
+					
+					<tabpanel>
+						<!--Seccion Establecimientos -->
+						
+						<tablelayout columns="4">
+							
+							<tablechildren>
+	
+								<label value="Establecimiento:" />
+	
+							</tablechildren>
+	
+							<tablechildren>
+								<textbox value="@bind(vm.establecimientoSelected.establecimiento)" />
+							</tablechildren>
+						
+							<tablechildren>
+	
+								<label value="Nombre Fantacia:" />
+	
+							</tablechildren>
+	
+							<tablechildren>
+								<textbox value="@bind(vm.establecimientoSelected.nombreFantacia)" />
+							</tablechildren>
+						
+						
+						
+							<tablechildren >
+	
+								<label value="Direccion:" />
+	
+							</tablechildren>
+	
+							<tablechildren colspan="3">
+									<textbox value="@bind(vm.establecimientoSelected.direccion)" hflex="1"/>	
+							</tablechildren>
+							
+								<tablechildren>
+	
+								<label value="Localidad:" />
+	
+							</tablechildren>
+								
+							<tablechildren>
+							
+								<searchbox model="@load(vm.lLocalidadSearchModel)" placeholder="Seleccione una Localidad/Ciudad"						
+									selectedItem="@bind(vm.localidadSMSelected)"
+									autoclose="true"  multiple="false"
+									>
+			
+			
+									<template name="model">
+										
+										${each.localidadid} - ${each.localidad} | ${each.distrito} | ${each.departamento}
+										
+									</template>
+			
+								</searchbox>
+								
+							</tablechildren>
+							
+	
+							<tablechildren>
+	
+								<label value="Nro.:" />
+	
+							</tablechildren>
+	
+							<tablechildren>
+	
+								<textbox value="@bind(vm.establecimientoSelected.numCasa)" />	
+	
+							</tablechildren>
+							
+							<tablechildren>
+	
+								<button label="Agregar" onClick="@command('agregarEstablecimiento')" />
+	
+							</tablechildren>
+
+						</tablelayout>
+					
+						<listbox emptyMessage="lista vacía..."
+								mold="paging"
+								model="@load(vm.contribuyenteSelected.establecimientos)"
+								checkmark="true"  height="200px">
+							
+								<listhead>
+								
+									<listheader hflex="min"/>
+									<listheader label="Est. #" hflex="min"/>
+									<listheader label="Nombre" width="250px"/>
+									<listheader label="Departamento" hflex="min"/>
+									<listheader label="Distrito" hflex="min"/>
+									<listheader label="Localidad" hflex="min"/>
+									<listheader label="Direccion"/>
+									<listheader label="Casa #" hflex="min"/>
+									<listheader hflex="min"/>
+									
+									
+								</listhead>
+								
+								<template name="model">
+									<listitem>
+									
+										<listcell/>
+										<listcell label="@load(each.establecimiento)" />
+										<listcell label="@load(each.nombreFantacia)" />
+										<listcell label="@load(each.localidad.distrito.departamento.departamento)" />
+										<listcell label="@load(each.localidad.distrito.distrito)" />
+										<listcell label="@load(each.localidad.localidad)" />
+										<listcell label="@load(each.direccion)" />
+										<listcell label="@load(each.numCasa)" />
+										<listcell>
+											<button
+												iconSclass="z-icon-trash-o" style="background-color:red"
+												
+												tooltiptext="Borrar" />
+										</listcell>
+									</listitem>
+								</template>
+							
+							</listbox>	
+						
+					
 					</tabpanel>
 
 					<tabpanel>

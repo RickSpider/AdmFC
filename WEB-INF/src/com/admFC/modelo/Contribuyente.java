@@ -115,14 +115,17 @@ public class Contribuyente extends Modelo implements Serializable {
     private String csc;
        
     //OneToMany Unidireccional
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true )
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL ,orphanRemoval = true )
     @JoinColumn(name="contribuyenteid", nullable = false)
     private List<ContribuyenteContacto> contactos = new ArrayList<ContribuyenteContacto>();
     
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="contribuyenteid", nullable = false)
+    private List<Establecimiento> establecimientos = new ArrayList<Establecimiento>();
+    
     @Column(columnDefinition = "boolean default true", name="habilitado")
     private boolean habilitado = true;
-    
-  
+      
     /**
      * 
      * PROD = produccion
@@ -510,6 +513,14 @@ public class Contribuyente extends Modelo implements Serializable {
 
 	public void setLogo(byte[] logo) {
 		this.logo = logo;
+	}
+
+	public List<Establecimiento> getEstablecimientos() {
+		return establecimientos;
+	}
+
+	public void setEstablecimientos(List<Establecimiento> establecimientos) {
+		this.establecimientos = establecimientos;
 	}
 
 	

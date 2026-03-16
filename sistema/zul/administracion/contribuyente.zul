@@ -33,7 +33,7 @@
 						<listheader label="Etiquetas" align="Center" />
 						<listheader label="Vencimiento Firma" align="center" hflex="min"/>
 
-						<listheader align="center" width="150px" />
+						<listheader align="center" hflex="min" />
 
 
 					</listhead>
@@ -113,6 +113,11 @@
 
 							<listcell>
 								<hlayout>
+								
+									<button iconSclass="z-icon-qrcode "
+										class="doxa-button-green"
+										onClick="@command('generarImgQR')"
+										tooltiptext="Generar link de consultas" />
 									<button iconSclass="z-icon-user"
 										onClick="@command('modalContribuyenteUsuario', contribuyenteid=each[0])"
 										class="doxa-button-green" tooltiptext="Agregar Usuario"
