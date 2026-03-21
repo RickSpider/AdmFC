@@ -383,7 +383,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				
 			o[0] = ox[7].toString();
 			o[1] = ox[0].toString();
-			o[2] = ox[8].toString();
+			o[2] = (ox[8] == null ? "": ox[8].toString());
 			o[3] = (ox[1] == null || ox[1].toString().trim().isEmpty()) ? "0" : ox[1];
 			o[4] = (ox[2] == null || ox[2].toString().trim().isEmpty()) ? "0" : ox[2];
 			o[5] = (ox[3] == null || ox[3].toString().trim().isEmpty()) ? "0" : ox[3];
