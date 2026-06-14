@@ -27,11 +27,7 @@ import com.doxacore.modelo.Modelo;
  * @author BlackSpider
  */
 @Entity
-@Table(name="comprobanteselectronicos"
-        ,indexes = {
-            @Index(name="cdc_index", columnList="cdc", unique=true)
-        }
-)
+@Table(name="comprobanteselectronicos")
 public class ComprobanteElectronico extends Modelo implements Serializable {
     
     /**
