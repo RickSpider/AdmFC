@@ -103,6 +103,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 				"    COALESCE(SUM(CASE WHEN ce.estado isnull OR ce.estado = '' OR ce.estado like '%Pendiente%' THEN 1 ELSE 0 END),0) AS nulos\n" + 
 				"	--##CONTRIBUYENTEN## \n"+
 				"	--##ETIQUETAS## \n"+
+				" 	--##VENCIMIENTOKEY## \n"+
 				"FROM comprobanteselectronicos ce \n" +
 				"join contribuyentes c on c.contribuyenteid = ce.contribuyenteid \n"+
 				"--##NOMASTER## \n"+
@@ -149,7 +150,7 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 			sqlEvento = sqlEvento.replace("--##CONTRIBUYENTE##", "AND e.contribuyenteid = "+this.contribuyenteSelected.getContribuyenteid()+" ");
 		}
 		
-		//System.out.println(sqlComprobante);
+		System.out.println(sqlComprobante);
 		
 		List<Object[]> resultComprobante = this.reg.sqlNativo(sqlComprobante);
 		
@@ -186,7 +187,8 @@ public class DashboardVM extends TemplateViewModelLocal implements FinderInterfa
 						+ "     FROM contribuyentesetiquetas ceti\n"
 						+ "     JOIN tipos t ON t.tipoid = ceti.etiquetaid\n"
 						+ "     WHERE ceti.contribuyenteid = c.contribuyenteid\n"
-						+ "    ) AS etiquetas \n");
+						+ "    ) AS etiquetas \n")
+				.replace("--##VENCIMIENTOKEY##",", case when c.vencimientokey <= NOW() - INTERVAL '10 days' then c.vencimientokey else null end as vencimientokey \n");
 				
 			
 		
