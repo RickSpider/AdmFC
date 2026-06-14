@@ -32,6 +32,7 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -1433,8 +1434,8 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	    return modelo;
 	}
 	
-	/*@Command
-	public void generarImgQR() {
+	@Command
+	public void generarImgQR(@BindingParam("contribuyenteid") long id) {
 		
 		System.out.println("===================Preprando LinkQR===================");
 		
@@ -1473,8 +1474,14 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 	    //return scheme + "://" + serverName + portPart2 + exec.getDesktop().getRequestPath();
 	    
-	    System.out.println(scheme + "://" + serverName + portPart2);
-	}*/
+	    String linkQr = scheme + "://" + serverName + portPart2+"/AdmFC/sistemaResp/buscarFactura.zul?id="+id;
+	    
+	    System.out.println(linkQr);
+	    
+	    
+	    
+	    Executions.getCurrent().sendRedirect(linkQr, "_blank");
+	}
 	
 	public Media getLogoFile() {
 		return logoFile;
