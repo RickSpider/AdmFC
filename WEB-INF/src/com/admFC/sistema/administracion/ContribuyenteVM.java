@@ -32,7 +32,6 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.util.media.Media;
-import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -771,7 +770,13 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	@Command
 	public void uploadFile(@BindingParam("file") Media file) {
 
-	//	System.out.println("formato:" + file.getName());
+		if (this.contribuyenteSelected.getPasskey() == null || this.contribuyenteSelected.getPasskey().isEmpty()) {
+			
+			this.mensajeInfo("Debes cargar el PassKey primero antes de subir el archivo.");
+			
+			return;
+			
+		}
 
 		if (file.getName().contains(".pfx")) {
 
@@ -857,7 +862,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 				x509Cert.checkValidity();
 				// Si no hay excepciones, el certificado es válido
 
-				System.out.println("El certificado es válido hasta: " + x509Cert.getNotAfter());
+				//System.out.println("El certificado es válido hasta: " + x509Cert.getNotAfter());
 
 				return x509Cert.getNotAfter();
 
