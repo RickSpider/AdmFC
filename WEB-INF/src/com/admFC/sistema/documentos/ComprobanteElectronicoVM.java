@@ -67,8 +67,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 	public void initComprobanteElectronicoVM() {
 		
 		desde = this.um.modificarHorasMinutosSegundos(new Date(), 0,0,0,0);
-		
-		
+
 		hasta = this.um.modificarHorasMinutosSegundos(this.desde, 23, 59, 59, 999);
 		
 		System.out.println(new SimpleDateFormat("dd/MM/YYYY hh:mm:ss").format(new Date()));
@@ -133,14 +132,12 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 					.replace("?1", sdf.format(desde)).replace("?2", sdf.format(hasta))
 					.replace("?3", this.contribuyenteSelected.getContribuyenteid() + "");
 
-			this.lComprobantesElectronicos = this.reg.sqlNativo(sql);
-			this.lComprobantesElectronicosOri = this.lComprobantesElectronicos;
+			this.lComprobantesElectronicosOri = this.reg.sqlNativo(sql);
+			this.lComprobantesElectronicos = new ArrayList<Object[]>(this.lComprobantesElectronicosOri);
 			
 			this.filtrarComprobanteElectronico();
 
 		}
-		
-		
 
 	}
 
@@ -162,7 +159,7 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 	@NotifyChange("lComprobantesElectronicos")
 	public void filtrarComprobanteElectronico() {
 
-		this.lComprobantesElectronicos = filtrarListaObject(this.filtroColumns, this.lComprobantesElectronicosOri);
+		this.lComprobantesElectronicos = new ArrayList<>(filtrarListaObject(this.filtroColumns, this.lComprobantesElectronicosOri));
 
 	}
 
@@ -219,8 +216,6 @@ public class ComprobanteElectronicoVM extends TemplateViewModelLocal implements 
 		this.save(this.comprobanteElectronicoSelected);
 
 		this.comprobanteElectronicoSelected = null;
-
-		
 
 		this.auditoria.setUsuario(this.getCurrentUser().getAccount());
 
