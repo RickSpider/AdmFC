@@ -1,0 +1,118 @@
+<?style src="/sistemaResp/css/style.css" ?>
+<?page title="buscarFactura" contentType="text/html;charset=UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml">
+
+<h:h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">AdmFC – Sistema de descarga de documentos electrónicas</h:h2>
+
+<div apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('com.admFC.sistemaResp.buscarFacturaVM')">
+
+<h:div class="afc-wrap">
+  <h:header class="afc-header">
+    <h:div class="afc-logo-slot">
+      <h:div class="afc-h:brand">
+        <h:div class="afc-h:brand-name">AdmFC</h:div>
+        <h:div class="afc-h:brand-sub">Sistema de Descarga de Factura Electronico</h:div>
+      </h:div>
+    </h:div>
+    <h:div class="afc-badge">Facturas Electrónicas</h:div>
+  </h:header>
+
+  <h:main class="afc-main">
+    <h:div class="afc-card">
+
+      <!-- Logo soh:bre el título -->
+      <h:div class="afc-card-logo-wrap">
+        <h:div>
+          <image id="image" content="@load(vm.logoFile)" width="100%" height="100%"/>
+        </h:div>
+      </h:div>
+
+      <h:div class="afc-title">${vm.contribuyente.ruc}</h:div>
+      <h:div class="afc-subtitle">Ingrese el número de factura para descargar o visualizar el documento</h:div>
+
+      <h:label class="afc-label" for="numFactura">Número de Factura</h:label>
+      <h:div class="afc-input-row">
+        <textbox class="afc-input" value="@bind(vm.docNum)" placeholder="000-000-0000000" />
+        <h:button class="afc-btn-search" onClick="@command('buscarDocumento')" onOK="@command('buscarDocumento')">
+          <h:svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><h:circle cx="11" cy="11" r="8"/><h:line x1="21" y1="21" x2="16.65" y2="16.65"/></h:svg>
+          Buscar
+        </h:button>
+      </h:div>
+      <h:div class="afc-hint">Formato: 001-001-0000001 Establecimiento - Punto de Expedicion - Numeracion</h:div>
+
+	
+
+   
+       	<hlayout  class="afc-not-found" visible="@load(vm.bloqueVisible[0])">
+	        <h:div class="afc-nf-icon"><h:svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"> <h:circle cx="12" cy="12" r="10"/><h:line x1="12" y1="8" x2="12" y2="12"/><h:line x1="12" y1="16" x2="12.01" y2="16"/></h:svg></h:div>
+	        <h:div class="afc-nf-text">
+	          <h:div class="afc-nf-title">Factura Inexistente</h:div>
+	          <h:div class="afc-nf-desc">El número ingresado no fue encontrado en el sistema.</h:div>
+	        </h:div>
+        </hlayout>
+
+
+
+      <h:div id="resultPanel" visible="@load(vm.bloqueVisible[1])">
+        <h:hr class="afc-divider"/>
+        <h:div class="afc-result-header">
+          <h:div class="afc-result-icon">
+            <h:svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><h:polyline points="20 6 9 17 4 12"/></h:svg>
+          </h:div>
+          <h:div class="afc-result-info">
+            <h:div class="afc-result-label">Factura encontrada</h:div>
+            <h:div class="afc-result-num" id="resultNum"></h:div>
+          </h:div>
+          <h:div class="afc-result-status">Vigente</h:div>
+        </h:div>
+
+        <h:div class="afc-actions">
+          <h:a href="#" class="afc-action-btn btn-xml" onClick="@command('descargarXML')">
+            <h:div class="afc-action-icon">
+              <h:svg viewBox="0 0 24 24" fill="none" stroke="#0093f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><h:polyline points="16 18 22 12 16 6"/><h:polyline points="8 6 2 12 8 18"/></h:svg>
+            </h:div>
+            <h:div class="afc-action-text">
+              <h:span>Archivo de datos</h:span>
+              <h:strong>Descargar XML</h:strong>
+            </h:div>
+            <h:div class="afc-action-arrow">↓</h:div>
+          </h:a>
+
+          <h:a href="#" class="afc-action-btn btn-pdf" onClick="@command('verKude')">
+            <h:div class="afc-action-icon">
+              <h:svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><h:path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><h:polyline points="14 2 14 8 20 8"/><h:line x1="16" y1="13" x2="8" y2="13"/><h:line x1="16" y1="17" x2="8" y2="17"/></h:svg>
+            </h:div>
+            <h:div class="afc-action-text">
+              <h:span>Documento imprimible</h:span>
+              <h:strong>Ver PDF</h:strong>
+            </h:div>
+            <h:div class="afc-action-arrow">↓</h:div>
+          </h:a>
+
+          <h:a href="@load(vm.ce.enlaceQR)" target="_blank" class="afc-action-btn btn-sifen">
+            <h:div class="afc-action-icon">
+              <h:img class="sifen-logo" src="https://ekuatia.set.gov.py/consultas/images/logo_ekuatia.453e718e.png" alt="eKuatia SIFEN" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+              <h:svg style="display:none;width:20px;height:20px;" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><h:path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><h:polyline points="15 3 21 3 21 9"/><h:line x1="10" y1="14" x2="21" y2="3"/></h:svg>
+            </h:div>
+            <h:div class="afc-action-text">
+              <h:span>Portal oficial SET Paraguay</h:span>
+              <h:strong>Visualizar en SIFEN</h:strong>
+            </h:div>
+            <h:div class="afc-action-arrow" style="opacity:0.6;">↗</h:div>
+          </h:a>
+        </h:div>
+      </h:div>
+    </h:div>
+  </h:main>
+
+  <h:footer class="afc-footer">
+     2026 <h:span>AdmFC</h:span> - Todos los derechos reservados
+  </h:footer>
+</h:div>
+
+</div>
+
+</zk>
