@@ -209,7 +209,7 @@ public class Contribuyente extends Modelo implements Serializable {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email == null ? null : email.trim();
     }
 
     public Long getContribuyenteid() {
@@ -225,7 +225,7 @@ public class Contribuyente extends Modelo implements Serializable {
     }
 
     public void setRuc(String ruc) {
-        this.ruc = ruc;
+        this.ruc = ruc == null ? null : ruc.trim();
     }
 
     public String getDv() {
@@ -233,7 +233,7 @@ public class Contribuyente extends Modelo implements Serializable {
     }
 
     public void setDv(String dv) {
-        this.dv = dv;
+        this.dv = dv == null ? null : dv.trim();
     }
 
     public TipoContribuyente getTipoContribuyente() {
@@ -250,7 +250,7 @@ public class Contribuyente extends Modelo implements Serializable {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre == null ? null : nombre.trim();
     }
 
     public String getNombreFantacia() {
@@ -258,7 +258,7 @@ public class Contribuyente extends Modelo implements Serializable {
     }
 
     public void setNombreFantacia(String nombreFantacia) {
-        this.nombreFantacia = nombreFantacia;
+        this.nombreFantacia = nombreFantacia == null ? null : nombreFantacia.trim();
     }
 
     public String getDireccion() {
@@ -266,7 +266,7 @@ public class Contribuyente extends Modelo implements Serializable {
     }
 
     public void setDireccion(String direccion) {
-        this.direccion = direccion;
+        this.direccion = direccion == null ? null : direccion.trim();
     }
 
     public String getNumCasa() {
@@ -274,7 +274,7 @@ public class Contribuyente extends Modelo implements Serializable {
     }
 
     public void setNumCasa(String numCasa) {
-        this.numCasa = numCasa;
+        this.numCasa = numCasa == null ? null : numCasa.trim();
     }
 
     public String getSucursal() {
@@ -282,7 +282,7 @@ public class Contribuyente extends Modelo implements Serializable {
     }
 
     public void setSucursal(String sucursal) {
-        this.sucursal = sucursal;
+        this.sucursal = sucursal == null ? null : sucursal.trim();;
     }
 
     public TipoTransaccion getTipoTransaccion() {
@@ -346,7 +346,7 @@ public class Contribuyente extends Modelo implements Serializable {
     }
 
     public void setCscid(String cscid) {
-        this.cscid = cscid;
+        this.cscid = cscid == null ? null : cscid.trim();;
     }
 
     public String getCsc() {
@@ -354,7 +354,7 @@ public class Contribuyente extends Modelo implements Serializable {
     }
 
     public void setCsc(String csc) {
-        this.csc = csc;
+        this.csc = csc == null ? null : csc.trim();;
     }
 
     public boolean isSoloLote() {
