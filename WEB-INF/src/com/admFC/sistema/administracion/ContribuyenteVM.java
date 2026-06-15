@@ -1434,7 +1434,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	    return modelo;
 	}
 	
-	@Command
+	/*@Command
 	public void generarImgQR(@BindingParam("contribuyenteid") long id) {
 		
 		System.out.println("===================Preprando LinkQR===================");
@@ -1477,9 +1477,60 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	    String linkQr = scheme + "://" + serverName + portPart2+"/AdmFC/sistemaResp/buscarFactura.zul?id="+id;
 	    
 	    System.out.println(linkQr);
+
 	    
-	    
-	    
+	    Executions.getCurrent().sendRedirect(linkQr, "_blank");
+	}*/
+	
+	@Command
+	public void generarImgQR(@BindingParam("contribuyenteid") long id) {
+
+	    Execution exec = Executions.getCurrent();
+
+	    String baseUrl;
+
+	    String proto = exec.getHeader("X-Forwarded-Proto");
+	    String host  = exec.getHeader("X-Forwarded-Host");
+	    String port  = exec.getHeader("X-Forwarded-Port");
+
+	    if (host != null && !host.isEmpty()) {
+
+	        String schema = (proto != null && !proto.isEmpty())
+	                ? proto
+	                : exec.getScheme();
+
+	        String portPart = "";
+
+	        if (port != null
+	                && !port.isEmpty()
+	                && !port.equals("80")
+	                && !port.equals("443")) {
+
+	            portPart = ":" + port;
+	        }
+
+	        baseUrl = schema + "://" + host + portPart;
+
+	    } else {
+
+	        String scheme = exec.getScheme();
+	        String serverName = exec.getServerName();
+	        int serverPort = exec.getServerPort();
+
+	        String portPart = "";
+	        if (serverPort != 80 && serverPort != 443) {
+	            portPart = ":" + serverPort;
+	        }
+
+	        baseUrl = scheme + "://" + serverName + portPart;
+	    }
+
+	    String linkQr = baseUrl
+	            + "/AdmFC/sistemaResp/buscarFactura.zul?id="
+	            + id;
+
+	    System.out.println("Link QR: " + linkQr);
+
 	    Executions.getCurrent().sendRedirect(linkQr, "_blank");
 	}
 	
