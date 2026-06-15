@@ -13,8 +13,8 @@
   <h:header class="afc-header">
     <h:div class="afc-logo-slot">
       <h:div class="afc-h:brand">
-        <h:div class="afc-h:brand-name">AdmFC</h:div>
-        <h:div class="afc-h:brand-sub">Sistema de Descarga de Factura Electronico</h:div>
+        <h:div class="afc-h:brand-name">Sistema de Descarga de Factura Electrónica</h:div>
+        <!--   <h:div class="afc-h:brand-sub"></h:div>-->
       </h:div>
     </h:div>
     <h:div class="afc-badge">Facturas Electrónicas</h:div>
