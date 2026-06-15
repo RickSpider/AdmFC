@@ -1492,6 +1492,10 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	    String proto = exec.getHeader("X-Forwarded-Proto");
 	    String host  = exec.getHeader("X-Forwarded-Host");
 	    String port  = exec.getHeader("X-Forwarded-Port");
+	    
+	    if (host != null && host.contains(",")) {
+	        host = host.substring(0, host.indexOf(',')).trim();
+	    }
 
 	    if (host != null && !host.isEmpty()) {
 
