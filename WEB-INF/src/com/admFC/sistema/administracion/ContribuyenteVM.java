@@ -1484,7 +1484,7 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 	}*/
 	
 	@Command
-	public void generarImgQR(@BindingParam("contribuyenteid") long id) {
+	public void abrirLinkConsultas(@BindingParam("contribuyenteid") long id) {
 
 	    Execution exec = Executions.getCurrent();
 

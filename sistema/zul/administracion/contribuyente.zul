@@ -114,10 +114,10 @@
 							<listcell>
 								<hlayout>
 								
-									<button iconSclass="z-icon-qrcode "
+									<button iconSclass="z-icon-link  "
 										class="doxa-button-green"
-										onClick="@command('generarImgQR',contribuyenteid=each[0])"
-										tooltiptext="Generar link de consultas" />
+										onClick="@command('abrirLinkConsultas',contribuyenteid=each[0])"
+										tooltiptext="Link de consultas" />
 									<button iconSclass="z-icon-user"
 										onClick="@command('modalContribuyenteUsuario', contribuyenteid=each[0])"
 										class="doxa-button-green" tooltiptext="Agregar Usuario"
