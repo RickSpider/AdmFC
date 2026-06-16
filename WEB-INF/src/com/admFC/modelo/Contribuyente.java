@@ -523,9 +523,4 @@ public class Contribuyente extends Modelo implements Serializable {
 		this.establecimientos = establecimientos;
 	}
 
-	
-	
-	
-	
-    
 }
