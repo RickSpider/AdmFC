@@ -98,7 +98,10 @@ public class buscarFacturaVM extends TemplateNoLoginViewModel {
 				    "if(result) {" +
 				    "   result.style.display='none';" +
 				    "}"+
-				    "if(notFound) notFound.style.display = 'block';"
+				    "if(notFound) {"
+				    + "notFound.style.display = 'block';"
+				    + "notFound.scrollIntoView({behavior:'smooth'});"
+				    + "}"
 				);
 		}
 
