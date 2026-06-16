@@ -18,6 +18,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -1528,10 +1529,16 @@ public class ContribuyenteVM extends TemplateViewModelLocal {
 
 	        baseUrl = scheme + "://" + serverName + portPart;
 	    }
+	    
+	    String base = Base64.getUrlEncoder()
+	            .withoutPadding()
+	            .encodeToString((id+"-ADMFC-"+id).getBytes());
+
+	    String pretty = base.replaceAll("(.{4})", "$1-");
 
 	    String linkQr = baseUrl
-	            + "/AdmFC/sistemaResp/buscarFactura.zul?id="
-	            + id;
+	            + "/AdmFC/sistemaResp/buscarFactura.zul?emi="
+	            + pretty;
 
 	    System.out.println("Link QR: " + linkQr);
 

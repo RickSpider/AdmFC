@@ -30,7 +30,7 @@
         </h:div>
       </h:div>
 
-      <h:div class="afc-title">${vm.contribuyente.ruc}</h:div>
+      <h:div class="afc-title">${vm.contribuyente.nombre}</h:div>
       <h:div class="afc-subtitle">Ingrese el número de factura para descargar o visualizar el documento</h:div>
 
       <h:label class="afc-label" for="numFactura">Número de Factura</h:label>
@@ -46,17 +46,19 @@
 	
 
    
-       	<hlayout  class="afc-not-found" visible="@load(vm.bloqueVisible[0])">
-	        <h:div class="afc-nf-icon"><h:svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"> <h:circle cx="12" cy="12" r="10"/><h:line x1="12" y1="8" x2="12" y2="12"/><h:line x1="12" y1="16" x2="12.01" y2="16"/></h:svg></h:div>
-	        <h:div class="afc-nf-text">
-	          <h:div class="afc-nf-title">Factura Inexistente</h:div>
-	          <h:div class="afc-nf-desc">El número ingresado no fue encontrado en el sistema.</h:div>
-	        </h:div>
-        </hlayout>
+       	<h:div id="notFundPanel"  class="afc-not-found" visible="false">
+       		<hlayout>
+		        <h:div class="afc-nf-icon"><h:svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"> <h:circle cx="12" cy="12" r="10"/><h:line x1="12" y1="8" x2="12" y2="12"/><h:line x1="12" y1="16" x2="12.01" y2="16"/></h:svg></h:div>
+		        <h:div class="afc-nf-text">
+		          <h:div class="afc-nf-title">Factura Inexistente</h:div>
+		          <h:div class="afc-nf-desc">El número ingresado no fue encontrado en el sistema.</h:div>
+		        </h:div>
+	        </hlayout>
+        </h:div>
 
 
 
-      <h:div id="resultPanel" visible="@load(vm.bloqueVisible[1])">
+      <h:div id="resultPanel" visible="false" >
         <h:hr class="afc-divider"/>
         <h:div class="afc-result-header">
           <h:div class="afc-result-icon">

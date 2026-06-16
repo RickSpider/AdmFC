@@ -2,11 +2,12 @@ package com.admFC.sistemaResp;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.zkoss.bind.annotation.AfterCompose;
-import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
@@ -28,22 +29,26 @@ public class buscarFacturaVM extends TemplateNoLoginViewModel {
 	
 	private Media logoFile;
 
-	private boolean bloqueVisible[] = { false, false };
-
 	private String docNum;
 
 	@Init(superclass = true)
 	public void initBusarFacturaVM() {
 
+		String alias = Executions.getCurrent().getParameter("emi").replace("-", "");
+
+		byte[] decoded = Base64.getUrlDecoder().decode(alias);
+		
+		String id = new String(decoded, StandardCharsets.UTF_8).split("-")[2];
+		
+		this.contribuyente = this.reg.getObjectById(Contribuyente.class.getName(), Long.parseLong(id));
+		
 	}
 
 	@NotifyChange("*")
 	@AfterCompose(superclass = true)
 	public void afterComposeBusarFacturaVM() {
 
-		String id = Executions.getCurrent().getParameter("id");
-
-		this.contribuyente = this.reg.getObjectById(Contribuyente.class.getName(), Long.parseLong(id));
+		
 
 		System.out.println(
 				"El ruc del contribuyente es = " + this.contribuyente.getRuc() + "-" + this.contribuyente.getDv());
@@ -61,7 +66,7 @@ public class buscarFacturaVM extends TemplateNoLoginViewModel {
 	}
 
 	@Command
-	@NotifyChange("*")
+	@NotifyChange("ce")
 	public void buscarDocumento() {
 
 		if (docNum == null || docNum.isEmpty()) {
@@ -74,18 +79,32 @@ public class buscarFacturaVM extends TemplateNoLoginViewModel {
 						+ "' and Estado like 'Aprobado'");
 
 		if (ce != null) {
-
-			this.bloqueVisible[0] = false;
-			this.bloqueVisible[1] = true;
+			
+			Clients.evalJavaScript(
+				    "var result = document.getElementById('resultPanel');"+
+				    "var notFound = document.getElementById('notFundPanel');" +
+				    "if(result) {" +
+				    "   result.style.display='block';" +
+				    "   result.scrollIntoView({behavior:'smooth'});" +
+				    "}"+
+				    "if(notFound) notFound.style.display = 'none';"
+				);
 
 		} else {
 
-			this.bloqueVisible[0] = true;
-			this.bloqueVisible[1] = false;
-
+			Clients.evalJavaScript(
+				    "var result = document.getElementById('resultPanel');"+
+				    "var notFound = document.getElementById('notFundPanel');" +
+				    "if(result) {" +
+				    "   result.style.display='none';" +
+				    "}"+
+				    "if(notFound) notFound.style.display = 'block';"
+				);
 		}
 
 	}
+	
+	
 	
 	@Command
 	public void descargarXML() {
@@ -155,14 +174,6 @@ public class buscarFacturaVM extends TemplateNoLoginViewModel {
 
 	public void setCe(ComprobanteElectronico ce) {
 		this.ce = ce;
-	}
-
-	public boolean[] getBloqueVisible() {
-		return bloqueVisible;
-	}
-
-	public void setBloqueVisible(boolean[] bloqueVisible) {
-		this.bloqueVisible = bloqueVisible;
 	}
 
 	public String getDocNum() {
